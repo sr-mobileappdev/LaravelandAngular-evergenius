@@ -1,0 +1,113 @@
+<section class="content-header">
+
+	<h1>
+		<span style="margin-right:6px;">
+			<i class="fa fa-bullseye"></i>
+		</span> Opportunities</h1>
+
+	<ol class="breadcrumb">
+		<li>
+			<a ui-sref="app.landing">
+				<i class="fa fa-dashboard"></i> Home</a>
+		</li>
+		<li>
+			<a ui-sref="app.userlist">Company Settings</a>
+		</li>
+		<li class="active">Edit User</li>
+	</ol>
+
+
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<div class="box box-primary">
+				<form class="form-horizontal" name="companyForm" ng-submit="save(companyForm.$valid)" novalidate>
+					<div class="box-body">
+						<div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+							<h4>{{alert.title}}</h4>
+							<p>{{alert.msg}}</p>
+						</div>
+						<div class="setting-box task-types">
+							<h4>Services</h4>
+							<div class="row">
+								<div class="col-sm-6" ng-repeat="os in opportunity_services track by $index">
+									<div class="input-group">
+										<input type="text" class="form-control" ng-model="opportunity_services[$index].name">
+										<span class="input-group-addon" ng-click="removeit(opportunity_services[$index].id,'service')">
+											<a class="fa fa-remove"></a>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="task-types-bottom">
+								<a class="btn btn-primary" ng-click="addReferrer()">
+									<i class="fa fa-plus"></i> Add Services</a>
+							</div>
+						</div>
+
+						<div class="setting-box task-types">
+							<h4>Stages</h4>
+							<div class="row">
+								<div class="col-sm-6" ng-repeat="os in opportunity_stages track by $index">
+									<div class="input-group">
+										<input type="text" class="form-control" ng-model="opportunity_stages[$index].title">
+										<span class="input-group-addon">
+											<a href="javascript:void(0)" ng-click="removeit(opportunity_stages[$index].id,'stage')" class="fa fa-remove no-icon"></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="setting-box task-types lead-response">
+							<h4>Lead Response Priorities</h4>
+							<div class="row">
+								<div class="col-sm-6">
+									<label>Show Lead Status New for</label>
+									<div class="input-group">
+										<select name="lead_new_status" id="lead_new_status" ng-model="lead_high_time" class="form-control">
+											<option ng-repeat="time in timer" value="{{time.value}}">{{time.key}}</option>
+										</select>
+										<span class="input-group-addon" ng-click="removeit(opportunity_services[$index].id,'service')">
+											<a class="fa fa-remove no-icon"></a>
+										</span>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label>Show Lead Status Medium for</label>
+									<div class="input-group">
+										<select name="lead_medium_status" id="lead_medium_status" ng-model="lead_medium_time" class="form-control">
+											<option ng-repeat="time in timer" value="{{time.value}}">{{time.key}}</option>
+										</select>
+										<span class="input-group-addon" ng-click="removeit(opportunity_services[$index].id,'service')">
+											<a class="fa fa-remove no-icon"></a>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="display:none">
+								<div class="col-sm-6">
+									<label>Pending Email Notification Time</label>
+									<div class="input-group">
+										<select name="pending_email_notification_time" ng-model="pending_email_notification_time" id="pending_email_notification_time"
+										 class="form-control">
+											<option ng-repeat="time in timer" value="{{time.value}}">{{time.key}}</option>
+										</select>
+										<span class="input-group-addon" ng-click="removeit(opportunity_services[$index].id,'service')">
+											<a class="fa fa-remove no-icon"></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="box-footer">
+							<a ui-sref="app.userlist" class="btn btn-primary" href="#/doctors-lists">
+								<i class="fa fa-angle-left"></i> Back</a>
+							<button type="submit" class="btn btn-default pull-right">Update</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+</section>

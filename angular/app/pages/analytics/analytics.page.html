@@ -1,0 +1,347 @@
+<section class="content-header">
+  <h1 class="pull-left valign">
+    <span style="margin-right:6px;">
+      <i class="fa  fa-line-chart"></i>
+    </span>Analytics</h1>
+  <article class="select-date pull-right">
+    <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date"
+      max="vm.max_date" />
+  </article>
+</section>
+
+<section class="content">
+  <section class="site-content">
+    <div class="mobile-overlay"></div>
+    <article class="section">
+      <h2 class="section-title">Website analytics</h2>
+      <div class="row website-analytics">
+        <div class="col-sm-12">
+          <div class="panel">
+            <div class="panel-heading">website visits</div>
+            <div class="panel-body">
+              <div class="chart website-analytics-graph">
+                <canvas id="website-analytics" class="chart chart-line" chart-data="analytics_visit_data" chart-labels="analytics_visit_labels"
+                  chart-legend="false" chart-series="analytics_visit_series" chart-click="onClick" chart-colours="analyticsChartColours"
+                  width="464" height="245" style="max-height: 245px" chart-options="websiteVisitsChartOptions">
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="statistics">
+        <div class="panel">
+          <div class="panel-heading">
+            Statistics
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-6 col-lg-3">
+                <div class="statistics-box statistics-view">
+                  <div class="statistics-box-icon">
+                    <img src="img/icon-statistic-view.png">
+                  </div>
+                  <div class="statistics-count">
+                    <span>Views</span>
+                    <br> {{analytics_metric.page_views}}</div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="statistics-box statistics-visit">
+                  <div class="statistics-box-icon">
+                    <img src="img/icon-unique-visits.png">
+                  </div>
+                  <div class="statistics-count">
+                    <span>Unique Visits</span>
+                    <br> {{total_analytics_visits}}</div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="statistics-box statistics-rate">
+                  <div class="statistics-box-icon">
+                    <img src="img/icon-bounce-rate.png">
+                  </div>
+                  <div class="statistics-count">
+                    <span>Bounce Rates</span>
+                    <br> {{analytics_metric.bounce_date}} %</div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="statistics-box statistics-page">
+                  <div class="statistics-box-icon">
+                    <img src="img/icon-page-view.png">
+                  </div>
+                  <div class="statistics-count">
+                    <span>Page Views</span>
+                    <br> {{analytics_metric.page_view}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row website-analytics1">
+        <div class="col-lg-6">
+          <div class="panel">
+            <div class="panel-heading">traffic sources</div>
+            <div class="panel-body">
+              <div class="traffic-sources">
+                <div class="row">
+                  <div class="col-lg-5 text-center">
+                    <div class="trefic-resources">
+                      <canvas id="doughnut" height="150" width="150" class="chart chart-doughnut" chart-data="analytics_traffic_pieData" chart-labels="analytics_traffic_pieLabels"
+                        chart-colours="TraficSourcesChartColours" chart-options="{percentageInnerCutout: 75,segmentShowStroke: false,animation: false}">
+                    </div>
+                    <label>{{total_analytics_visits}}
+                      <small>Visits</small>
+                    </label>
+                  </div>
+                  <div class="col-lg-7 traffic-sources-info">
+                    <div class="row heading">
+                      <div class="col-xs-8">{{total_analytics_visits}} Visits</div>
+                      <div class="col-xs-4">Percentage</div>
+                    </div>
+
+
+                    <div class="row referral" ng-repeat="vis in analytics_traffic_sources | limitTo : 8 track by $index" ng-style="{color: pieRandomColors[$index]}">
+                      <div class="col-xs-8">{{vis.source}} ({{vis.visits}} visits)</div>
+                      <div class="col-xs-4">
+                        <i ng-style="{background: pieRandomColors[$index]}">{{vis.visit_per}}%</i>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="panel">
+            <div class="panel-heading">devices</div>
+            <div class="devices">
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="web">
+                    <div class="c100 p{{analytics_browser_visits.desktop | number:0}} center">
+                      <span>
+                        <img src="img/icon-desktop.png" width="46" height="40" alt="">
+                        <br> {{analytics_browser_visits.desktop}}%
+                        <br>
+                        <small>Web</small>
+                      </span>
+                      <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                      </div>
+                    </div>
+
+                    <div class="device-info">
+                      <div class="clearfix heading">
+                        <div class="device-col">Browser</div>
+                        <div class="device-col">Views</div>
+                      </div>
+                      <div class="clearfix" ng-repeat="browser_rec in analytics_browser_visits.desktop_visits" ng-class-even="'alt'">
+                        <div class="device-col">{{browser_rec.browser}}</div>
+                        <div class="device-col">{{browser_rec.visits}}</div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xs-6">
+                  <div class="mobile">
+                    <div class="c100 p{{analytics_browser_visits.mobile | number:0 }} center">
+                      <span>
+                        <img src="img/icon-mobile.png" width="22" height="36" alt="">
+                        <br> {{analytics_browser_visits.mobile}}%
+                        <br>
+                        <small>Mobile</small>
+                      </span>
+                      <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                      </div>
+                    </div>
+
+                    <div class="device-info">
+                      <div class="clearfix heading">
+                        <div class="device-col">Browser</div>
+                        <div class="device-col">Views</div>
+                      </div>
+
+                      <div class="clearfix" ng-repeat="browser_rec in analytics_browser_visits.mobile_visits" ng-class-even="'alt'">
+                        <div class="device-col">{{browser_rec.browser}}</div>
+                        <div class="device-col">{{browser_rec.visits}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </article>
+    <article class="section">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel mailchimp-campaigns">
+            <table class="table global-table" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <th>Campaign name </th>
+                <th>Sent</th>
+                <th>Open Rate</th>
+                <th>Clicks</th>
+                <th>Bounces</th>
+              </tr>
+              <tr ng-if="reports.length" ng-repeat="item in reports">
+                <td>
+                  <span class="campaign-title">{{item.campaign_title}}</span>
+                </td>
+                <td>{{item.emails_sent}}</td>
+                <td>{{item.opens.unique_opens}}
+                  <span class="mc-rate">{{get_per(item.opens.unique_opens, item.emails_sent) | number:1 }} %</span>
+                </td>
+                <td>{{item.clicks.unique_clicks}}
+                  <span class="mc-rate">{{get_per(item.clicks.unique_clicks, item.emails_sent) | number:1}} %</span>
+                </td>
+                <td>{{item.bounces.hard_bounces}}</td>
+              </tr>
+              <tr ng-if="!reports.length && busy">
+                <td colspan="5" class="text-center">Loading.. </td>
+              </tr>
+              <tr ng-if="!reports.length && !busy">
+                <td colspan="5" class="text-center">Data not found </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+    <article class="section">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel mailchimp-campaigns">
+            <table class="table global-table" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <th>Keyword</th>
+                <th>Campaign</th>
+                <th>Ad Group</th>
+                <th>Impressions</th>
+                <th>Ad Clicks</th>
+                <th>Cost</th>
+                <th>CPC</th>
+                <th>CTR</th>
+              </tr>
+              <tr ng-if="keywordsdata.length" ng-repeat="item in keywordsdata">
+                <td>
+                  <span class="campaign-title">{{item.keyword}}</span>
+                </td>
+                <td>{{item.campaign}}</td>
+                <td>{{item.adGroup}}</td>
+                <td>{{item.impressions}}</td>
+                <td>{{item.adClicks}}</td>
+                <td>${{item.adCost}}</td>
+                <td>${{item.CPC}}</td>
+                <td>${{item.CTR}}</td>
+              </tr>
+              <tr ng-if="!keywordsdata.length && busy">
+                <td colspan="5" class="text-center">Loading.. </td>
+              </tr>
+              <tr ng-if="!keywordsdata.length && !busy">
+                <td colspan="5" class="text-center">Data not found </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+    <article class="section">
+      <h2 class="section-title">Perfect Audience </h2>
+      <select ng-model="pa_campaign_id" ng-change="" class="form-control">
+        <option value="{{pa_campaign_id._id}}" ng-repeat="pa_campaign_id in pasitecampaignsdata">{{pa_campaign_id.name}}</option>
+      </select>
+      <div class="row website-analytics">
+        <div class="col-sm-12">
+          <div class="panel">
+            <div class="panel-heading clearfix">
+              <div class="pull-left">Impression Served</div>
+              <div class="pull-right">
+                <select class="form-control" ng-model="pa_graph_type" id="pa_graph_type" ng-change="pa_graph_change()">
+                  <option value="ctr" selected="">ctr</option>
+                  <option value="cpc">cpc</option>
+                  <option value="conversion_rate">Conversion Rate</option>
+                  <option value="adjusted_post_click_revenue">Adjusted Post Click Revenue</option>
+                  <option value="adjusted_post_view_revenue">Adjusted Post View Revenue</option>
+                  <option value="adjusted_conversion_revenue">Adjusted Conversion Revenue</option>
+                  <option value="revenue">Revenue</option>
+                  <option value="conversions">Conversions</option>
+                  <option value="clicks">clicks</option>
+                </select>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="chart website-analytics-graph">
+                <canvas id="line" class="chart chart-line" chart-data="pa_data" chart-labels="pa_labels" chart-series="pa_series" chart-options="pa_options"
+                  chart-dataset-override="pa_datasetOverride" chart-colours="paChartColours" chart-click="onClick" width="464"
+                  height="245" style="max-height: 245px">
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel mailchimp-campaigns">
+            <table class="table global-table" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <th>Ad</th>
+                <th>IMPR.</th>
+                <th>CLICKS</th>
+                <th>CTR</th>
+                <th>CPM</th>
+                <th>CPC</th>
+                <th>CTC</th>
+                <th>CONV.</th>
+                <th>SPEND</th>
+                <th>REVENUE</th>
+              </tr>
+              <tr ng-if="pacampaignsdata.length" ng-repeat="item in pacampaignsdata">
+                <td>
+                  <i class="fa fa-globe"></i>
+                  <span class="campaign-title">{{item.ad_name}}</span>
+                </td>
+                <td>{{item.impressions}}</td>
+                <td>{{item.clicks}}</td>
+                <td>{{item.ctr| number :2 }}%</td>
+                <td>${{item.cpm| number :2 }}</td>
+                <td>${{item.cpc| number :2 }}</td>
+                <td>{{item.click_conversions}}</td>
+                <td>{{item.conversions}}</td>
+                <td>${{item.costs| number :2}}</td>
+                <td>${{item.revenue | number : 2}}</td>
+              </tr>
+              <tr ng-if="!pacampaignsdata.length && busy">
+                <td colspan="5" class="text-center">Loading.. </td>
+              </tr>
+              <tr ng-if="!pacampaignsdata.length && !busy">
+                <td colspan="5" class="text-center">Data not found </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+    <!--/ end total calls -->
+  </section>
+</section>

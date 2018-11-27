@@ -1,0 +1,16 @@
+<!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+        <h4 class="modal-title">Request Form Preview</h4>
+    </div>
+    <form name="add_app_modal" ng-submit="submit_appointment()">
+        <div class="modal-body" id="element">
+            <iframe width="100%" border="0" height="{{iframe_height}}" style="border:0;" ng-src='{{givenUrl}}'></iframe>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-cancel" type="button" data-dismiss="modal" ng-click="closemodal()">Back</button>
+        </div>
+    </form>
+</div>

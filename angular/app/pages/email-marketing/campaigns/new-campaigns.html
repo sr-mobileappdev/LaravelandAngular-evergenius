@@ -1,0 +1,32 @@
+<section class="content-header">
+
+  <h1 class="box-title">
+    <span style="margin-right:6px;">
+      <i class="fa fa-envelope"></i>
+    </span> New Email Broadcast</h1>
+  <div class="btn-right-header">
+    <a class="btn btn-success" ng-click="vm.save_campign(newCampaignsForm.$valid,'sendmail',1,beeConfig )" ng-if="status_check == false"
+      ng-disabled="newCampaignsForm.$invalid ">Save & Send Test</a>
+    <a class="btn btn-primary" ng-click="vm.save_campign(newCampaignsForm.$valid,'draft',1,beeConfig)" ng-if="status_check == false"
+      ng-disabled="newCampaignsForm.$invalid ">Save Draft</a>
+  </div>
+  <ol class="breadcrumb">
+    <li>
+      <a ui-sref="app.landing" href="#/">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">Contacts</li>
+  </ol>
+</section>
+
+<div class="media alert alert-danger smtp-alert" ng-if="campaignErrorstate">
+  <b>Warning</b>: {{campaignError}}
+</div>
+
+<section class="content">
+  <article class="section">
+    <div newcampaigns></div>
+    <a onclick="history.back()" class="btn btn-primary">
+      <i class="fa fa-angle-left"></i> Back</a>
+  </article>
+</section>

@@ -1,0 +1,155 @@
+<section class="content-header">
+
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-users"></i>
+        </span>Add Company</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a>
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a>Add Company</a>
+        </li>
+    </ol>
+
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box box-primary">
+                <div id="smartwizard" class="sw-main sw-theme-arrows">
+                    <ul class="nav nav-tabs step-anchor">
+                        <li class="nav-item done">
+                            <a ng-click="goBackbutton()" class="nav-link">Step 1
+                                <br>
+                                <small>Create Company</small>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="" class="nav-link">Step 2
+                                <br>
+                                <small>Complete Profile (HD)</small>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a ng-click="gothirdStep()" class="nav-link">Step 3
+                                <br>
+                                <small>Build Website</small>
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="form-horizontal" name="companyForm" ng-submit="vm.save(companyForm.$valid)" novalidate>
+                        <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                            <h4>{{alert.title}}</h4>
+                            <p>{{alert.msg}}</p>
+                        </div>
+                        <div class="sw-container tab-content">
+                            <div id="step-1" class="tab-pane step-content" style="display: block;">
+                                <div class="setting-box">
+                                    <h3 class="border-bottom border-gray pb-2">Complete Profile</h3>
+                                    <div class="row">
+                                        <div class="col-sm-12" ng-class="{ 'has-error': companyForm.description.$invalid && ( vm.formSubmitted || companyForm.description.$touched) }">
+                                            <label for="inputEmail3" class="control-label">Description </label>
+                                            <div>
+                                                <trix-editor trix-id="msfg_bio" id="msfg_bio" angular-trix ng-model="vm.companyeditdata.data.description" name="message_bio"
+                                                    tabindex="1"></trix-editor>
+                                                <!-- <textarea tabindex="8" type="text" class="form-control" ng-model="vm.companyeditdata.data.description" name="description" placeholder="Description" ></textarea> -->
+                                                <p ng-show="companyForm.description.$error.required  && ( vm.formSubmitted || companyForm.description.$touched)" class="help-block">This is Required.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label for="inputEmail3" class="control-label">Publish Profile to Honest Doctor</label>
+                                            <div>
+                                                <label class="switch">
+                                                    <input ng-model="vm.companyeditdata.data.hd_publish_status" ng-true-value="'1'" ng-false-value="0" name="x.status" value="1"
+                                                        type="checkbox" tabindex="2"  class="flat-red ng-pristine ng-untouched ng-valid ng-not-empty">
+                                                    <div class="slider round"></div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="inputEmail3" class="control-label">Specialities</label>
+                                            <div>
+                                                <tags-input ng-model="vm.companyeditdata.data.specialities" add-on-paste="true" tabindex="3" placeholder="Add specialities">
+                                                    <auto-complete source="loadTags($query)"></auto-complete>
+                                                </tags-input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="border-bottom border-gray pb-2">Social Profile</h3>
+
+                                    <div class="row">
+                                        <div class="col-sm-6" ng-class="{ 'has-error': companyForm.facebook_link.$invalid && ( vm.formSubmitted || companyForm.facebook_link.$touched) }">
+                                            <label class="control-label">Facebook</label>
+                                            <div>
+                                                <input type="text" class="form-control" ng-model="vm.companyeditdata.data.social_urls.facebook_link" name="facebook_link"
+                                                    placeholder=" e.g. facebook.com/profile-url" tabindex="4" ng-pattern="domain_regex" >
+                                                <p ng-show="companyForm.facebook_link.$invalid  && ( vm.formSubmitted || companyForm.facebook_link.$touched)" class="help-block">Please enter valid URL.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6" ng-class="{ 'has-error': companyForm.twitter_link.$invalid && ( vm.formSubmitted || companyForm.twitter_link.$touched) }">
+                                            <label class="control-label">Twitter</label>
+                                            <div>
+                                                <input type="text" class="form-control" ng-model="vm.companyeditdata.data.social_urls.twitter_link" name="twitter_link" placeholder=" e.g. twitter.com/profile-url"
+                                                    tabindex="5" ng-pattern="domain_regex">
+                                                <p ng-show="companyForm.twitter_link.$invalid  && ( vm.formSubmitted || companyForm.twitter_link.$touched)" class="help-block">Please enter valid URL.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6" ng-class="{ 'has-error': companyForm.google_link.$invalid && ( vm.formSubmitted || companyForm.google_link.$touched) }">
+                                            <label class="control-label">Google</label>
+                                            <div>
+                                                <input type="text" class="form-control" ng-model="vm.companyeditdata.data.social_urls.google_link" name="google_link" placeholder=" e.g. plus.google.com/profile-url"
+                                                    tabindex="6" ng-pattern="domain_regex">
+                                                <p ng-show="companyForm.google_link.$invalid  && ( vm.formSubmitted || companyForm.google_link.$touched)" class="help-block">Please enter valid URL.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6" ng-class="{ 'has-error': companyForm.youtube_link.$invalid && ( vm.formSubmitted || companyForm.youtube_link.$touched) }">
+                                            <label class="control-label">Youtube</label>
+                                            <div>
+                                                <input type="text" class="form-control" ng-model="vm.companyeditdata.data.social_urls.youtube_link" name="youtube_link" placeholder=" e.g. youtube.com/channel-name"
+                                                    tabindex="7" ng-pattern="domain_regex">
+                                                <p ng-show="companyForm.youtube_link.$invalid  && ( vm.formSubmitted || companyForm.youtube_link.$touched)" class="help-block">Please enter valid URL.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6" ng-class="{ 'has-error': companyForm.instagram_link.$invalid && ( vm.formSubmitted || companyForm.instagram_link.$touched) }">
+                                            <label class="control-label">Instagram</label>
+                                            <div>
+                                                <input type="text" class="form-control" ng-model="vm.companyeditdata.data.social_urls.instagram_link" name="instagram_link"
+                                                    placeholder=" e.g. instagram.com/username" tabindex="8" ng-pattern="domain_regex">
+                                                <p ng-show="companyForm.instagram_link.$invalid  && ( vm.formSubmitted || companyForm.instagram_link.$touched)" class="help-block">Please enter valid URL.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <a ui-sref="app.companyadd({companyData: vm.companyeditdata})" class="btn btn-primary pull-left ml0" ng-if="!showupdates">Previous</a>
+                                        <a ng-click="goBackbutton()" class="btn btn-primary pull-left ml0" ng-if="showupdates">Previous</a>
+                                        <button type="submit" class="btn btn-default pull-right" ng-disabled="file_error" ng-if="!showupdates">Next</button>
+                                        <button type="button" class="btn btn-default pull-right" ng-click="updateCompany(companyForm.$valid)" ng-disabled="file_error"
+                                            ng-if="showupdates">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+            <img src="../../img/loading_evergenius.gif" alt="loading..">
+            <h3>Loading....</h3>
+        </div>
+</section>

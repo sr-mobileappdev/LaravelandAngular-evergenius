@@ -1,0 +1,321 @@
+<section class="content-header">
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-pencil" aria-hidden="true"></i>Edit Clinic</span>
+    </h1>
+    <div class="btn-right-header">
+        <a href="{{clinicDetail.data.clinics_information.link}}" target="_blank" ng-disabled="!clinicDetail.data.clinics_information.status=='publish'"
+            class="btn btn-success">View Clinic</a>
+    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a ui-sref="app.contacts">Contact List</a>
+        </li>
+        <li>
+            <a ui-sref="app.contacts">Contact </a>
+        </li>
+        <li class="active">Add Contact</li>
+    </ol>
+</section>
+<section class="content form-page">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box box-primary">
+                <form name="newClinicForm" class="form-horizontal" ng-submit="saveform('save')" novalidate>
+                    <div class="box-body">
+                        <div ng-if="update_data" class="alert alert-success">
+                            <p>Clinic updated successfully.</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.title.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.title.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Title*</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.title" name="title" placeholder="Title"
+                                            required tabindex="1" maxlength="100">
+                                        <p ng-show="clinicDetail.data.clinics_information.title.$error.required && ( vm.formSubmitted || clinicDetail.data.clinics_information.title.$touched)"
+                                            class="help-block">Title name is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.email.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.email.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Email*</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" class="form-control" ng-model="clinicDetail.data.clinics_information.email" name="email" placeholder="Email"
+                                            required tabindex="2">
+                                        <p ng-show="clinicDetail.data.clinics_information.email.$error.required && ( vm.formSubmitted || clinicDetail.data.clinics_information.email.$touched)"
+                                            class="help-block">Email is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.mobile_number.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.mobile_number.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Phone:</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" phone-input class="form-control" ng-model="clinicDetail.data.clinics_information.phone" name="mobile_number"
+                                            placeholder="Phone" required tabindex="3">
+                                        <p ng-show="clinicDetail.data.clinics_information.mobile_number.$error.required && ( vm.formSubmitted || clinicDetail.data.clinics_information.mobile_number.$touched)"
+                                            class="help-block">Phone is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.mobile_number.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.mobile_number.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">City*</label>
+                                    <div class="col-sm-8">
+                                        <div>
+                                            <input tabindex="4" type="text" class="form-control" name="area" placeholder="city" id="city_name" ng-keydown="vm.change_city()"
+                                                ng-model="vm.companyeditdata.data.area" vs-google-autocomplete="city_input_options"
+                                                vs-state="vm.companyeditdata.data.state" vs-country="vm.companyeditdata.data.country"
+                                                vs-city="vm.companyeditdata.data.city">
+
+                                            <input type="hidden" ng-model="vm.companyeditdata.data.city" name="city">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.province.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.province.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Province</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" ng-model="vm.companyeditdata.data.state" tabindex="5">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.province.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.province.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Country</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" ng-model="vm.companyeditdata.data.country" tabindex="6">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.address.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.address.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Address</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" ng-model="clinicDetail.data.clinics_information.address" tabindex="7"> </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.website_url.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.website_url.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Website URL</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.website_url" name="website_url" placeholder="Website URL e.g. companydomain.com"
+                                            tabindex="8" ng-pattern="domain_regex">
+                                        <small>e.g. http://companydomain.com</small>
+                                        <p ng-show="clinicDetail.data.clinics_information.website_url.$invalid  && ( vm.formSubmitted || clinicDetail.data.clinics_information.website_url.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="control-label col-sm-3">Specialities</label>
+                                    <div class="col-sm-8">
+                                        <tags-input ng-model="clinicDetail.data.clinics_information.specialities" add-on-paste="true" tabindex="9" placeholder="Add Specialities">
+                                            <auto-complete source="loadTags($query)"></auto-complete>
+                                        </tags-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.image.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.image.$touched ) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Profile Photo</label>
+                                    <div class="col-sm-8">
+                                        <div class="photo-container pt7">
+                                            <input type="file" ngf-select="upload($files,true)" name="image" ngf-multiple="true" ng-model="clinicDetail.data.clinics_information.image_url"
+                                                ng-if="image_path.length == null " tabindex="10">
+                                            <img ng-src="{{image_path}}" style="width:100px; height:100px;object-fit: contain;" ng-if="image_path.length > 0">
+                                            <a href="" class="btn btn-primary" ng-click="delete_photo()" ng-if="image_path.length > 0">
+                                                <i class="fa fa-close"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.status.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.status.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Status*</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name='timetakenIds' ng-model="clinicDetail.data.clinics_information.status" tabindex="11">
+                                            <option ng-value="'publish'" value="'Publish'">Publish</option>
+                                            <option ng-value="'draft'" value="'Draft'">Draft</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.certifications.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.certifications.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Certifications</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.certifications" name="certifications"
+                                            placeholder="" tabindex="11">
+                                        <p ng-show="newClinicForm.certifications.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.certifications.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.status.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.status.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Claim status</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name='claim_status' ng-model="clinicDetail.data.clinics_information.claim_status" tabindex="12">
+                                            <option ng-value="'Pending'" value="'Pending'">Pending</option>
+                                            <option ng-value="'Claim Request'" value="'Claim Request'">Claim Request</option>
+                                            <option ng-value="'Approved'" value="'Approved'">Approved</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': clinicDetail.data.clinics_information.description.$invalid && ( vm.formSubmitted || clinicDetail.data.clinics_information.description.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Description </label>
+                                    <div class="col-sm-10">
+                                        <div class="bio-editor">
+                                            <trix-editor trix-id="msfg_bio" angular-trix ng-model="clinicDetail.data.clinics_information.description" name="message_bio"
+                                                tabindex="14"></trix-editor>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Social Profiles</h3>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.facebook_link.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.facebook_link.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Facebook Link</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.facebook_link" name="facebook_link"
+                                            placeholder=" e.g. facebook.com/profile-url" tabindex="15" ng-pattern="domain_regex">
+                                        <p ng-show="newClinicForm.facebook_link.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.facebook_link.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.twitter_link.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.twitter_link.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Twitter Link</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.twitter_link" name="twitter_link"
+                                            placeholder=" e.g. twitter.com/profile-url" tabindex="16" ng-pattern="domain_regex">
+                                        <p ng-show="newClinicForm.twitter_link.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.twitter_link.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.google_link.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.google_link.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Google URL</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.google_link" name="google_link" placeholder=" e.g. plus.google.com/profile-url"
+                                            tabindex="17" ng-pattern="domain_regex">
+                                        <p ng-show="newClinicForm.google_link.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.google_link.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.youtube_link.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.youtube_link.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Youtube URL</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.youtube_link" name="youtube_link"
+                                            placeholder=" e.g. youtube.com/channel-name" tabindex="18" ng-pattern="domain_regex">
+                                        <p ng-show="newClinicForm.youtube_link.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.youtube_link.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.instagram_link.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.instagram_link.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Instagram URL</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.instagram_link" name="instagram_link"
+                                            placeholder=" e.g. instagram.com/username" tabindex="19" ng-pattern="domain_regex">
+                                        <p ng-show="newClinicForm.instagram_link.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.instagram_link.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.linkedin.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.linkedin.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Linkedin</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.linkedin_link" name="linkedin_links"
+                                            placeholder=" e.g. linkedin.com/page" tabindex="20" ng-pattern="domain_regex">
+                                        <p ng-show="newClinicForm.linkedin.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.linkedin.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': newClinicForm.social_links.$invalid && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.social_links.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Social Links</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="clinicDetail.data.clinics_information.social_links" name="social_links"
+                                            placeholder=" e.g. website.com/page" tabindex="21" ng-pattern="domain_regex">
+                                        <p ng-show="newClinicForm.social_links.$invalid  && ( clinicDetail.data.clinics_information.formSubmitted || newClinicForm.social_links.$touched)"
+                                            class="help-block">Please enter valid URL.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+            </div>
+            <div class="box-footer">
+                <a ui-sref="app.gethdclinics" class="btn btn-primary">
+                    <i class="fa fa-angle-left"></i> Back</a>
+                <button type="submit" class="btn btn-default pull-right" ng-click="vm.save(clinicDetail.data.clinics_information.$valid,image_path)"
+                    ng-disabled="newClinicForm.$invalid">Update</button>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+
+</section>

@@ -1,0 +1,19 @@
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+            <h4 class="modal-title"></h4>
+        </div>
+        <form name="add_app_modal" ng-submit="submit_appointment()">
+            <div class="modal-body">
+                <iframe ng-src='{{givenUrl}}'></iframe>
+
+            </div>
+            <div class="modal-footer">
+                <input type="submit" ng-disabled="!add_app_modal.$valid" class="btn btn-primary" value="Submit">
+                <button class="btn btn-cancel" type="button" data-dismiss="modal" ng-click="closemodal()">Back</button>
+            </div>
+        </form>
+    </div>
+</div>

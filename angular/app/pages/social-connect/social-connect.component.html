@@ -1,0 +1,988 @@
+<style type="text/css">
+    .button {
+        -moz-appearance: button;
+        /* Firefox */
+        -webkit-appearance: button;
+        /* Safari and Chrome */
+        padding: 10px;
+        margin: 10px;
+        width: 70px;
+    }
+
+    .drop-box {
+        background: #F8F8F8;
+        border: 5px dashed #DDD;
+        width: 200px;
+        height: 65px;
+        text-align: center;
+        padding-top: 25px;
+        margin: 10px;
+    }
+
+    .dragover {
+        border: 5px dashed blue;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-send"></i>
+        </span>Social Connect</h1>
+</section>
+<section class="content social-page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="social-head">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="social-tabs">
+                            <ul>
+                                <li class="selected">
+                                    <button type="button" class="btn  btn-sm" ng-click="active = 0">Posts</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn btn-sm" ng-click="active = 1">Generate Content</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn  btn-sm" ng-click="active = 2">Settings</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="btn-new-post">
+                            <button href="#" class="btn btn-primary" ng-click="active = 3">New Post</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <uib-tabset active="active">
+                    <!-- *************** Start Tab 1 *************** -->
+                    <uib-tab index="0">
+                        <div class="social-radio-button">
+                            <ul>
+                                <li class="radio">
+                                    <input type="radio" name="social" id="radio-1" ng-model="post_view_cat" value="schedule" ng-change="vm.post_view_cat('schedule')">
+                                    <label for="radio-1">Scheduled</label>
+                                </li>
+                                <li class="radio">
+                                    <input type="radio" name="social" id="radio-2" checked="checked" ng-model="post_view_cat" value="history" ng-change="vm.post_view_cat('history')">
+                                    <label for="radio-2">History</label>
+                                </li>
+                                <li class="radio">
+                                    <input type="radio" name="social" id="radio-3" ng-model="post_view_cat" value="draft" ng-change="vm.post_view_cat('draft')">
+                                    <label for="radio-3">Draft</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="social-schedule-list">
+                            <table datatable="" id="{{tableId}}" width="100%" class="table table-striped table-bordered" ng-if="displayTable" dt-options="dtOptions"
+                                dt-columns="dtColumns"></table>
+                        </div>
+                    </uib-tab>
+                    <!-- *************** Start Tab 2 *************** -->
+                    <uib-tab index="1">
+                        <div class="social-generate-content">
+                            <div class="generate-content-head">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <select class="select generate-content-select" id="select_search_type" ng-select="select_search_type()" ng-model="search_query_type">
+                                            <option value="news">News</option>
+                                            <option value="images">Images</option>
+                                            <option value="videos">Videos</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="alerts alert-danger" ng-if="empty_keyword">Please enter search keyword.</div>
+                                        <div class="input-group">
+                                            <input type="text" ng-model="searchkeywordd" id="search_keyword" class="form-control" placeholder="Search keyword">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-secondary" type="button" ng-click="query_search()">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="generate-content-posts">
+                                <div class="row">
+                                    <div class="col-sm-4" ng-repeat="feed in news_feed">
+                                        <div class="panel">
+                                            <div class="panel-body">
+                                                <div class="post-image">
+                                                    <img width="100%" src="{{feed.image}}" />
+                                                </div>
+                                                <div class="post-info">
+                                                    <p>
+                                                        <span>Title:</span> {{feed.title}}</p>
+                                                    <p>
+                                                        <span>Description:</span> {{feed.description | limitTo: 100 }}{{feed.description.length
+                                                        > 100 ? '...' : ''}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer text-right">
+                                                <a class="btn btn-secondary" data-toggle="modal" data-target="#post-popup">Post</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <!-- *************** Start Tab 3 *************** -->
+                    <uib-tab index="2">
+                        <div class="panel connect-social">
+                            <div class="panel-body">
+                                <h3>Connect your social profiles now.</h3>
+                                <ul>
+                                    <li ng-if="!network_connects.facebook.connected">
+                                        <a href="{{network_connects.facebook.connect_url}}" class="btn btn-primary">Connect</a>
+                                        <img src="img/icon-facebook.png" alt="" width="36" height="36">
+                                    </li>
+                                    <li ng-if="network_connects.facebook.connected">
+                                        <a class="btn btn-primary connected" ng-click="vm.remove_network('facebook')">Connected</a>
+                                        <span uib-tooltip="Facebook profile" tooltip-placement="right">
+                                            <img src="img/icon-facebook.png" alt="" width="36" height="36"> {{network_connects.facebook.details.user_name}}
+                                        </span>
+                                    </li>
+                                    <li ng-if="!network_connects.facebook_pages.connected">
+                                        <a href="{{network_connects.facebook_pages.connect_url}}" class="btn btn-primary">Connect</a>
+                                        <img src="img/icon-facebook.png" alt="" width="36" height="36"> Connect a facebook page
+                                    </li>
+                                    <li ng-if="network_connects.facebook_pages.connected">
+                                        <a class="btn btn-primary connected" ng-click="vm.remove_network('facebook_pages')">Connected</a>
+                                        <span uib-tooltip="Facebook Page" tooltip-placement="right">
+                                            <img src="img/icon-facebook.png" alt="" width="36" height="36"> {{network_connects.facebook_pages.details.user_name}}
+                                        </span>
+                                    </li>
+                                    <li ng-if="!network_connects.facebook_groups.connected">
+                                        <a href="{{network_connects.facebook_groups.connect_url}}" class="btn btn-primary">Connect</a>
+                                        <img src="img/icon-facebook.png" alt="" width="36" height="36"> Connect a facebook group
+                                    </li>
+                                    <li ng-if="network_connects.facebook_groups.connected">
+                                        <a class="btn btn-primary connected" ng-click="vm.remove_network('facebook_groups')">Connected</a>
+                                        <span uib-tooltip="Facebook Group" tooltip-placement="right">
+                                            <img src="img/icon-facebook.png" alt="" width="36" height="36"> {{network_connects.facebook_groups.details.user_name}}
+                                        </span>
+                                    </li>
+                                    <li ng-if="!network_connects.twitter.connected">
+                                        <a href="{{network_connects.twitter.connect_url}}" class="btn btn-primary">Connect</a>
+                                        <img src="img/icon-twitter.png" alt="" width="36" height="36"> Connect a twitter profile
+                                    </li>
+                                    <li ng-if="network_connects.twitter.connected">
+                                        <a class="btn btn-primary connected" ng-click="vm.remove_network('twitter')">Connected</a>
+                                        <span uib-tooltip="Twitter profile" tooltip-placement="right">
+                                            <img src="img/icon-twitter.png" alt="" width="36" height="36"> {{network_connects.twitter.details.user_name}}
+                                        </span>
+                                    </li>
+                                    <li ng-if="!network_connects.google_plus.connected">
+                                        <a href="{{network_connects.google_plus.connect_url}}" class="btn btn-primary">Connect</a>
+                                        <img src="img/icon-google-plus.png" alt="" width="36" height="36"> Connect a google plus profile
+                                    </li>
+                                    <li ng-if="network_connects.google_plus.connected">
+                                        <a href="" class="btn btn-primary connected" ng-click="vm.remove_network('google_plus')">Connected</a>
+                                        <span uib-tooltip="Google plus profile" tooltip-placement="right">
+                                            <img src="img/icon-google-plus.png" alt="" width="36" height="36"> {{network_connects.google_plus.details.user_name}}
+                                        </span>
+                                    </li>
+                                    <li ng-if="!network_connects.instagram.connected">
+                                        <a href="{{network_connects.instagram.connect_url}}" class="btn btn-primary">Connect</a>
+                                        <img src="img/icon-instagram-rank.png" alt="" width="36" height="36"> Connect a Instagram profile
+                                    </li>
+                                    <li ng-if="network_connects.instagram.connected">
+                                        <a href="" class="btn btn-primary connected" ng-click="vm.remove_network('instagram')">Connected</a>
+                                        <span uib-tooltip="Instagram profile" tooltip-placement="right">
+                                            <img src="img/icon-instagram-rank.png" alt="" width="36" height="36"> {{network_connects.instagram.details.user_name}}
+                                        </span>
+                                    </li>
+                                    <li ng-if="!network_connects.linkedin.connected">
+                                        <a href="{{network_connects.linkedin.connect_url}}" class="btn btn-primary">Connect</a>
+                                        <img src="img/icon-linkedin-rank.png" alt="" width="36" height="36"> Connect a LinkedIn
+                                    </li>
+                                    <li ng-if="network_connects.linkedin.connected">
+                                        <a href="" class="btn btn-primary connected" ng-click="vm.remove_network('linkedin')">Connected</a>
+                                        <span uib-tooltip="LinkedIn profile" tooltip-placement="right">
+                                            <img src="img/icon-linkedin-rank.png" alt="" width="36" height="36"> {{network_connects.linkedin.details.user_name}}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <!-- *************** Social add posts page  *************** -->
+                    <uib-tab index="3">
+                        <div class="panel connect-social">
+                            <div id="post-popup" class="posts-add">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="main-post">
+                                            <!-- Common Social  -->
+                                            <div class="row social-post">
+                                                <div class="col-sm-7">
+                                                    <div class="select-action">
+
+                                                        <select ng-model="selected_hashtag" id="select_hashtag" ng-change="select_hashtag()">
+                                                            <option ng-repeat="ht in hashtags" value="{{ht.tag}}">#{{ht.tag}}</option>
+                                                        </select>
+
+                                                        <div class="actions">
+                                                            <a href="#" class="icon-edit">
+                                                                <i></i> {{hashtag_stats.tweets}}</a>
+                                                            <a href="#" class="icon-views">
+                                                                <i></i> {{hashtag_stats.exposure}}</a>
+                                                            <a href="#" class="icon-retweets">
+                                                                <i></i> {{hashtag_stats.retweets}}</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="message-box">
+                                                        <label>Write something here</label>
+                                                        <div class="alerts alert-danger" ng-if="title_empty">This fields is required..</div>
+                                                        <textarea class="form-control" required="" ng-change="title_empty_check()" ng-model="add_commonpost.title" placeholder="What's New.."></textarea>
+                                                        <i class="fa fa-pencil"></i> {{add_commonpost.title.length}}
+                                                    </div>
+                                                    <div class="post-icons">
+                                                        <a class="icon-link" ng-click="commonSharResources = 0" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                        <a class="icon-photo" ng-click="commonSharResources = 1;image_upload=3" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                        <a class="icon-video" ng-click="commonSharResources = 2" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                    </div>
+                                                    <uib-tabset active="commonSharResources">
+                                                        <uib-tab index="0">
+                                                            <div class="url-box link-url-box">
+                                                                <label>Paste url here</label>
+                                                                <input type="url" placeholder="http://examle.com/post-url" ng-model="add_commonpost.link" class="form-control" value="">
+                                                            </div>
+                                                        </uib-tab>
+                                                        <uib-tab index="1">
+                                                            <div class="image-box url-box">
+                                                                <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                    <div class="col-sm-6" ngf-select="upload($files,'common',true)" ngf-multiple="true">Upload Image</div>
+                                                                    <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                </div>
+                                                                <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                    <label>Upload Image here</label>
+                                                                    <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                    </div>
+                                                                    <form action>
+                                                                        <input type="file" fileread="add_commonpost.image_url" ng-model="add_commonpost.file" class="drop-image">
+                                                                    </form>
+                                                                </div>
+                                                                <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                    <label>Paste image url here</label>
+                                                                    <input type="url" placeholder="http://examle.com/image.png" ng-model="add_commonpost.image_url" class="form-control" value="">
+                                                                </div>
+                                                            </div>
+                                                        </uib-tab>
+                                                        <uib-tab index="2">
+                                                            <div class="video-url-box url-box">
+                                                                <label>Paste Video url here</label>
+                                                                <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="add_commonpost.video_url" class="form-control"
+                                                                    value="">
+                                                            </div>
+                                                        </uib-tab>
+                                                    </uib-tabset>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="preview-box">
+                                                        <h3>Preview</h3>
+                                                        <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                            <img ng-src="{{ add_commonpost.image_url }}" style="width:345px">
+                                                        </div>
+                                                        <div class="preview-box-content">
+                                                            <p>{{add_commonpost.title}}</p>
+                                                            <p ng-if="add_commonpost.link.length">
+                                                                <strong>link:</strong> {{add_commonpost.link}}</p>
+                                                            <p ng-if="add_commonpost.video_url.length">
+                                                                <strong> Video link:</strong> {{add_commonpost.video_url}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Common Social  -->
+                                        </div>
+                                        <div class="other-posts">
+                                            <div class="social-posting">
+                                                <p>Social Posting</p>
+                                                <div class="alerts alert-danger" ng-if="social_media_selected">Please select any social profile to share contect</div>
+                                                <!-- Facebook Social network -->
+                                                <div class="row post-border" ng-if="network_connects.facebook.connected">
+                                                    <div class="col-sm-7">
+                                                        <ul>
+                                                            <li class="post-facebook">
+                                                                <div class="company-name">
+                                                                    <div class="icon">
+                                                                        <img src="img/icon-facebook.png" alt="" width="36" height="36">
+                                                                    </div>
+                                                                    <div class="name">{{network_connects.facebook.details.user_name}}
+                                                                        <small>Facebook Profile</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="selected">
+                                                                    <a class="btn-selected social-select" ng-if="!selected_networks['facebook']" ng-click="select_social_network('facebook',1)">Select</a>
+                                                                    <a class="btn-selected social-selected" ng-if="selected_networks['facebook']" ng-click="select_social_network('facebook',0)">Selected</a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('facebook', 1)" ng-if="!edited_network['facebook']"></a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('facebook', 0)" ng-if="edited_network['facebook']"></a>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="message-box" ng-if="selected_networks['facebook'] && edited_network['facebook']">
+                                                                    <label>Write something here</label>
+                                                                    <textarea class="form-control" ng-model="posts['facebook'].title" placeholder="Write something here"></textarea>
+                                                                    <i class="fa fa-pencil"></i> {{posts['facebook'].title.length}}
+                                                                </div>
+                                                                <div class="post-icons" ng-if="selected_networks['facebook'] && edited_network['facebook']">
+                                                                    <a class="icon-link" ng-click="select_tab_social('facebook',0)" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                                    <a class="icon-photo" ng-click="select_tab_social('facebook',1)" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                                    <a class="icon-video" ng-click="select_tab_social('facebook',2)" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                                </div>
+                                                                <uib-tabset active="seleced_social_tab['facebook']" ng-if="selected_networks['facebook'] && edited_network['facebook']">
+                                                                    <uib-tab index="0">
+                                                                        <div class="url-box link-url-box">
+                                                                            <label>Paste url here</label>
+                                                                            <input type="url" placeholder="http://examle.com/post-url" ng-model="posts['facebook'].link" class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="1">
+                                                                        <div class="image-box url-box">
+                                                                            <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                                <div class="col-sm-6" ngf-select="upload($files,'facebook',true)" ngf-multiple="true">Upload Image</div>
+                                                                                <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                                <label>Upload Image here</label>
+                                                                                <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                                </div>
+                                                                                <form action>
+                                                                                    <input type="file" fileread="posts['facebook'].image_url" class="drop-image">
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                                <label>Paste image url here</label>
+                                                                                <input type="url" placeholder="http://examle.com/image.png" ng-model="posts['facebook'].image_url" class="form-control" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="2">
+                                                                        <div class="video-url-box url-box">
+                                                                            <label>Paste Video url here</label>
+                                                                            <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="posts['facebook'].video_url" class="form-control"
+                                                                                value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                </uib-tabset>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="preview-box" ng-if="selected_networks['facebook']">
+
+                                                            <div class="facebook-preview-box">
+                                                                <i class="fa fa-facebook"></i>
+                                                                <h2>Facebook Profile</h2>
+                                                            </div>
+                                                            <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                                <img ng-src="{{posts['facebook'].image_url }}">
+                                                            </div>
+                                                            <div class="preview-box-content">
+                                                                <p>{{posts['facebook'].title}}</p>
+                                                                <p ng-if="posts['facebook'].image_url.length">
+                                                                    <strong>link:</strong> {{posts['facebook'].link}}</p>
+                                                                <p ng-if="posts['facebook'].video_url.length">
+                                                                    <strong> Video link:</strong> {{posts['facebook'].video_url}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Facebook Social network -->
+                                                <!-- Facebook Pages Social network -->
+                                                <div class="row post-border" ng-if="network_connects.facebook_pages.connected">
+                                                    <div class="col-sm-7">
+                                                        <ul>
+                                                            <li class="post-facebook">
+                                                                <div class="company-name">
+                                                                    <div class="icon">
+                                                                        <img src="img/icon-facebook.png" alt="" width="36" height="36">
+                                                                    </div>
+                                                                    <div class="name">{{network_connects.facebook_pages.details.user_name}}
+                                                                        <small>Facebook Pages</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="selected">
+                                                                    <a class="btn-selected social-select" ng-if="!selected_networks['facebook_pages']" ng-click="select_social_network('facebook_pages',1)">Select</a>
+                                                                    <a class="btn-selected social-selected" ng-if="selected_networks['facebook_pages']" ng-click="select_social_network('facebook_pages',0)">Selected</a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('facebook_pages', 1)" ng-if="!edited_network['facebook_pages']"></a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('facebook_pages', 0)" ng-if="edited_network['facebook_pages']"></a>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="message-box" ng-if="selected_networks['facebook_pages'] && edited_network['facebook_pages']">
+                                                                    <label>Write something here</label>
+                                                                    <textarea class="form-control" ng-model="posts['facebook_pages'].title" placeholder="Write something here"></textarea>
+                                                                    <i class="fa fa-pencil"></i> {{posts['facebook_pages'].title.length}}
+                                                                </div>
+                                                                <div class="post-icons" ng-if="selected_networks['facebook_pages'] && edited_network['facebook_pages']">
+                                                                    <a class="icon-link" ng-click="select_tab_social('facebook_pages',0)" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                                    <a class="icon-photo" ng-click="select_tab_social('facebook_pages',1)" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                                    <a class="icon-video" ng-click="select_tab_social('facebook_pages',2)" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                                </div>
+                                                                <uib-tabset active="seleced_social_tab['facebook_pages']" ng-if="selected_networks['facebook_pages'] && edited_network['facebook_pages']">
+                                                                    <uib-tab index="0">
+                                                                        <div class="url-box link-url-box">
+                                                                            <label>Paste url here</label>
+                                                                            <input type="url" placeholder="http://examle.com/post-url" ng-model="posts['facebook_pages'].link" class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="1">
+                                                                        <div class="image-box url-box">
+                                                                            <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                                <div class="col-sm-6" ngf-select="upload($files,'facebook_pages',true)" ngf-multiple="true">Upload Image</div>
+                                                                                <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                                <label>Upload Image here</label>
+                                                                                <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                                </div>
+                                                                                <form action>
+                                                                                    <input type="file" fileread="posts['facebook_pages'].image_url" class="drop-image">
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                                <label>Paste image url here</label>
+                                                                                <input type="url" placeholder="http://examle.com/image.png" ng-model="posts['facebook_pages'].image_url" class="form-control"
+                                                                                    value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="2">
+                                                                        <div class="video-url-box url-box">
+                                                                            <label>Paste Video url here</label>
+                                                                            <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="posts['facebook_pages'].video_url"
+                                                                                class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                </uib-tabset>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="preview-box" ng-if="selected_networks['facebook_pages']">
+                                                            <div class="facebook-preview-box">
+                                                                <i class="fa fa-facebook"></i>
+                                                                <h2>Facebook Pages</h2>
+                                                            </div>
+                                                            <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                                <img ng-src="{{posts['facebook_pages'].image_url }}">
+                                                            </div>
+                                                            <div class="preview-box-content">
+                                                                <p>{{posts['facebook_pages'].title}}</p>
+                                                                <p ng-if="posts['facebook'].image_url.length">
+                                                                    <strong>link:</strong> {{posts['facebook_pages'].link}}</p>
+                                                                <p ng-if="posts['facebook'].video_url.length">
+                                                                    <strong> Video link:</strong> {{posts['facebook_pages'].video_url}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Facebook Pages network -->
+                                                <!-- Facebook group Social network -->
+                                                <div class="row post-border" ng-if="network_connects.facebook_groups.connected">
+                                                    <div class="col-sm-7">
+                                                        <ul>
+                                                            <li class="post-facebook">
+                                                                <div class="company-name">
+                                                                    <div class="icon">
+                                                                        <img src="img/icon-facebook.png" alt="" width="36" height="36">
+                                                                    </div>
+                                                                    <div class="name">{{network_connects.facebook_groups.details.user_name}}
+                                                                        <small>Facebook Group</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="selected">
+                                                                    <a class="btn-selected social-select" ng-if="!selected_networks['facebook_groups']" ng-click="select_social_network('facebook_groups',1)">Select</a>
+                                                                    <a class="btn-selected social-selected" ng-if="selected_networks['facebook_groups']" ng-click="select_social_network('facebook_groups',0)">Selected</a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('facebook_groups', 1)" ng-if="!edited_network['facebook_groups']"></a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('facebook_groups', 0)" ng-if="edited_network['facebook_groups']"></a>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="message-box" ng-if="selected_networks['facebook_groups'] && edited_network['facebook_groups']">
+                                                                    <label>Write something here</label>
+                                                                    <textarea class="form-control" ng-model="posts['facebook_groups'].title" placeholder="Write something here"></textarea>
+                                                                    <i class="fa fa-pencil"></i> {{posts['facebook_groups'].title.length}}
+                                                                </div>
+                                                                <div class="post-icons" ng-if="selected_networks['facebook_groups'] && edited_network['facebook_groups']">
+                                                                    <a class="icon-link" ng-click="select_tab_social('facebook_groups',0)" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                                    <a class="icon-photo" ng-click="select_tab_social('facebook_groups',1)" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                                    <a class="icon-video" ng-click="select_tab_social('facebook_groups',2)" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                                </div>
+                                                                <uib-tabset active="seleced_social_tab['facebook_groups']" ng-if="selected_networks['facebook_groups'] && edited_network['facebook_groups']">
+                                                                    <uib-tab index="0">
+                                                                        <div class="url-box link-url-box">
+                                                                            <label>Paste url here</label>
+                                                                            <input type="url" placeholder="http://examle.com/post-url" ng-model="posts['facebook_groups'].link" class="form-control"
+                                                                                value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="1">
+                                                                        <div class="image-box url-box">
+                                                                            <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                                <div class="col-sm-6" ngf-select="upload($files,'facebook_groups',true)" ngf-multiple="true">Upload Image</div>
+                                                                                <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                                <label>Upload Image here</label>
+                                                                                <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                                </div>
+                                                                                <form action>
+                                                                                    <input type="file" fileread="posts['facebook_groups'].image_url" class="drop-image">
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                                <label>Paste image url here</label>
+                                                                                <input type="url" placeholder="http://examle.com/image.png" ng-model="posts['facebook_groups'].image_url" class="form-control"
+                                                                                    value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="2">
+                                                                        <div class="video-url-box url-box">
+                                                                            <label>Paste Video url here</label>
+                                                                            <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="posts['facebook_groups'].video_url"
+                                                                                class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                </uib-tabset>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="preview-box" ng-if="selected_networks['facebook_groups']">
+                                                            <div class="facebook-preview-box">
+                                                                <i class="fa fa-facebook"></i>
+                                                                <h2>Facebook Group</h2>
+                                                            </div>
+                                                            <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                                <img ng-src="{{posts['facebook_groups'].image_url }}">
+                                                            </div>
+                                                            <div class="preview-box-content">
+                                                                <p>{{posts['facebook_groups'].title}}</p>
+                                                                <p ng-if="posts['facebook'].image_url.length">
+                                                                    <strong>link:</strong> {{posts['facebook_groups'].link}}</p>
+                                                                <p ng-if="posts['facebook'].video_url.length">
+                                                                    <strong> Video link:</strong> {{posts['facebook_groups'].video_url}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Facebook Social network -->
+                                                <!-- Twitter group Social network -->
+                                                <div class="row post-border" ng-if="network_connects.twitter.connected">
+                                                    <div class="col-sm-7">
+                                                        <ul>
+                                                            <li class="post-facebook">
+                                                                <div class="company-name">
+                                                                    <div class="icon">
+                                                                        <img src="img/icon-twitter.png" alt="" width="36" height="36">
+                                                                    </div>
+                                                                    <div class="name">{{network_connects.twitter.details.user_name}}
+                                                                        <small>Twitter Profile</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="selected">
+                                                                    <a class="btn-selected social-select" ng-if="!selected_networks['twitter']" ng-click="select_social_network('twitter',1)">Select</a>
+                                                                    <a class="btn-selected social-selected" ng-if="selected_networks['twitter']" ng-click="select_social_network('twitter',0)">Selected</a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('twitter', 1)" ng-if="!edited_network['twitter']"></a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('twitter', 0)" ng-if="edited_network['twitter']"></a>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="message-box" ng-if="selected_networks['twitter'] && edited_network['twitter']">
+                                                                    <label>Write something here</label>
+                                                                    <textarea class="form-control" ng-model="posts['twitter'].title" placeholder="Write something here"></textarea>
+                                                                    <i class="fa fa-pencil"></i> {{posts['twitter'].title.length}}
+                                                                </div>
+                                                                <div class="post-icons" ng-if="selected_networks['twitter'] && edited_network['twitter']">
+                                                                    <a class="icon-link" ng-click="select_tab_social('twitter',0)" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                                    <a class="icon-photo" ng-click="select_tab_social('twitter',1)" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                                    <a class="icon-video" ng-click="select_tab_social('twitter',2)" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                                </div>
+                                                                <uib-tabset active="seleced_social_tab['twitter']" ng-if="selected_networks['twitter'] && edited_network['twitter']">
+                                                                    <uib-tab index="0">
+                                                                        <div class="url-box link-url-box">
+                                                                            <label>Paste url here</label>
+                                                                            <input type="url" placeholder="http://examle.com/post-url" ng-model="posts['twitter'].link" class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="1">
+                                                                        <div class="image-box url-box">
+                                                                            <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                                <div class="col-sm-6" ngf-select="upload($files,'twitter',true)" ngf-multiple="true">Upload Image</div>
+                                                                                <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                                <label>Upload Image here</label>
+                                                                                <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                                </div>
+                                                                                <form action>
+                                                                                    <input type="file" fileread="posts['twitter'].image_url" class="drop-image">
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                                <label>Paste image url here</label>
+                                                                                <input type="url" placeholder="http://examle.com/image.png" ng-model="posts['twitter'].image_url" class="form-control" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="2">
+                                                                        <div class="video-url-box url-box">
+                                                                            <label>Paste Video url here</label>
+                                                                            <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="posts['twitter'].video_url" class="form-control"
+                                                                                value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                </uib-tabset>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="preview-box" ng-if="selected_networks['twitter']">
+
+                                                            <div class="twitter-preview-box">
+                                                                <i class="fa fa-twitter"></i>
+                                                                <h3>Twiter
+                                                                    <small>@twitter</small>
+                                                                </h3>
+                                                                <p>{{posts['twitter'].title}}</p>
+                                                                <p ng-if="posts['facebook'].image_url.length">
+                                                                    <strong>link:</strong> {{posts['twitter'].link}}</p>
+                                                                <p ng-if="posts['facebook'].video_url.length">
+                                                                    <strong> Video link:</strong> {{posts['twitter'].video_url}}</p>
+                                                            </div>
+                                                            <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                                <img ng-src="{{posts['twitter'].image_url }}">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Twitter Social network -->
+                                                <!-- Google Plus Social network -->
+                                                <div class="row post-border" ng-if="network_connects.google_plus.connected">
+                                                    <div class="col-sm-7">
+                                                        <ul>
+                                                            <li class="post-facebook">
+                                                                <div class="company-name">
+                                                                    <div class="icon">
+                                                                        <img src="img/icon-google-plus.png" alt="" width="36"
+                                                                            height="36">
+                                                                    </div>
+                                                                    <div class="name">{{network_connects.google_plus.details.user_name}}
+                                                                        <small>Google Plus profile</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="selected">
+                                                                    <a class="btn-selected social-select" ng-if="!selected_networks['google_plus']" ng-click="select_social_network('google_plus',1)">Select</a>
+                                                                    <a class="btn-selected social-selected" ng-if="selected_networks['google_plus']" ng-click="select_social_network('google_plus',0)">Selected</a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('google_plus', 1)" ng-if="!edited_network['google_plus']"></a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('google_plus', 0)" ng-if="edited_network['google_plus']"></a>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="message-box" ng-if="selected_networks['google_plus'] && edited_network['google_plus']">
+                                                                    <label>Write something here</label>
+                                                                    <textarea class="form-control" ng-model="posts['google_plus'].title" placeholder="Write something here"></textarea>
+                                                                    <i class="fa fa-pencil"></i> {{posts['google_plus'].title.length}}
+                                                                </div>
+                                                                <div class="post-icons" ng-if="selected_networks['google_plus'] && edited_network['google_plus']">
+                                                                    <a class="icon-link" ng-click="select_tab_social('google_plus',0)" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                                    <a class="icon-photo" ng-click="select_tab_social('google_plus',1)" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                                    <a class="icon-video" ng-click="select_tab_social('google_plus',2)" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                                </div>
+                                                                <uib-tabset active="seleced_social_tab['google_plus']" ng-if="selected_networks['google_plus'] && edited_network['google_plus']">
+                                                                    <uib-tab index="0">
+                                                                        <div class="url-box link-url-box">
+                                                                            <label>Paste url here</label>
+                                                                            <input type="url" placeholder="http://examle.com/post-url" ng-model="posts['google_plus'].link" class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="1">
+                                                                        <div class="image-box url-box">
+                                                                            <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                                <div class="col-sm-6" ngf-select="upload($files,'google_plus',true)" ngf-multiple="true">Upload Image</div>
+                                                                                <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                                <label>Upload Image here</label>
+                                                                                <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                                </div>
+                                                                                <form action>
+                                                                                    <input type="file" fileread="posts['google_plus'].image_url" class="drop-image">
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                                <label>Paste image url here</label>
+                                                                                <input type="url" placeholder="http://examle.com/image.png" ng-model="posts['google_plus'].image_url" class="form-control"
+                                                                                    value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="2">
+                                                                        <div class="video-url-box url-box">
+                                                                            <label>Paste Video url here</label>
+                                                                            <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="posts['google_plus'].video_url" class="form-control"
+                                                                                value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                </uib-tabset>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="preview-box" ng-if="selected_networks['google_plus']">
+
+                                                            <div class="google-preview-box">
+                                                                <i class="fa fa-google-plus"></i>
+                                                                <h2>Google+</h2>
+                                                                <p>
+                                                                    <strong>Title:</strong> {{posts['google_plus'].title}}</p>
+                                                                <p ng-if="posts['facebook'].image_url.length">
+                                                                    <strong>link:</strong> {{posts['google_plus'].link}}</p>
+                                                                <p ng-if="posts['facebook'].video_url.length">
+                                                                    <strong> Video link:</strong> {{posts['google_plus'].video_url}}</p>
+                                                            </div>
+                                                            <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                                <img ng-src="{{posts['google_plus'].image_url }}">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Google Plus Social network  -->
+                                                <!-- Instagram Social network  -->
+                                                <div class="row post-border" ng-if="network_connects.instagram.connected">
+
+                                                    <div class="col-sm-7">
+                                                        <ul>
+                                                            <li class="post-facebook">
+                                                                <div class="company-name">
+                                                                    <div class="icon">
+                                                                        <img src="img/instagram-icon2.png" alt="" width="36"
+                                                                            height="36">
+                                                                    </div>
+                                                                    <div class="name">{{network_connects.instagram.details.user_name}}
+                                                                        <small>Instagram profile</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="selected">
+                                                                    <a class="btn-selected social-select" ng-if="!selected_networks['instagram']" ng-click="select_social_network('instagram',1)">Select</a>
+                                                                    <a class="btn-selected social-selected" ng-if="selected_networks['instagram']" ng-click="select_social_network('instagram',0)">Selected</a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('instagram', 1)" ng-if="!edited_network['instagram']"></a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('instagram', 0)" ng-if="edited_network['instagram']"></a>
+                                                                </div>
+                                                                <div class="clearfix" id="instagram_invalid"></div>
+                                                                <div class="message-box" ng-if="selected_networks['instagram'] && edited_network['instagram']">
+                                                                    <div class="alerts alert-danger" ng-if="instagram_invalid">Image is Required.</div>
+                                                                    <label>Write something here</label>
+                                                                    <textarea class="form-control" ng-model="posts['instagram'].title" placeholder="Write something here"></textarea>
+                                                                    <i class="fa fa-pencil"></i> {{posts['instagram'].title.length}}
+                                                                </div>
+                                                                <div class="post-icons" ng-if="selected_networks['instagram'] && edited_network['instagram']">
+                                                                    <a class="icon-link" ng-click="select_tab_social('instagram',0)" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                                    <a class="icon-photo" ng-click="select_tab_social('instagram',1)" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                                    <a class="icon-video" ng-click="select_tab_social('instagram',2)" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                                </div>
+                                                                <uib-tabset active="seleced_social_tab['instagram']" ng-if="selected_networks['instagram'] && edited_network['instagram']">
+                                                                    <uib-tab index="0">
+                                                                        <div class="url-box link-url-box">
+                                                                            <label>Paste url here</label>
+                                                                            <input type="url" placeholder="http://examle.com/post-url" ng-model="posts['instagram'].link" class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="1">
+                                                                        <div class="image-box url-box">
+                                                                            <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                                <div class="col-sm-6" ngf-select="upload($files,'instagram',true)" ngf-multiple="true">Upload Image</div>
+                                                                                <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                                <label>Upload Image here</label>
+                                                                                <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                                </div>
+                                                                                <form action>
+                                                                                    <input type="file" fileread="posts['instagram'].image_url" class="drop-image">
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                                <label>Paste image url here</label>
+                                                                                <input type="url" placeholder="http://examle.com/image.png" ng-model="posts['instagram'].image_url" class="form-control"
+                                                                                    value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="2">
+                                                                        <div class="video-url-box url-box">
+                                                                            <label>Paste Video url here</label>
+                                                                            <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="posts['instagram'].video_url" class="form-control"
+                                                                                value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                </uib-tabset>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="preview-box" ng-if="selected_networks['instagram']">
+                                                            <div class="instagram-preview-box">
+                                                                <div class="instagram-header">
+                                                                    <img src="/img/img-instagram-header.gif" />
+                                                                </div>
+                                                                <div class="instagram-content">
+                                                                    <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                                        <img ng-src="{{posts['instagram'].image_url }}">
+                                                                    </div>
+
+                                                                    <p>{{posts['instagram'].title}}</p>
+                                                                    <p ng-if="posts['facebook'].image_url.length">
+                                                                        <strong>link:</strong> {{posts['instagram'].link}}</p>
+                                                                    <p ng-if="posts['facebook'].video_url.length">
+                                                                        <strong> Video link:</strong> {{posts['instagram'].video_url}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Instagram Social network  -->
+                                                <!-- LinkedIn Social network  -->
+                                                <div class="row post-border" ng-if="network_connects.linkedin.connected">
+                                                    <div class="col-sm-7">
+                                                        <ul>
+                                                            <li class="post-facebook">
+                                                                <div class="company-name">
+                                                                    <div class="icon">
+                                                                        <img src="img/icon-linkedin.png" alt="" width="36" height="36">
+                                                                    </div>
+                                                                    <div class="name">{{network_connects.linkedin.details.user_name}}
+                                                                        <small>linkedin profile</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="selected">
+                                                                    <a class="btn-selected social-select" ng-if="!selected_networks['linkedin']" ng-click="select_social_network('linkedin',1)">Select</a>
+                                                                    <a class="btn-selected social-selected" ng-if="selected_networks['linkedin']" ng-click="select_social_network('linkedin',0)">Selected</a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('linkedin', 1)" ng-if="!edited_network['linkedin']"></a>
+                                                                    <a class="fa fa-edit" ng-click="edited_social_network('linkedin', 0)" ng-if="edited_network['linkedin']"></a>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="message-box" ng-if="selected_networks['linkedin'] && edited_network['linkedin']">
+                                                                    <label>Write something here</label>
+                                                                    <textarea class="form-control" ng-model="posts['linkedin'].title" placeholder="Write something here"></textarea>
+                                                                    <i class="fa fa-pencil"></i> {{posts['linkedin'].title.length}}
+                                                                </div>
+                                                                <div class="post-icons" ng-if="selected_networks['linkedin'] && edited_network['linkedin']">
+                                                                    <a class="icon-link" ng-click="select_tab_social('linkedin',0)" ng-class="{active: checkIsPostActive(0)}"></a>
+                                                                    <a class="icon-photo" ng-click="select_tab_social('linkedin',1)" ng-class="{active: checkIsPostActive(1)}"></a>
+                                                                    <a class="icon-video" ng-click="select_tab_social('linkedin',2)" ng-class="{active: checkIsPostActive(2)}"></a>
+                                                                </div>
+                                                                <uib-tabset active="seleced_social_tab['linkedin']" ng-if="selected_networks['linkedin'] && edited_network['linkedin']">
+                                                                    <uib-tab index="0">
+                                                                        <div class="url-box link-url-box">
+                                                                            <label>Paste url here</label>
+                                                                            <input type="url" placeholder="http://examle.com/post-url" ng-model="posts['linkedin'].link" class="form-control" value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="1">
+                                                                        <div class="image-box url-box">
+                                                                            <div class="row img-post-box" ng-hide="image_upload==0 || image_upload==1">
+                                                                                <div class="col-sm-6" ngf-select="upload($files,'linkedin',true)" ngf-multiple="true">Upload Image</div>
+                                                                                <div class="col-sm-6" ng-click="image_upload=0">Paste image link</div>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==1">
+                                                                                <label>Upload Image here</label>
+                                                                                <div class="dropzone" file-dropzone="[image/png, image/jpeg, image/gif]" file="image" file-name="imageFileName" data-max-file-size="3">
+                                                                                </div>
+                                                                                <form action>
+                                                                                    <input type="file" fileread="posts['linkedin'].image_url" class="drop-image">
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="url-box img-url-box" ng-show="image_upload==0">
+                                                                                <label>Paste image url here</label>
+                                                                                <input type="url" placeholder="http://examle.com/image.png" ng-model="posts['linkedin'].image_url" class="form-control" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                    <uib-tab index="2">
+                                                                        <div class="video-url-box url-box">
+                                                                            <label>Paste Video url here</label>
+                                                                            <input type="url" placeholder="https://www.youtube.com/watch?v=IVx6ZlksMJw" ng-model="posts['linkedin'].video_url" class="form-control"
+                                                                                value="">
+                                                                        </div>
+                                                                    </uib-tab>
+                                                                </uib-tabset>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="preview-box" ng-if="selected_networks['linkedin']">
+                                                            <div class="linkedin-preview-box">
+                                                                <span class="linkedin-logo">
+                                                                    <i class="fa fa-twitter"></i>
+                                                                </span>
+                                                                <h2>LinkedIn</h2>
+
+                                                                <p>{{posts['linkedin'].title}}</p>
+                                                                <p ng-if="posts['facebook'].image_url.length">
+                                                                    <strong>link:</strong> {{posts['linkedin'].link}}</p>
+                                                                <p ng-if="posts['facebook'].video_url.length">
+                                                                    <strong> Video link:</strong> {{posts['linkedin'].video_url}}</p>
+                                                            </div>
+                                                            <div class="preview-image" style="background:url('/img/image-placeholder.png') no-repeat; background-size:cover;">
+                                                                <img ng-src="{{posts['linkedin'].image_url }}" style="width:345px">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /LinkedIn Social network  -->
+                                                <div class="modal-footer">
+                                                    <div class="row">
+                                                        <div class="col-sm-7">
+                                                            <div class="pick-time" ng-hide="edit_status==0 && edit_post==true">
+                                                                <i class="fa fa-clock-o"></i>
+                                                                <!--   <input type="text" class="form-control time-input"> -->
+                                                                <input type="text" class="form-control input-sm" datetimepicker datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+                                                                    placeholder="" name="time" ng-model="schedule_time">
+                                                            </div>
+
+                                                            <!-- Add Post -->
+                                                            <button class="btn btn-default" ng-hide="edit_post" ng-click="post_share(0)">Save Draft</button>
+                                                            <button class="btn btn-primary" ng-click="post_share(1,schedule_time)" ng-hide="edit_post">Post</button>
+                                                            <button class="btn btn-info" ng-click="post_share(3)" ng-hide="edit_post">Queue</button>
+                                                            <!-- edit Post -->
+
+                                                            <button class="btn btn-default" ng-if="edit_status==0 && edit_post==true" ng-click="post_edit(0,'', edit_post_id)">Edit Draft</button>
+
+                                                            <button class="btn btn-success social-selected" ng-if="edit_status==0 && edit_post==true" ng-click="post_edit(0,'publish', edit_post_id)">Publish Post</button>
+
+                                                            <button class="btn btn-primary" ng-click="post_edit(2,schedule_time, edit_post_id)" ng-if="edit_status==2 && edit_post==true">Edit Post</button>
+                                                            <button class="btn btn-primary" ng-click="post_edit(1,schedule_time, edit_post_id)" ng-if="edit_status==1 && edit_post==true">Edit Post</button>
+                                                            <button class="btn btn-info" ng-if="edit_status==3 && edit_post==true" ng-click="post_edit(3,'', edit_post_id)">Edit Queue</button>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="alerts alert-success pubished-alert" ng-if="post_published">
+                                                                {{post_msg}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </uib-tab>
+                </uib-tabset>
+                </div>
+                </div>
+            </div>
+</section>

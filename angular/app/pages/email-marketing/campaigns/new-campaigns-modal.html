@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-1">
+  <div class="modal-content">
+    <form name="modal_action_form" ng-submit="submit_action_form()" novalidate>
+      <div class="modal-header">
+        <a class="close" ng-click="closemodal()">&times;</a>
+        <!--span ng-click="closemodal()">X</span-->
+        <p ng-if="edit_modal != true">Add New List</p>
+        <p ng-if="edit_modal == true">Edit List</p>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <label>Name</label>
+            <input type="text" class="form-control" ng-model="list_name" name="list_name" id="list_name" maxlength="50" required>
+          </div>
+        </div>
+
+        <div class="row mtop15" ng-if="edit_modal != true">
+          <div class="col-sm-12">
+            <label>Description</label>
+            <textarea class="form-control" ng-model="Obj.list_description" name="list_description" id="list_description" maxlength="500"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+        <button class="btn btn-success" ng-disabled="modal_action_form.$invalid || isDisabled" type="submit" ng-if="edit_modal != true">Create List</button>
+        <button class="btn btn-success" ng-disabled="modal_action_form.$invalid" type="submit" ng-if="edit_modal == true">Update List</button>
+      </div>
+    </form>
+  </div>
+</div>

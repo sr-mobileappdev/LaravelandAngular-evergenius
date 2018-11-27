@@ -1,0 +1,113 @@
+<section class="content-header">
+    <h1 class="box-title pull-left valign">
+        <span style="margin-right:6px;">
+            <i class="fa fa-phone"></i>
+        </span> Call Records </h1>
+    <article class="select-date pull-right">
+        <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date"
+            max="vm.max_date" />
+    </article>
+</section>
+<section class="content call-records">
+    <article class="section">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel">
+                    <div class="panel-heading">Twilio</div>
+                    <div class="panel-body">
+                        <div class="call-rail">
+                            <div class="chart">
+                                <canvas id="line" class="chart chart-line" chart-data="call_pie_values" chart-labels="call_pie_labels" chart-legend="false"
+                                    chart-series="series" chart-click="onClick" chart-colours="analyticsChartColours" width="464"
+                                    height="245" style="max-height: 245px" chart-options="CallsChartOptions">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel">
+                    <div class="panel-heading">Total Calls</div>
+                    <div class="panel-body">
+                        <div class="total-calls">
+                            <div class="row">
+                                <div class="total-calls-chart">
+                                    <div class="col-sm-5">
+                                        <div class="total-calls-graph">
+                                            <canvas id="doughnut" height="175" width="175" class="chart chart-doughnut" chart-data="call_widget_pie_value" chart-labels="call_widget_pie_labels"
+                                                chart-colours="CallsDonutChartcolors" chart-options="callOptionsdonut">
+                                            </canvas>
+                                        </div>
+                                        <div class="total-call-numbers">
+                                            {{call_widget_total_calls}}
+                                            <small>Total Calls</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="total-calls-legands">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <h2>Call Detail</h2>
+                                                <p class="answer-call ptop5">Answered Calls</p>
+                                                <p class="unanswer-call ptop5">Unanswered Calls</p>
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <h2>No. of Calls</h2>
+                                                <p class="answer-call">
+                                                    <i>{{call_widget_answered_calls}}</i>
+                                                </p>
+                                                <p class="unanswer-call">
+                                                    <i>{{call_widget_unanswered_calls}}</i>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <section class="content-header call-header">
+                    <h1>
+                        <span style="margin-right:6px;">
+                            <i class="fa fa-phone"></i>
+                        </span>Calls</h1>
+                    <div class="btn-right-header">
+                        <label>Filter:</label>
+                        <select class="form-control call-filter" name="filter_leads" ng-model="filter_leads" ng-init="filter_leads=3">
+                            <option value="3" ng-selected="true">All calls</option>
+                            <option value="1">Lead</option>
+                            <option value="0">Not a lead</option>
+                            <option value="2">Pending</option>
+                        </select>
+                    </div>
+                </section>
+                <div class="box box-info">
+                    <div class="box-body">
+                        <div class="row margin-bottom-20">
+                            <div class="col-md-6 ">
+                                <div class="btn-group pull-left" ng-show="vm.isdelseleted">
+                                    <a class="btn btn-sm btn-danger" ng-click="vm.multi_del()">
+                                        <i class="fa fa-ban"></i> Delete
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table datatable="" id="{{tableId}}" width="100%" class="table table-striped table-bordered" ng-if="displayTable" dt-options="dtOptions"
+                                dt-instance="vm.dtInstanceCallback" dt-columns="dtColumns"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

@@ -1,0 +1,31 @@
+<div class="modal-dialog modal-1">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a class="close" ng-click="closemodal()">&times;</a>
+
+            <h4 class="modal-title">SMS Broadcast Summary</h4>
+
+        </div>
+        <div class="modal-body ">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="summary-box opened">
+                        <img ng-src="/img/em-icons/icon-opened.png">
+                        <span>{{stats_data.totalSms}} </span> Total
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="summary-box clicked">
+                        <img ng-src="/img/em-icons/icon-clicked.png">
+                        <span>{{stats_data.deleverSms}}</span> Delivered
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+
+    </div>
+</div>

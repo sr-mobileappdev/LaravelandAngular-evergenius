@@ -1,0 +1,36 @@
+<section class="content-header">
+  <h1>
+    <span style="margin-right:6px;">
+      <i class="fa fa-clock-o"></i>
+    </span>Appointments</h1>
+  <div class="btn-right-header">
+
+    <button class="btn btn-success" ng-show="vm.can('add.apointments')" ng-click="add_appointment()">
+      <i class="fa fa-plus"></i>Add Appointment</button>
+
+  </div>
+  <ol class="breadcrumb">
+    <li>
+      <a ui-sref="app.landing">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">Appointments</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-info">
+        <div class="box-body table-responsive appointment-list">
+          <table datatable="" id="appointment_list" width="100%" class="table table-striped table-bordered" ng-if="vm.displayTable"
+            dt-instance="vm.dtInstanceCallback" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" dt-column-defs="dtColumnDefs"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script type="text/ng-template" id="add-appointment-modal.html">
+    
+</script>

@@ -1,0 +1,160 @@
+<section class="content-header">
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-send"></i>
+        </span>Social Connect</h1>
+</section>
+<section class="content social-page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="social-head">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="social-tabs">
+                            <ul>
+                                <li>
+                                    <a ui-sref="app.socialposts">Posts</a>
+                                </li>
+                                <li>
+                                    <a ui-sref="app.socialgeneratecontent">Generate Content</a>
+                                </li>
+                                <li class="selected">
+                                    <a ui-sref="app.socialconnectprofiles">Settings</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="btn-new-post">
+                            <a ui-sref="app.socialpostsadd" class="btn btn-primary">New Post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel connect-social">
+                <div class="panel-body">
+                    <h3>Connect your social profiles now.</h3>
+                    <ul>
+                        <li ng-if="!network_connects.facebook.connected">
+                            <span uib-tooltip="Facebook profile" tooltip-placement="bottom">
+                                <img src="img/icon-facebook.png" alt="" width="36" height="36"> Connect a facebook profile
+                            </span>
+                            <a href="{{network_connects.facebook.connect_url}}" class="btn btn-primary">Connect</a>
+                        </li>
+                        <li ng-if="network_connects.facebook.connected">
+                            <span uib-tooltip="Facebook profile" tooltip-placement="bottom">
+                                <img src="img/icon-facebook.png" alt="" width="36" height="36"> {{network_connects.facebook.details.user_name}} (Facebook Profile)
+                            </span>
+                            <a class="btn btn-primary connected" ng-click="vm.remove_network('facebook')">Disconnect</a>
+                        </li>
+                        <li ng-if="!network_connects.facebook_pages.connected">
+                            <span uib-tooltip="Facebook Page" tooltip-placement="bottom">
+                                <img src="img/icon-facebook.png" alt="" width="36" height="36"> Connect a facebook page
+                            </span>
+                            <a href="{{network_connects.facebook_pages.connect_url}}" class="btn btn-primary">Connect</a>
+                        </li>
+                        <li ng-if="network_connects.facebook_pages.connected">
+                            <span uib-tooltip="Facebook Page" tooltip-placement="bottom">
+                                <img src="img/icon-facebook.png" alt="" width="36" height="36"> {{network_connects.facebook_pages.details.user_name}} (Facebook Page)
+                            </span>
+                            <a class="btn btn-primary connected" ng-click="vm.remove_network('facebook_pages')">Disconnect</a>
+                        </li>
+
+                        <li ng-if="!network_connects.twitter.connected">
+                            <span uib-tooltip="Twitter Profile" tooltip-placement="bottom">
+                                <img src="img/icon-twitter.png" alt="" width="36" height="36"> Connect a twitter profile
+                            </span>
+                            <a href="{{network_connects.twitter.connect_url}}" class="btn btn-primary">Connect</a>
+                        </li>
+                        <li ng-if="network_connects.twitter.connected">
+                            <span uib-tooltip="Twitter profile" tooltip-placement="bottom">
+                                <img src="img/icon-twitter.png" alt="" width="36" height="36"> {{network_connects.twitter.details.user_name}}
+                            </span>
+                            <a class="btn btn-primary connected" ng-click="vm.remove_network('twitter')">Disconnect</a>
+                        </li>
+                        <li ng-if="!network_connects.google_plus.connected">
+                            <span uib-tooltip="Google plus profile" tooltip-placement="bottom">
+                                <img src="img/icon-google-plus.png" alt="" width="36" height="36"> Connect a google plus profile
+                            </span>
+                            <a href="{{network_connects.google_plus.connect_url}}" class="btn btn-primary">Connect</a>
+                        </li>
+                        <li ng-if="network_connects.google_plus.connected">
+                            <span uib-tooltip="Google plus profile" tooltip-placement="bottom">
+                                <img src="img/icon-google-plus.png" alt="" width="36" height="36"> {{network_connects.google_plus.details.user_name}}
+                            </span>
+                            <a href="" class="btn btn-primary connected" ng-click="vm.remove_network('google_plus')">Disconnect</a>
+                        </li>
+
+                        <li ng-if="!network_connects.linkedin.connected">
+                            <span uib-tooltip="LinkedIn" tooltip-placement="bottom">
+                                <img src="img/icon-linkedin-rank.png" alt="" width="36" height="36"> Connect a LinkedIn
+                            </span>
+                            <a href="{{network_connects.linkedin.connect_url}}" class="btn btn-primary">Connect</a>
+                        </li>
+                        <li ng-if="network_connects.linkedin.connected">
+                            <span uib-tooltip="LinkedIn profile" tooltip-placement="bottom">
+                                <img src="img/icon-linkedin-rank.png" alt="" width="36" height="36"> {{network_connects.linkedin.details.user_name}}
+                            </span>
+                            <a href="" class="btn btn-primary connected" ng-click="vm.remove_network('linkedin')">Disconnect</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="box-title">
+                <span style="margin-right:6px;">
+                    <i class="fa  fa-cogs"></i>
+                </span>Automatic Post Schedule</h3>
+            <div class="panel queue-settings">
+                <div class="panel-body">
+                    <form novalidate="" name="queue_settings">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="box-header">Select Days</p>
+                                <p>When would you like your posts to be sent? Schedule your times and we'll make sure your posts
+                                    are sent out even when you're asleep!</p>
+                            </div>
+                        </div>
+                        <div class="alert alert-success" ng-if="update_schedule_queue">Schedule updates successfully</div>
+                        <div class="row mtop15">
+                            <div class="col-md-12">
+
+                                <ul class="queue-days">
+                                    <li ng-repeat="day_v in days_list" ng-class="is_day_active(day_v)" ng-click="set_queue_day(day_v)">{{day_v}}</li>
+                                </ul>
+
+                                <button class="btn btn-success btn-add-time" ng-click="add_new_time()">
+                                    <i class="fa fa-clock-o"></i> Add Time</button>
+                            </div>
+                        </div>
+
+
+                        <div class="time-schedule" ng-repeat="w_time in schedule_times track by $index">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="time-label">Schedule Time {{$index + 1}}:
+                                        <span class="required">*</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="hidden" name="queue_time_{{$index}}" class="form-control" ng-model="parse_schdule_time[$index]" required="">
+                                    <div uib-timepicker ng-model="parse_schdule_time[$index]" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"
+                                        required></div>
+                                    <button class="btn btn-remove" ng-click="remove_week_time($index)">
+                                        <i class="fa fa-remove"></i>
+                                    </button>
+                                    <p ng-show="queue_settings.queue_time_{{$index}}.$error.required" class="help-block">Time is required.</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" ng-disabled="queue_settings.$invalid" ng-click="submit_queue_settings()" class="btn btn-primary">Save Settings</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</section>

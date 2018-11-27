@@ -1,0 +1,71 @@
+<section class="content-header">
+
+  <h1 class="box-title">
+    <span style="margin-right:6px;">
+      <i class="fa fa-vcard-o"></i>
+    </span>Dashboard </h1>
+  <div class="btn-right-header">
+    <a ui-sref="app.add-provider" class="btn btn-success">
+      <i class="fa fa-plus"></i>Add Provider</a>
+    <a ui-sref="app.importproviders" class="btn btn-success">
+      <i class="fa fa-plus"></i>Import Providers</a>
+  </div>
+  <ol class="breadcrumb">
+    <li>
+      <a ui-sref="app.landing">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">Dashobard</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-info">
+
+        <div class="box-body">
+          <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+            <h4>{{alert.title}}</h4>
+            <p>{{alert.msg}}</p>
+          </div>
+
+          <div class="contact-filters">
+            <div class="form-inline status-row">
+              <div class="form-group">
+                <label>
+                  Status
+                </label>
+
+                <select ng-model="select_status" class="form-control custom">
+                  <option value="">Select Status</option>
+                  <option value="publish">Publish</option>
+                  <option value="draft">Draft</option>
+                </select>
+
+              </div>
+              <div class="form-group">
+                <label>
+                  Claim Status
+                </label>
+
+                <select ng-model="select_claim_status" class="form-control custom">
+                  <option value="">Select Status</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Claim Request">Claim Request</option>
+                  <option value="Approved">Approved</option>
+                </select>
+
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="table-wrapper responsive">
+
+            <table datatable="" id="{{tableId}}" width="100%" class="table table-striped table-bordered" ng-if="vm.displayTable" dt-options="vm.dtOptions"
+              dt-columns="vm.dtColumns" dt-instance="vm.dtInstanceCallback"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

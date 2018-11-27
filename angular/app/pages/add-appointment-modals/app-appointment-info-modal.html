@@ -1,0 +1,136 @@
+<div class="add-appointment">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+                <h4 class="modal-title" ng-if="!reschuleOnly">Add Appointment</h4>
+                <h4 class="modal-title" ng-if="reschuleOnly">Rescheduled Appointment</h4>
+            </div>
+            <form name="add_app_modal" ng-submit="submit_appointment(true)">
+                <div class="modal-body">
+                    <div class="line-info">
+                        <span>Contact Detail</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Phone:</label>
+                            {{contact_info.phone_country_code}} {{contact_info.mobile_number.replace(contact_info.phone_country_code, "") | tel}}
+                        </div>
+                        <div class="col-sm-6">
+                            <label>First Name:</label>
+                            {{contact_info.first_name}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Last Name:</label>
+                            {{contact_info.last_name}}
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Email:</label>
+                            {{contact_info.email}}
+                        </div>
+                    </div>
+                    <div class="line-info lead-info-gap">
+                        <span>Book Appointment</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Reason</label>
+                            <input type="text" class="form-control" ng-model="appointment_reason" name="appointment_reason" placeholder="Appointment Reason"
+                                required="" tabindex="1">
+                            <!-- <select class="form-control" ng-model="appointment_reason" >
+						<option ng-repeat="provider in all_providers track by $index" value="{{provider.id}}">{{provider.name}}</option>
+					</select> -->
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Scheduling Method</label>
+                            <select class="form-control" ng-model="scheduling_method" required="" tabindex="2">
+                                <option value="web" selected="">Web</option>
+                                <option value="phone">Phone</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Patient Type</label>
+                            <select class="form-control" ng-model="contact_type" required="" tabindex="2">
+                                <option value="new" selected="">New</option>
+                                <option value="existing">Existing</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Provider</label>
+                            <select ng-disabled="provider_disable" class="form-control" ng-model="appointment_provider" ng-change="change_provider()"
+                                required="" tabindex="3">
+                                <option ng-repeat="provider in all_providers track by $index" value="{{provider.id}}">{{provider.name}}</option>
+                            </select>
+                            <div class="alert alert-danger" ng-show="provider_error">{{provider_error}}</div>
+                        </div>
+                        <div class="" ng-show="provider_time_slots" ng-hide="calendar_view">
+                            <div class="" ng-show="appointment_provider.length">
+                                <div class="col-sm-12 mtop15">
+                                    <label>Appointment Slot</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <select class="form-control" ng-model="selectedDay" ng-change="change_provider()" ng-required="!calendar_view" tabindex="4">
+                                            <option ng-repeat="app_day in app_days track by $index" value="{{app_day}}">{{app_day}}</option>
+                                        </select>
+                                        <!-- <select class="form-control" id="selectedDay" ng-model="selectedDay" ng-options="date for (date,val) in provider_slots track by day_id"> -->
+                                        </select>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" ng-show="selectedDay.length">
+                                    <div class="input-group">
+                                        <select class="form-control" ng-model="selectedTime" ng-required="!calendar_view" tabindex="5">
+                                            <option ng-repeat="time in provider_slots[selectedDay] track by $index" value="{{$index}}" ng-value="$index">{{time.start_time}}-{{time.end_time}}</option>
+                                        </select>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" ng-show="calendar_view">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label>Appointment Slot</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" disabled="true" ng-model="app_date" name="" tabindex="6">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" disabled="true" ng-model="app_time" name="" tabindex="7">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-success" ng-show="success_view &&  !rescheduleData">Appointment Added Successfully ...</div>
+                <div class="alert alert-success" ng-show="success_view && reschuleOnly">Appointment Rescheduled Successfully ...</div>
+                <div class="modal-footer">
+                    <input type="submit" ng-disabled="!add_app_modal.$valid" class="btn btn-primary" value="Submit" ng-if="!rescheduleData">
+                    <input type="submit" ng-disabled="!add_app_modal.$valid" class="btn btn-primary" value="Reschedule" ng-if="rescheduleData">
+                    <button class="btn btn-cancel" type="button" data-dismiss="modal" ng-click="closemodal()">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

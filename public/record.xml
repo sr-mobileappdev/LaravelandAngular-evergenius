@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- page located at http://example.com/voicemail_record.xml -->
+<Response>
+    <Say>
+        Please leave a message at the beep. 
+        Press the star key when finished. 
+    </Say>
+    <Record 
+        action="http://evergeniusdev.customerdemourl.com/call/incoming/call-back"
+        method="GET" 
+        maxLength="20"
+        finishOnKey="*"
+        transcribeCallback="true"
+        />
+    <Say>I did not receive a recording</Say>
+</Response>

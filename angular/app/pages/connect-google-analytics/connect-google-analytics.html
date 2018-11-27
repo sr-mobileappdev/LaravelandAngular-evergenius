@@ -1,0 +1,54 @@
+<section class="content-header">
+</section>
+<section class="content import-contacts-page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/ng-template" id="/analytic-modal.html"> 
+<div class="modal-dialog">
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+            <h4 class="modal-title">All Google Analytics Sites</h4>
+        </div>
+    
+            <div class="modal-body social-page social-page-ui">
+                <div class="from-group">
+                    <input type="textbox" class="form-control" placeholder="Search here.." ng-model="query">
+                </div>
+               
+                <ul>
+                    <li ng-repeat="list in analyticlist | filter:{name:query}">
+                        <div class="row" style="margin-top: 0px">
+                        <div class="col-md-6">
+                        <span uib-tooltip="{{list.name}}" tooltip-placement="bottom">
+                            {{list.name}}
+                                    </span>
+                        </div>
+                        <div class="col-md-6">
+                        <button class="btn btn-primary" ng-click="integrate(list.id)">Select</button>
+                        </div>
+                        </div>
+                    </li>
+                    <li ng-if="!analyticlist.length">Accounts not found.</li>
+</ul>
+             </div>
+           
+            <div class="modal-footer">
+               
+                <button class="btn btn-cancel" type="button" data-dismiss="modal" ng-click="closemodal()">Cancel</button>
+            </div>
+    
+    </div>
+</div>
+ <div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+		<img src="../../img/loading_evergenius.gif" alt="loading..">
+		<h3>Loading....</h3>
+	</div>
+</script>

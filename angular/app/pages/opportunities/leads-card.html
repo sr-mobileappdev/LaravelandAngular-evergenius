@@ -1,0 +1,27 @@
+<ul dnd-list="list" class="chat-scrollbar" dnd-allowed-types="['itemType']" dnd-drop="myCallback(event, index, item, external, type, 'itemType',StageId)"
+    ng-show="list_show[StageId]">
+
+    <li ng-repeat="item in list" dnd-draggable="item" dnd-moved="list.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="models.selected = item"
+        ng-class="{'selected': models.selected === item}" dnd-type="'itemType'">
+        <div class="list_col1" ui-sref="app.viewcontact({contactId: item.contact_id})">
+            <h6>
+                <div class="lead-contact-name">{{item.label}}</div>
+                <i class="badge" ng-class="item.actionClass" ng-if="item.actionTaken == 0">New</i>{{item.action_taken}}
+                <span>{{item.ltv===null ? '$0' : '$'+ item.ltv}}</span>
+            </h6>
+            <p ng-if="item.actionTaken != 0" class="profile-image">
+                <img src="{{item.assignee_avatar?item.assignee_avatar:'img/img-profile.png'}}"> {{item.assignee_name}} </p>
+            <p class="created-on">
+                <b>Created on:</b>{{item.actionTime}}
+                <br>
+                <span ng-if="item.lead_action_time != '-'">
+                    <b>Last action:</b> {{item.lead_action_time}}</span>
+            </p>
+        </div>
+        <small class="task-counter" ng-if="item.actionTaken != 0">{{item.tasks_count}} tasks</small>
+        <div class="btn-addtask">
+            <button class="btn btn-primary " ng-if="item.actionTaken == 0" ng-click="action_modal(item)" data-toggle="modal"
+                data-target="#add-note" ng-show="vm.can('lead.manage.tasks')">Add task</button>
+        </div>
+    </li>
+</ul>

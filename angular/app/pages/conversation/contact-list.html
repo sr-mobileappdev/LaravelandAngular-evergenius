@@ -1,0 +1,62 @@
+<div class="chat-section">
+        <div class="chat-header visible-sm visible-xs">
+                <h3>Conversations</h3>
+        </div>
+        <div class="search visible-sm visible-xs">
+                <input type="search" ng-change="searchContact(text)" ng-model="searchKeyword" class="form-control" placeholder="Search here....">
+                <a ng-click="action_modal()">
+                        <i class="fa fa-plus"></i>
+                </a>
+        </div>
+        <div class="chat-head visible-sm visible-xs">
+                <h2>contacts</h2>
+        </div>
+
+        <div class="contact-chat">
+                <div class="chat-head hidden-sm hidden-xs">
+                        <h2>contacts</h2>
+                </div>
+                <div class="filters hidden-sm hidden-xs">
+                        <div class="search">
+                                <img src="img/icon-search1.png">
+                                <input type="search" ng-change="searchContact(text)" ng-model="searchKeyword" class="form-control" placeholder="Search here....">
+                                <a ng-click="action_modal()" style="margin-right: 10px">
+                                        <i class="fa fa-plus"></i>
+                                </a>
+                        </div>
+
+                </div>
+                <div class="chat-profiles chat-scrollbar">
+                        <ul ng-hide="loading_contacts">
+                                <li ng-class="{'active':list.not_seen_count,'current_chat':list.contact_id==contact_details.id}" ng-repeat="list in contactlist"
+                                        ng-if="contactlist.length" ng-click="get_conversation($index)">
+
+                                        <div class="icon-profile">
+                                                <div class="icon-name profile-circle">
+                                                        <h2>{{getShortName(list.contact_name)}}</h2>
+                                                </div>
+                                                <div class="chat-list-name">
+                                                        <h2>{{list.contact_name | limitTo: 10}} {{list.contact_name.length >
+                                                                10 ? '..' : ''}}
+                                                                <div>
+                                                                        <small class="convotime" ng-if="list.sent_time">{{list.sent_time | astimeDiff}}</small>
+                                                                        <small class="list-phone-number">{{country_code(list.phone_number) | tel}}</small>
+                                                        </h2>
+                                                        </div>
+                                                </div>
+                                                <p class="contact-list-des">{{list.last_sms | limitTo: 62}} {{list.last_sms.length > 62 ? '...' : ''}}
+                                                        <!-- <em class="badge" ng-if="list.not_seen_count">{{list.not_seen_count}}</em> -->
+                                                </p>
+                                </li>
+                                <li class="no-data" ng-if="!contactlist.length">Data not found.</li>
+
+                        </ul>
+                        <div class="loading_conversation_contact" ng-show="loading_contacts">
+                                <img src="/img/loading_evergenius.gif" alt="loading">
+                                <div>Loading..</div>
+                        </div>
+
+                        </div>
+
+                </div>
+        </div>

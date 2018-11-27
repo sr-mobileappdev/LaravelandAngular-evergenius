@@ -1,0 +1,143 @@
+<!-- Modal content-->
+<div class="modal-content add-lead-modal">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="closemodal()">&times;</button>
+        <h4 class="modal-title">Add Opportunity</h4>
+    </div>
+    <form name="modalForm" novalidate>
+        <div class="modal-body modal-lead">
+            <div class="alerts alert-success" ng-show="lead_succcess_msg">Lead has been added successfully.</div>
+            <div class="alerts alert-danger" ng-show="lead_error">{{lead_error_msg}}</div>
+            <div class="line-info">
+                <span>Lead Info</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Stage</label>
+                    <select class="form-control custom" ng-model="stage_id">
+                        <option ng-repeat="stage in stages track by $index" ng-selected="stage.id == stage_id" ng-value="stage.id">{{stage.title}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <label>LTV Value</label>
+                            <input placeholder="Enter Value" name="ltv_value" maxlength="5" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" type="number" class="form-control"
+                                ng-model="user.ltv">
+                        </div>
+                        <div class="col-sm-4 pt30">USD</div>
+                    </div>
+                    <p ng-show="modalForm.ltv_value.$invalid && (modalForm.ltv_value.$touched)" class="help-block">Please enter valid LTV value.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Services</label>
+                    <select class="form-control custom" ng-model="services_id">
+                        <option ng-repeat="services in lead_services track by $index" ng-selected="services_id == services.id" ng-value="services.id">{{services.name}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label>Lead Type</label>
+                    <select class="form-control custom" ng-model="lead_typ">
+                        <option ng-value="0" value="0" ng-selected>New</option>
+                        <option ng-value="1" value="1">Existing</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="line-info">
+                <span>Contact Info</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 autocontactlist" ng-class="{ 'has-error': modalForm.contact_name.$invalid }">
+                    <label>Contact Name</label>
+                    <input type="text" class="form-control" placeholder="Add Contact Name" ng-model="user.contactname" name="contact_name" maxlength="25"
+                        ng-disabled="contact_dis" autocomplete="false">
+                    <p ng-show="modalForm.contact_name.$error.required && (modalForm.contact_name.$touched)" class="help-block">Name is required.</p>
+                    <div class="search-filter search-filter8" ng-if=" newdiv == true">
+                        <ul class="search-result-bx" ng-if="contactSearchResult.length > 0">
+                            <li ng-repeat="item in contactSearchResult" ng-if="item.lead == null">
+                                <a ng-click="hideme(item)">
+                                    <div class="search-bx-item">
+                                        <span class="search-bx-title">
+                                            <i class="fa fa-user"></i>{{item.fullname}}
+                                            <span class="search-bx-email">{{item.email}}</span>
+                                        </span>
+                                        <span class="search-bx-phn">
+                                            <i class="fa fa-phone"></i> {{item.mobile_number}}</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>Assignee</label>
+                    <select class="form-control custom" ng-model="assignees_id">
+                        <option ng-repeat="assignees in lead_assignees track by $index" ng-selected="assignees.id == assignees_id" ng-value="assignees.id">{{assignees.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6" ng-class="{ 'has-error': modalForm.email.$invalid && ( formSubmitted || modalForm.email.$touched) }">
+                    <label>Email</label>
+                    <input type="email" maxlength="50" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control" placeholder="Email"
+                        ng-model="user.email" name="email" required ng-disabled="contact_dis">
+                    <p ng-show="modalForm.email.$error.required && (modalForm.email.$touched)" class="help-block">Email is required.</p>
+                    <span style="color:Red" ng-show="modalForm.email.$dirty&&modalForm.email.$error.pattern">Please Enter Valid Email</span>
+                </div>
+                <div class="col-sm-6" ng-class="{ 'has-error': modalForm.phone.$invalid && ( modalForm.phone.$touched) }">
+                    <label>Phone</label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select class="form-control" ng-model="country_code" style="min-width: 110px;">
+                                <option ng-repeat="code in country_codes" ng-selected="country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code">{{code.code}}({{code.dial_code}})
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" phone-input ng-maxlength="16" maxlength="16" ng-minlength="10" minlength="10" class="form-control" placeholder="Phone"
+                                name="phone" ng-model="user.phone" required ng-disabled="contact_dis">
+                        </div>
+                    </div>
+                    <p ng-show="modalForm.phone.$error.required && (modalForm.phone.$touched)" class="help-block">Phone is required.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Source</label>
+                    <div angucomplete-alt id="ex6" placeholder="Search Source" pause="500" selected-object="selectedSource" remote-url="/api/contacts/find-source?s="
+                        remote-url-request-formatter="remoteUrlRequestFn" remote-url-data-field="items" title-field="term_value"
+                        description-field="term_value" minlength="2" maxlength="25" input-class="form-control form-control-small"
+                        match-class="highlight" template-url="source-template.html" initial-value="" tabindex="19">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>Tags</label>
+                    <tags-input ng-model="selectedTags" add-on-paste="true" tabindex="20">
+                        <auto-complete source="loadTags($query)"></auto-complete>
+                    </tags-input>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn btn-primary " ng-click="closemodal()">Cancel</a>
+                <input type="submit" class="btn btn-default" ng-disabled="modalForm.$invalid ||  add_disable" value="Add" ng-click="create_form(user)">
+            </div>
+    </form>
+    </div>
+    <script type="text/ng-template" id="source-template.html">
+        <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+            <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectSource" maxlength="25" />
+            <div class="angucomplete-dropdown" ng-show="showDropdown">
+                <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+                <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                   <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                    <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+                 </div>
+                <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                    <div class="angucomplete-title"><strong>{{ searchStr }}</strong> will be added as new source.</div>
+                </div>
+            </div>
+        </div>
+    </script>

@@ -1,0 +1,123 @@
+<section class="content-header">
+  <h1>
+    <span style="margin-right:6px;">
+      <i class="fa fa-edit"></i>
+    </span>Edit Staff</h1>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+        </div>
+        <form class="form-horizontal" name="staffAddForm" ng-submit="vm.save(staffAddForm.$valid)" novalidate>
+          <div class="box-body">
+            <div ng-if="vm.alerts" ng-show="show_alert" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+              <h4>{{alert.title}}</h4>
+              <p>{{alert.msg}}</p>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-4 col-md-3 col-lg-3 control-label">Name:</label>
+              <div class="col-sm-8 col-md-6">
+                <input max="25" maxlength="25" type="text" class="form-control" maxlength="40" ng-model="vm.userInfo.data.name" name="name"
+                  name="Name" placeholder="Name" required tabindex="1">
+                <p ng-show="staffAddForm.name.$error.required && ( vm.formSubmitted || staffAddForm.name.$touched)" ng-maxlength="20" maxlength="26"
+                  class="help-block">Name is required.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-4 col-md-3 col-lg-3 control-label">Role:</label>
+              <div class="col-sm-8 col-md-6">
+                <select class="form-control" ng-model="vm.role_id" name="role_id" tabindex="2" ng-disabled="vm.userInfo.data.is_last_admin">
+                  <option ng-repeat="x in userroles" value="{{x.id}}" ng-selected="vm.role_id == x.id" ng-if="x.name!='Doctors'">{{x.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-4 col-md-3 col-lg-3 control-label">Phone:</label>
+              <div class="col-sm-2 col-md-2">
+                <select class="form-control" ng-model="vm.userInfo.data.phone_country_code">
+                  <option ng-repeat="code in country_codes" ng-selected="country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code">{{code.code}}({{code.dial_code}})
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-sm-6 col-md-4">
+                <input type="text" phone-input class="form-control" ng-model="vm.userInfo.data.phone" name="phone" placeholder="Phone" required
+                  tabindex="3">
+                <p ng-show="staffAddForm.phone.$error.required && ( vm.formSubmitted || staffAddForm.phone.$touched)" class="help-block">Phone is required.</p>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-4 col-md-3 col-lg-3 control-label">Email:</label>
+              <div class="col-sm-8 col-md-6">
+                <input type="email" class="form-control" maxlength="50" ng-model="vm.userInfo.data.email" name="email" placeholder="Email"
+                  required tabindex="4">
+                <p ng-show="staffAddForm.email.$error.required && ( vm.formSubmitted || staffAddForm.email.$touched)" class="help-block">Email is required.</p>
+                <p ng-show="staffAddForm.email.$error.email && ( vm.formSubmitted || staffAddForm.email.$touched)" class="help-block">Enter valid email.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-4 col-md-3 col-lg-3 control-label">Password:</label>
+              <div class="col-sm-8 col-md-6">
+                <input type="password" id='pw1' ng-maxlength="12" maxlength="12" ng-minlength="6" minlength="6" class="form-control" ng-model="vm.password"
+                  name="password" placeholder="Password" tabindex="5">
+                <p ng-show="staffAddForm.password.$error.required && ( vm.formSubmitted || staffAddForm.password.$touched)" class="help-block">Password is required.</p>
+
+                <p ng-show="(staffAddForm.password.$error.maxlength || staffAddForm.password.$error.minlength)" class="help-block">Length of password should 6 to 12 characters</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-4 col-md-3 col-lg-3 control-label">Confirm Password:</label>
+              <div class="col-sm-8 col-md-6">
+                <input type="password" id='pw1' ng-maxlength="12" maxlength="12" class="form-control" ng-model="vm.confirm_password" name="confirm_password"
+                  placeholder="Confirm Password" tabindex="6">
+
+                <p ng-show="staffAddForm.confirm_password.$error.required && ( vm.formSubmitted || staffAddForm.confirm_password.$touched)"
+                  class="help-block">Confirm Password is required.</p>
+                <p ng-show="(staffAddForm.confirm_password.$error.maxlength || staffAddForm.confirm_password.$error.minlength)" class="help-block">Length of password should 6 to 12 characters</p>
+                <span ng-show="(vm.password !== vm.confirm_password)  && ( vm.formSubmitted || staffAddForm.confirm_password.$dirty)" class="help-block">Password mismatch</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="enable_roundrobin" class="col-sm-4 col-md-3 col-lg-3 control-label">
+                Auto Assign Opportunities
+              </label>
+              <div class="col-sm-8 col-md-6">
+                <label class="switch">
+                  <input ng-model="vm.userInfo.data.send_lead " ng-true-value="'1'" ng-false-value="0" name="vm.send_lead" value="{{vm.userInfo.data.send_lead}}"
+                    type="checkbox" class="flat-red">
+                  <div class="slider round"></div>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-4 col-md-3 col-lg-3 control-label">Profile Photo: </label>
+              <div class="col-sm-8 col-md-6">
+                <!-- <div  ngf-select="upload($files,'facebook',true)" ngf-multiple="true">Upload a photo</div> -->
+                <div class="photo-container">
+                  <input type="file" ngf-select="upload($files,true)" ngf-multiple="true" ng-model="imageSrc" ng-if="image_path.length ==null || image_path.length == '' ">
+                  <img ng-src="{{image_path}}" style="width:200px; height:200px;" ng-if="image_path.length > 0">
+                  <a href="" class="btn btn-primary" ng-click="delete_photo()" ng-if="image_path.length > 0">
+                    <i class="fa fa-close"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="box-footer">
+            <a ui-sref="app.managestaff" class="btn btn-primary">
+              <i class="fa fa-angle-left"></i> Back</a>
+            <button type="submit" class="btn btn-default pull-right" ng-disabled="staffAddForm.$invalid || (vm.password !== vm.confirm_password && staffAddForm.password.$touched)">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

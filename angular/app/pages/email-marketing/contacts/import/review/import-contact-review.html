@@ -1,0 +1,64 @@
+<section class="content-header">
+
+	<h1 class="box-title">
+		<span style="margin-right:6px;">
+			<i class="fa fa-envelope"></i>
+		</span> Import Contacts</h1>
+
+	<ol class="breadcrumb">
+		<li>
+			<a ui-sref="app.landing" href="#/">
+				<i class="fa fa-dashboard"></i> Home</a>
+		</li>
+		<li class="active">Contacts</li>
+	</ol>
+</section>
+<section class="content">
+	<article class="section">
+
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+
+				<div class="box box-primary import-contacts">
+					<div class="box-header">
+						Import Contacts
+					</div>
+					<div class="box-body">
+						<div id="error_class"></div>
+						<div class="import-contacts-container">
+							<div class="import-steps">
+								<ul>
+									<li class="barprogress barprogress-completed">UPLOAD
+										<span>UPLOAD</span>
+									</li>
+									<li class="barprogress barprogress-completed">MAP COLUMNS
+										<span>MAP COLUMNS</span>
+									</li>
+									<li class="barprogress barprogress-completed">REVIEW
+										<span>REVIEW</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+
+						<div class="table-responsive">
+							<table datatable="" id="contact_table" width="100%" class="table table-striped table-bordered" ng-if="vm.displayTable" dt-instance="vm.dtInstanceCallback"
+							 dt-options="vm.dtOptions" dt-columns="vm.dtColumns"></table>
+						</div>
+						<div class="box-footer">
+							<a onclick="history.back()" class="btn btn-primary">
+								<i class="fa fa-angle-left"></i> Back</a>
+							<button type="button" class="btn btn-primary pull-right" ng-click="savedata()">Import</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+				<img src="../../img/loading_evergenius.gif" alt="loading..">
+				<h3>Loading....</h3>
+			</div>
+		</div>
+
+	</article>
+</section>

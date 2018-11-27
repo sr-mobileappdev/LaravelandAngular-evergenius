@@ -1,0 +1,118 @@
+<style>
+    .form-horizontal .form-group {
+        margin-bottom: 0;
+    }
+</style>
+
+<section class="content-header">
+    <h1 class="box-title">
+        <span style="margin-right:6px;">
+            <i class="fa fa-vcard-o"></i>
+        </span>Contacts
+        <small>Imports all Contatcs Here</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <span style="margin-right:6px;">
+                    <i class="fa fa-dashboard"></i>
+                </span> Home</a>
+        </li>
+        <li class="active">Contacts Lists</li>
+    </ol>
+</section>
+<section class="content import-contacts-page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <h3 class="box-title">Import Contacts</h3>
+                </div>
+                <div class="box-body">
+
+                    <form class="form-horizontal" name="permissionForm" ng-submit="vm.save(permissionForm.$valid, permissionForm)" novalidate>
+                        <div class="box-body">
+                            <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                                <h4>{{alert.title}}</h4>
+                                <p>{{alert.msg}}</p>
+                            </div>
+                            <div ng-if="vm.success_upload_file" class="alert alert-success">
+                                <h4>Upload Success</h4>
+                                <p>Contacts uploaded successfully</p>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error': permissionForm.name.$invalid && ( vm.formSubmitted || permissionForm.name.$touched) }">
+                                <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">CSV File</label>
+                                <div class="col-sm-12">
+                                    <input type="file" name="contact_file" file-model="vm.contact_file" ng-model="vm.contact_file" class="file-upload">
+                                    <p ng-show="permissionForm.contact_file.$error.required && ( vm.formSubmitted || permissionForm.contact_file.$touched)" class="help-block">CSV file is required.</p>
+                                    <button type="submit" class="btn btn-primary">Import</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div>
+                            <strong>Note:</strong> Download sample csv
+                            <a href="../demo-contacts.csv">file</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-info" style="padding:10px" ng-show="vm.show_import_table">
+                <div class="box-header with-border">
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <p style=" font-size:18px; margin-top:15px;">
+                    <span class="new" style="color:rgb(249,146,101);">{{vm.success_upload}} </span> New Contacts
+                    <span class="new" style="color:rgb(249,146,101); margin-left:10px;">{{vm.already_exists}}</span> Already Exist
+                    <span class="new" style="color:rgb(249,146,101); margin-left:10px;">{{vm.failed_contacts}}</span> Failed</p>
+                <table width="100%" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in vm.import_table_data">
+                            <td>{{x.first_name}} {{x.last_name}}</td>
+                            <td>{{x.email}} </td>
+                            <td>{{x.mobile_number}} </td>
+                            <td>{{x.city}} </td>
+                            <td>{{x.state}} </td>
+                            <td>
+                                <div ng-switch="x.status">
+                                    <small ng-switch-when="Added" class="label pull-right bg-green">New</small>
+                                    <small ng-switch-when="Exist" class="label pull-right bg-red">Already Exists</small>
+                                    <small ng-switch-when="Failed" class="label pull-right bg-red">Failed</small>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <a ui-sref="app.contacts" class="btn btn-primary btn-blue">
+                <i class="fa fa-angle-left"></i> Back</a>
+        </div>
+    </div>
+</section>

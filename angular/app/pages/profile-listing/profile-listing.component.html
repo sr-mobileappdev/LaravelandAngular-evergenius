@@ -1,0 +1,58 @@
+<section class="content-header">
+	<h1>
+		<span style="margin-right:6px;">
+			<i class="fa fa-user"></i>
+		</span>{{vm.profile_listing_data.response.count}} Profiles</h1>
+
+</section>
+
+<section class="content">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="profile-table">
+				<div class="panel">
+					<table class="table" cellpadding="0" cellspacing="0" width="100%">
+						<tr>
+							<th width="30%">Name</th>
+							<!-- <th width="35%">Profile Name</th> -->
+							<th width="15%" style="text-align: center;">Status</th>
+							<th width="20%" style="text-align: center;">View</th>
+						</tr>
+					</table>
+
+					<div id="healthprofiles" class="panel-collapse collapse in">
+						<table class="table" cellpadding="0" cellspacing="0" width="100%">
+							<tr ng-repeat="list in vm.profile_listing_data.response.listings | orderBy : 'publisherId' ">
+								<td width="30%" class="icon-profile">
+									<span class="yext-listing-icon yext-{{list.publisherId | lowercase}}"> </span>
+									{{vm.publisherName(list.publisherId) }}</td>
+								<!-- <td width="35%"></td> -->
+								<td width="15%" align="center">
+									<img src="img/img-live.png" width="20" height="26" alt="Live" tooltip-placement="top" uib-tooltip="Live" ng-if="list.status=='LIVE'">
+									<img src="img/waiting.png" width="20" height="26" alt="Waiting on yext" tooltip-placement="top" uib-tooltip="Waiting on Yext"
+									 ng-if="list.status=='WAITING_ON_YEXT'" title="Waiting on Yext" alt="Waiting on Yext">
+									<img src="img/wating_on_customer.png" width="20" height="26" alt="" ng-if="list.status=='WAITING_ON_CUSTOMER'" title="Waiting on Yext"
+									 alt="Waiting on Customer" tooltip-placement="top" uib-tooltip="Waiting on Customer">
+									<img src="img/waiting_on_publisher.png" width="20" height="26" alt="" ng-if="list.status=='WAITING_ON_PUBLISHER'" title="Waiting on Publisher"
+									 alt="Waiting on Publisher" tooltip-placement="top" uib-tooltip="Waiting on Publisher">
+
+									<img src="img/unavailable.png" width="20" height="26" alt="" ng-if="list.status=='UNAVAILABLE'" title="Unavailable" alt="Unavailable"
+									 tooltip-placement="top" uib-tooltip="Unavailable">
+								</td>
+								<td style="text-align: center;" width="20%">
+									<a ng-if="list.listingUrl" href="{{list.listingUrl}}" class="btn btn-primary bnt-profile" title="View Profile" target="_blank">View Profile</a>
+									<a ng-if="!list.listingUrl" disabled class="btn btn-primary bnt-profile" target="_blank" title="View Profile">View Profile</a>
+								</td>
+							</tr>
+
+							<tr ng-if="!vm.profile_listing_data.response.length">
+								<p style="text-align:center">No record available </p>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,87 @@
+<section class="content-header">
+
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-users"></i>
+        </span>Company Smtp Settings</h1>
+    <div class="btn-right-header double-buttons">
+        <a ui-sref="app.notificationssettings" class="btn btn-primary">
+            <i class="fa fa-bell"></i> Notification Settings</a>
+    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a ui-sref="app.userlist">Company Settings</a>
+        </li>
+        <li class="active">Email Settings</li>
+    </ol>
+
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box box-primary">
+                <form class="form-horizontal" name="companyForm" ng-submit="save(companyForm.$valid)" novalidate>
+                    <div class="box-body">
+                        <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                            <h4>{{alert.title}}</h4>
+                            <p>{{alert.msg}}</p>
+                        </div>
+                        <div class="setting-box">
+                            <h4>E-Mail Settings</h4>
+                            <div class="row">
+                                <div class="col-sm-6" ng-class="{ 'has-error': companyForm.sendgrid_api_key.$invalid && ( vm.formSubmitted || companyForm.sendgrid_api_key.$touched) }">
+                                    <label for="inputEmail3" class="control-label">SendGrid Api Key</label>
+                                    <div>
+                                        <input type="text" class="form-control" ng-model="companyeditdata.data.sendgrid_api_key" name="sendgrid_api_key" placeholder="Api key"
+                                            required tabindex="1">
+                                        <p ng-show="companyForm.sendgrid_api_key.$error.required && ( vm.formSubmitted || companyForm.sendgrid_api_key.$touched)"
+                                            class="help-block">Api key is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3" class="control-label">From Name</label>
+                                    <div>
+                                        <input type="text" class="form-control" ng-model="companyeditdata.data.em_from_name" name="em_from_name" placeholder="From Name"
+                                            tabindex="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3" class="control-label">From Email</label>
+                                    <div>
+                                        <input type="text" class="form-control" ng-model="companyeditdata.data.em_from_email" name="em_from_email" placeholder="From Email"
+                                            tabindex="1">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="inputEmail3" class="control-label">Use a Webhook to track Spam Complaints and Bounces Setup with SendGrid
+                                        <a href="https://sendgrid.com/docs/User_Guide/Settings/mail.html"
+                                            target="_BLANK" class="alert-color"> learn how...</a>
+                                    </label>
+                                    <div>
+
+                                        <p ng-show="companyForm.sendgrid_api_key.$error.required && ( vm.formSubmitted || companyForm.sendgrid_api_key.$touched)"
+                                            class="help-block">Api key is required.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-default pull-right" ng-disabled="file_error">Save</button>
+                        </div>
+                </form>
+                </div>
+            </div>
+</section>

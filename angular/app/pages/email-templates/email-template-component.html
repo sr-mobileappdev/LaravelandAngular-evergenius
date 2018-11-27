@@ -1,0 +1,35 @@
+<section class="content-header">
+
+    <h1 class="box-title">
+        <span style="margin-right:6px;">
+            <i class="fa fa-vcard-o"></i>
+        </span>Email Templates</h1>
+
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-vcard-o"></i> Home</a>
+        </li>
+        <li class="active">Email Templates</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+
+                <div class="box-body">
+                    <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+                    <div class="table-wrapper responsive">
+
+                        <table datatable="" id="emailtemplate" width="100%" class="table table-striped table-bordered" ng-if="vm.displayTable" dt-options="vm.dtOptions"
+                            dt-columns="vm.dtColumns" dt-instance="vm.dtInstanceCallback"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

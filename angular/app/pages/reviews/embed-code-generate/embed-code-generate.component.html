@@ -1,0 +1,129 @@
+<section class="site-content">
+    <article class="content-header">
+        <h2> Create Display Reviews Widget</h2>
+        <div class="panel">
+            <div class="review-settings display-review">
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label>Type/Position</label>
+
+                                <select ng-model="widgetFields.widgetStyles" ng-options="style.val as style.title for style in widget_styles" class="form-control">
+                                </select>
+
+                            </div>
+
+                            <div class="form-group" id="bodyBackground">
+                                <label>Body Background</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.bodyBackground">
+                            </div>
+
+                            <div class="form-group" id="bodyTextColor">
+                                <label>Body Text Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.textColor">
+                            </div>
+
+                            <div class="form-group" id="bodyTextSize">
+                                <label>Body Text Size</label>
+                                <select ng-model="widgetFields.bodyTextSize" class="form-control">
+                                    <option ng-repeat="x in font_sizes" value="{{x}}">{{x}}</option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="headerb">
+                                <label>Header Background Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.headerBg">
+                            </div>
+
+
+                            <div class="form-group" id="headert">
+                                <label>Header Text Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.headerTextColor">
+                            </div>
+
+                            <div class="form-group" id="theme">
+                                <label>Theme Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.themeColor">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Verified Label Text</label>
+                                <input class="form-control" type="text" ng-model="widgetFields.verifiedText" max="50" maxlength="50">
+                            </div>
+
+                            <div class="form-group" id="verifiedTextBackground">
+                                <label>Verified Text Background</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.verifiedTextBackground">
+                            </div>
+
+                            <div class="form-group" id="verifiedTextColor">
+                                <label>Verified Text Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.verifiedTextColor">
+                            </div>
+
+                            <div class="form-group" id="stripeOne">
+                                <label>Stripe Odd Background Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.stripeOne">
+                            </div>
+                            <div class="form-group" id="stripeTwo">
+                                <label>Stripe Even Background Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.stripeTwo">
+                            </div>
+                            <div class="form-group" id="ovrallStripe">
+                                <label>OverAll Stripe Background Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.ovrallStripe">
+                            </div>
+                            <div class="form-group" id="rateThisBackgroundColor">
+                                <label>Rate This Business Background Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.rateThisBackgroundColor">
+                            </div>
+                            <div class="form-group" id="ratingTitleColor">
+                                <label>Rating Label Color</label>
+                                <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="widgetFields.ratingTitleColor">
+                            </div>
+
+                            <div class="form-group checkbox">
+                                <div class="row">
+
+                                    <div class="col-xs-6">
+                                        <input type="checkbox" ng-model="widgetFields.showDate" id="sbowdate">
+                                        <label for="sbowdate">Show Date?</label>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <input type="checkbox" ng-model="widgetFields.honestDoctorLogo" id="disclaimer">
+                                        <label for="disclaimer">Display Powered By</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 generated-code">
+                            <div class="form-group">
+                                <label>Generated Code</label>
+                                <button class="btn" ngclipboard data-clipboard-text="{{web_script}}">
+                                    Copy to clipboard
+                                </button>
+                                <textarea class="form-control" placeholder="HTML Code here" readonly="" ng-model="web_script"></textarea>
+                            </div>
+
+                            <button ng-click="preview_code()" class="btn btn-primary pull-right">Preview</button>
+                            <button ng-click="save_code()" class="btn btn-primary">Save</button>
+                            <div class="alert alert-success" ng-if="form_submitted" style="margin-top:5px;">Changes saved successfully!!</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="panel-footer">
+                    <a onclick="history.back()" class="btn btn-primary">
+                        <i class="fa fa-angle-left"></i> Back</a>
+                    <button type="submit" class="btn btn-default pull-right" ng-click="restore_default_form()">Restore Default Colors</button>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

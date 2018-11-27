@@ -1,0 +1,32 @@
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+            <h4 class="modal-title">Review Video</h4>
+        </div>
+        <div class="modal-body">
+            <videogular vg-theme="config.theme.url">
+                <vg-media vg-src="config.sources" vg-tracks="config.tracks" vg-preload="config.preload">
+                </vg-media>
+                <vg-controls vg-autohide="config.plugins.controls.autoHide" vg-autohide-time="config.plugins.controls.autoHideTime">
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+                    <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+                    <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+                    <vg-volume>
+                        <vg-mute-button></vg-mute-button>
+                        <vg-volume-bar></vg-volume-bar>
+                    </vg-volume>
+                    <vg-fullscreen-button></vg-fullscreen-button>
+                    <my-stop-button></my-stop-button>
+                </vg-controls>
+            </videogular>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-cancel" type="button" data-dismiss="modal" ng-click="closemodal()">Back</button>
+        </div>
+    </div>
+</div>

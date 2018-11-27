@@ -1,0 +1,150 @@
+<div class="content dashboard-page">
+    <section class="site-content" >
+
+        <div class="select-date">
+            <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date"
+                max="vm.max_date" />
+        </div>
+
+        <article class="section widgets-dashboard">
+            <h2>EverGenius All Time Stats</h2>
+            <div class="panel">
+                <div class="panel-heading">
+                    Statistics
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-user">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-user.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Total Users</span>
+                                    <br> {{dashboardArray.total_users}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-contacts">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-contacts.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Contacts</span>
+                                    <br> {{dashboardArray.total_contacts}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-leads">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-lead.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Opportunities</span>
+                                    <br>{{dashboardArray.total_leads}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-closed">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-close.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Opportunities Closed</span>
+                                    <br> {{dashboardArray.total_leads_closed}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-appointment">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-appointment.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Appointment Booked</span>
+                                    <br> {{dashboardArray.total_appointments}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-consults">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-consult.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Consults</span>
+                                    <br> {{dashboardArray.total_leads_consults}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-websites">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-websites.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Websites</span>
+                                    <br> {{dashboardArray.total_websites}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-review">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-review.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Review Added</span>
+                                    <br> {{dashboardArray.total_reviews}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-email">
+                                <div class="statistics-box-icon">
+                                    <img src="img/ico-stat-email.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>emails sent out</span>
+                                    <br> {{dashboardArray.total_emails}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-text">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-stat-text.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>text messages sent out</span>
+                                    <br>{{dashboardArray.total_sms}}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="statistics-box statistics-contacts">
+                                <div class="statistics-box-icon">
+                                    <img src="img/icon-mobile.png">
+                                </div>
+                                <div class="statistics-count">
+                                    <span>Calls Record</span>
+                                    <br>{{dashboardArray.total_calls}}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    
+        </article>
+     
+    </section>
+</div>
+<div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+    <img src="../../img/loading_evergenius.gif" alt="loading..">
+    <h3>Loading....</h3>
+</div>
+

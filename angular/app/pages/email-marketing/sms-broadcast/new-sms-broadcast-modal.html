@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="email-margketing">
+                    <div class="row">
+                        <form name="newCampaignsForm" ng-submit="vm.save_campign(newCampaignsForm.$valid,'inprogress',4)" novalidate>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <input type="text" class="form-control" ng-model="vm.subject_line" maxlength="50" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>From Number</label>
+                                    <input type="text" phone-input class="form-control" ng-model="vm.from_number" name="mobile_number" placeholder="Phone" required
+                                        tabindex="3" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <div class="form-group" ng-class="{ 'has-error': newCampaignsForm.from_number.$invalid && ( vm.formSubmitted || newCampaignsForm.from_number.$touched) }">
+                                    <label>Test Number</label>
+                                    <div class="row sub-row">
+                                        <div class="col-sm-3">
+                                            <select class="form-control" ng-model="country_code">
+                                                <option ng-repeat="code in country_codes" ng-selected="country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code">{{code.code}}({{code.dial_code}})
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" phone-input class="form-control" ng-model="vm.test_number" name="from_number" placeholder="Phone" required
+                                                tabindex="3">
+                                            <p ng-show="newCampaignsForm.from_number.$error.required && ( vm.formSubmitted || newCampaignsForm.from_number.$touched)"
+                                                class="help-block">Phone is required.</p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6 add-new-funnel">
+                                <div class="form-group">
+                                    <label>Email List</label>
+
+                                    <tags-input ng-model="vm.tags" display-property="title" add-on-paste="true" key-property="id" placeholder="Select Email Lists"
+                                        load-on-focus="true" add-from-autocomplete-only="true" tabindex="20" track-by-expr="$index"
+                                        required>
+                                        <auto-complete source="loadTags($query)" min-length="0" load-on-focus="true" load-on-empty="true" max-results-to-show="32"></auto-complete>
+                                    </tags-input>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-8" ng-if="!show_time_input">
+                                <div class="form-group">
+                                    <div class="tabs">
+
+                                        <button class="btn btn-primary blue-border" type="submit" ng-disabled="newCampaignsForm.$invalid " class="active">Send Now</button>&nbsp
+                                        <button ng-click="showtimepicker()" class="btn gray-border" ng-if="status_check == false" ng-disabled="newCampaignsForm.$invalid ">Send Later</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12" ng-if="show_time_input">
+                                <div class="form-group">
+                                    <label>When to Send</label>
+                                    <div class="send-later-input clearfix">
+                                        <div class="row sub-row">
+
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control time-input" min-date="mindate" datetime-picker="dd MMM yyyy HH:mm" ng-model="$parent.schedule_time"
+                                                    is-open="opened.isOpen" ng-click="openCalendar($event, prop)" />
+                                                <span class="input-group-btn">
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="tabs">
+                                                    <button ng-click="showtimepicker();vm.save_campign(newCampaignsForm.$valid,'scheduled',2,schedule_time)" class="btn btn-primary blue-border"
+                                                        ng-if="status_check == false" ng-disabled="newCampaignsForm.$invalid ">Send Later</button>&nbsp
+                                                    <button class="btn btn-success" ng-click="close()">Cancel</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <button class="btn btn-primary pull-right" ng-click="gettagsPop(vm.smsText,$index)" type="button" id="x_message">Add Tags</button>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Message Text ({{vm.smsText.length}}/500)</label>
+                                    <textarea class="form-control" type="text" id="username" ng-model="vm.smsText" ng-trim="false" maxlength="500" id="smsbrodtext"></textarea>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

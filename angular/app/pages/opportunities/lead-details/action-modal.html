@@ -1,0 +1,23 @@
+<div class="modal-dialog modal-1">
+    <div class="modal-content">
+        <div class="modal-header">
+             <a class="close" ng-click="closemodal()">&times;</a><!--span ng-click="closemodal()">X</span-->
+             <p>{{modal_title}}</p>
+        </div>
+        <form name="modal_action_form"  ng-submit="submit_action_form()" novalidate>
+        <div class="modal-body" ng-if="current_tab!='tasks'">
+            <div class="alert alert-success" ng-if="form_submitted">Message added successfully!!</div>
+            <textarea class="form-control" placeholder="Please enter message here !" name="message"ng-model="message" required=""></textarea>
+            <p ng-show="modal_action_form.message.$error.required && form_submit  && (modal_action_form.message.$touched || add_ac_form)" class="help-block" >Message is required.</p>
+        </div>
+        <div class="modal-footer" ng-if="current_tab!='tasks'">
+            <button class="btn btn-primary" ng-disabled="modal_action_form.$invalid" type="submit" >{{submit_button_title}}</button>
+            <button class="btn btn-success" type="button" ng-click="closemodal()">Cancel</button>
+        </div>
+        </form>
+        <div ng-if="current_tab=='tasks'">
+            <add-task-modal></add-task-modal>
+        </div>
+        
+    </div>
+</div>

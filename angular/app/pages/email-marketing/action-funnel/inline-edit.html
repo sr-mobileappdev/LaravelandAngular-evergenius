@@ -1,0 +1,14 @@
+<div class="">
+  <div class="row">
+    <div class="col-sm-8">
+      <textarea class="form-control" type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-trim="false" maxlength="500"
+        id="username"></textarea>
+    </div>
+    <div class="col-sm-4">
+      <button ng-click="cancel()" class="btn btn-primary" ng-show="editMode">Cancel</button>
+      <button ng-click="save()" class="btn btn-success">Save</button>
+    </div>
+  </div>
+  <span ng-mouseenter="showEdit = true" ng-mouseleave="showEdit = false">
+  </span>
+</div>

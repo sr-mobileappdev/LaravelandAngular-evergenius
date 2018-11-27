@@ -1,0 +1,91 @@
+<div class="add-funnel-popups">
+
+    <form name="modal_action_form" ng-submit="submit_action_form()" novalidate>
+        <div class="modal-dialog modal-1 funnel_step">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" ng-click="closemodal()">&times;</a>
+                    <!--span ng-click="closemodal()">X</span-->
+                    <p ng-if="status_value == '0'">New Action Funnel Step</p>
+                    <p ng-if="status_value == '1'">EDITING ACTION FUNNEL STEP</p>
+                    <p ng-if="status_value == '2'">EDIT TIME FOR ACTION</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Step Name</label>
+                            <input type="text" class="form-control" ng-model="step_name" required>
+                        </div>
+                        <div class="col-sm-8">
+                            <label>When to Trigger Action</label>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <input class="form-control" ng-model="trigger_text" type="tel" size="3" maxlength="3" required>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="chosse-trigger">
+                                        <ul>
+                                            <li>
+                                                <input type="radio" name="day-hours" ng-model="trigger_value" ng-value="1">
+                                                <label>Days</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" name="day-hours" ng-model="trigger_value" ng-value="2">
+                                                <label>Hours</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" name="day-hours" ng-model="trigger_value" ng-value="3">
+                                                <label>Min</label>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" ng-if="status_value == '0'">
+                            <label>Choose Trigger</label>
+                            <div class="chosse-trigger">
+                                <ul>
+                                    <li>
+                                        <input type="radio" name="choose-trigger" ng-model="obj.action_value" ng-value="1" value="1">
+                                        <label>Send Email</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="choose-trigger" ng-model="obj.action_value" ng-value="2" value="2">
+                                        <label>TXT Message</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="choose-trigger" ng-model="obj.action_value" ng-value="3" value="3">
+                                        <label>Do Action</label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mtop15 ready-start">
+                        <div class="col-sm-6" ng-if="status_value == '1' || status_value == '2'">
+                            <label>Ready To Start Sending ?</label>
+                            <div class="chosse-trigger">
+                                <select class="form-control" name='statusId' ng-model="obj.statusID">
+                                    <option ng-value="'1'">Live</option>
+                                    <option ng-value="'2'">Paused</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+                    <button class="btn btn-success" ng-disabled="modal_action_form.$invalid" type="submit">{{action_text(status_value)}}</button>
+                    <!-- <button class="btn btn-primary"  ng-click="update_status()" ng-if="status_value == '1'">Update Action</button> -->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

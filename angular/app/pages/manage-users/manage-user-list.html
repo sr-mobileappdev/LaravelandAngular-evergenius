@@ -1,0 +1,53 @@
+<section class="content-header">
+
+    <h1 class="box-title">
+        <span style="margin-right:6px;">
+            <i class="fa fa-vcard-o"></i>
+        </span>Manage User </h1>
+    <div class="btn-right-header">
+        <a ui-sref="app.addnewuser" class="btn btn-success" ng-show="vm.can('add.superadmin.user')">
+            <i class="fa fa-plus"></i>Add New User</a>
+    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-vcard-o"></i> Home</a>
+        </li>
+        <li class="active">Manage User</li>
+    </ol>
+</section>
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+
+                <div class="box-body">
+                    <div ng-if="vm.alerts && showAlert" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+                    <div class="contact-filters ng-scope">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control custom" ng-model="selected_role">
+                                    <option value="">Select Role</option>
+                                    <option value="admin.super" ng-if="!dontshowSuperadmin">Super Admin</option>
+                                    <option value="super.admin.agent">Agency</option>
+                                    <option value="super.call.center">Call Center</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="table-wrapper responsive">
+
+                        <table datatable="" id="manageusers" width="100%" class="table table-striped table-bordered" ng-if="vm.displayTable" dt-options="vm.dtOptions"
+                            dt-columns="vm.dtColumns" dt-instance="vm.dtInstanceCallback"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

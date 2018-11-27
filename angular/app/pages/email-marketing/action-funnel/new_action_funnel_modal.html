@@ -1,0 +1,47 @@
+<div class="modal-dialog modal-1">
+  <div class="modal-content">
+    <form name="modal_action_form" ng-submit="submit_action_form()" novalidate>
+      <div class="modal-header">
+        <a class="close" ng-click="closemodal()">&times;</a>
+        <!--span ng-click="closemodal()">X</span-->
+        <p ng-if="newfunnel == true">Add Funnel</p>
+        <p ng-if="editfunnel == true">Edit Funnel</p>
+      </div>
+      <div class="modal-body add-new-funnel">
+        <div class="row">
+          <div class="col-sm-12">
+            <label>Name</label>
+            <input type="text" class="form-control" ng-model="add_funnel_name" name="list_name" id="list_name" required>
+          </div>
+        </div>
+
+        <div class="row mt15">
+          <div class="col-sm-12">
+            <label>List(Optional)</label>
+            <tags-input ng-model="tags" track-by-expr="$index" display-property="title" add-on-paste="true" key-property="id" placeholder="Select Email Lists">
+              <auto-complete source="loadTags($query)" min-length="0" load-on-focus="true" load-on-empty="true" max-results-to-show="32"></auto-complete>
+            </tags-input>
+            <small>Note: Select list, if actions need to be performed on specific list</small>
+          </div>
+        </div>
+        <div class="row mtop15 ready-start" ng-if="editfunnel == true">
+          <div class="col-sm-6">
+            <label>Ready To Start Sending ?</label>
+            <div class="chosse-trigger">
+              <select class="form-control" name='statusId' ng-model="obj.sendingStatus">
+                <option ng-value="'1'">Live</option>
+                <option ng-value="'0'">Paused</option>
+
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+        <button class="btn btn-success" ng-disabled="modal_action_form.$invalid" type="submit" ng-if="newfunnel == true">Create Funnel</button>
+        <button class="btn btn-success" ng-disabled="modal_action_form.$invalid" type="submit" ng-if="editfunnel == true">Update Funnel</button>
+      </div>
+    </form>
+  </div>
+</div>

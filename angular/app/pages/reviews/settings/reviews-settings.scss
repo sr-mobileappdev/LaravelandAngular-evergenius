@@ -1,0 +1,120 @@
+/***** Reputation and Review CSS *****/
+.reputation-head{padding-bottom:20px;}
+.reputation-head h2{margin:0; padding:10px 0 0 0; float:left;}
+.reputation-head .filters{float:right;}
+.reputation-head .filters .form-control{display:inline-block; margin-left:10px;}
+.reputation-head .search, .reputation-head .filter-drop{display:inline-block; vertical-align:middle;}
+.reputation-head .search .form-control{width:220px;}
+.reputation-head .filter-drop .form-control{width:155px;}
+.reputation-head .filter-drop{padding-left:40px;}
+.reviews-table .table th, .reviews-table .table td{vertical-align:top;}
+.reviews-table .table td{font-size:13px;}
+.reviews-table .table td.provider-name{font-size:14px;}
+.move-icons{text-align:right;}
+.move-icons .move-icon{width:18px; height:12px; display:inline-block; margin-left:7px; background:url(../../img/img-review-icons.png) no-repeat 0 0;}
+.move-icons .move-icon.icon1{background-position:0 0;}
+.move-icons .move-icon.icon2{background-position:-18px 0;}
+.move-icons .move-icon.icon3{background-position:-36px 0;}
+.move-icons .move-icon.icon4{background-position:-54px 0;}
+.review-status{padding-top:10px;}
+.review-status span{font-weight:500;}
+.review-status .unapproved{color:#c12a1e;}
+.review-status .approved{color:#7eda8a;}
+.review-controls{padding-top:40px; text-align:right;}
+.review-controls a{width:28px; height:28px; background:url(../../img/icon-review-controls.png) no-repeat 0 0; display:inline-block; margin-left:10px;}
+.review-controls a.icon-play{background-position:-28px 0;}
+.review-buttons{padding-top:10px;}
+.review-buttons a{display:inline-block; padding:5px 15px; font-size:13px; border:solid 1px #ccc; border-radius:3px; margin-right:10px;}
+.review-buttons a.hide-review{border-color:#4fc3e0; color:#4fc3e0;}
+.review-buttons a.approve-review{border-color:#f9b116; color:#f9b116;}
+.review-buttons a.featured-review{border-color:#1585b3; color:#1585b3;}
+
+.panel.reviews-container{padding-bottom:0;}
+.review-settings{font-size:13px;}
+.review-settings .row{margin-bottom:30px;}
+.review-settings h3{font-weight:500; margin:0; padding:0; font-size:13px; padding-bottom:10px;}
+.review-settings h3 span{color:#777d83;}
+.review-settings h3 i{width:20px; height:20px; line-height:20px; color:#fff; background:#27b7da; text-align:center; border-radius:100%; margin-left:5px;}	
+.review-settings ul{margin:0; padding:0;}
+.review-settings li{display:inline-block; margin-right:27px;}
+.review-settings textarea{height:100px;}
+.checkbox label{padding-left:0;}
+.checkbox input + label::before {display:inline-block; width:20px; height:20px; background:url(../../img/icon-checkbox.gif) no-repeat 0 0;	content:'';	vertical-align:middle; margin-right:7px; margin-bottom:.2em;}
+.checkbox input:checked + label::before {background-position:-20px 0;}
+
+.review-radio input[type=radio] {display:none;}
+.review-radio label{padding-left:0; font-weight:normal;}
+.review-radio input + label::before {display:inline-block; width:20px; height:20px; background:url(../../img/icon-reviews-radio.png) no-repeat 0 0;	content:'';	vertical-align:middle; margin-right:7px; margin-bottom:.2em;}
+.review-radio input:checked + label::before {background-position:-20px 0;}
+.review-settings .review-radio li{margin-right:25px;}
+
+.testimonial-type{border-bottom:solid 1px #e1e7f0;}
+.email-type{padding-top:30px;}
+.email-type .emailnote{padding:30px 0 20px 0; font-size:12px; font-style:italic; color:#999;}
+.email-select .fa-edit{font-size:24px; color:#27b7da; vertical-align:middle;cursor: pointer;}
+.email-select .btn-toggle{background:#d9dadc; border-radius:30px; margin-left:20px;}
+.email-select .btn-toggle .btn{background:transparent;}
+.email-select .btn-toggle .btn.active{border-radius:30px!important; background:#27b7da; color:#fff; box-shadow:none;}
+.email-select .btn-toggle .btn{padding:5px 20px;}
+.email-select .btn-toggle .btn:focus{box-shadow:none;}
+.terms-agree{font-size:14px;}
+.panel-footer{background:none; border-radius:0;}
+.edit-toggle-btn{margin-top:7px;}
+
+.preview-settings{border-top:solid 1px #e1e7f0; padding-top:10px;}
+.preview-settings .form-group{position:relative;}
+.preview-settings .form-group .color-box{position:absolute; bottom:1px; right:1px; width:32px; height:32px; border-left:1px solid #e1e7f0;}
+.preview-settings label{font-weight:500; padding-bottom:10px;}
+.display-time .form-control{display:inline-block; vertical-align:middle; width:50%;}
+.review-settings .generated-code textarea{height:180px;}
+.display-review-box{padding-bottom:30px; margin-bottom:30px; border-bottom:solid 1px #e1e7f0;}
+.number-rating{width:143px; height:145px; border-radius:4px; background:#4cb050; color:#fff ; text-align:center; border:solid 1px #4cb050; display:inline-block; vertical-align:top;} 
+.number-rating .numbers{font-size:44px; font-weight:500; padding:10px 0 5px 0;}
+.rating-status{font-size:16px; text-transform:uppercase; padding-bottom:12px;}
+.out-of{background:#fff; padding:10px 0; border-radius:0 0 4px 4px; color:#1f3b58; font-size:18px; text-transform:uppercase;}
+.rating-progress-bars{margin-left:115px; width:245px; display:inline-block; vertical-align:top; font-size:14px;}
+.rating-progress-bars img{vertical-align:middle; margin:0 10px; margin-bottom:.3em}
+.rating-progress-bars li{margin-right:0; padding-bottom:10px;}
+.rating-progress-bars .progress{width:143px; display:inline-block; vertical-align:middle; margin:0; margin-right:10px; margin-bottom:.3em; height:16px;}
+.rating-progress-bars .progress-bar{background:#f1cd06; box-shadow:none; height:16px;}
+.rating-progress-bars li span{width:20px; display:inline-block; text-align:center;}
+.hundred-per{display:inline-block; width:358px; margin-left:100px;}
+.per-value{float:left; font-size:60px; font-weight:500;}
+.value-text{overflow:hidden; padding:10px 0 0 20px;}
+.hundred-per .text{padding-bottom:20px; border-bottom:solid 1px #e1e7f0;}
+.add-review{padding-top:20px; text-align:right;}
+.preview-box{padding:0 0 25px 0; border-bottom:solid 1px #e1e7f0; margin-bottom:10px;}
+.preview-box blockquote{padding:0 50px; padding-top:30px; font-size:16px; color:#1f3b58; font-style:italic; line-height:24px; position:relative;}
+.preview-box blockquote:before {color: #d8d8d8; content: "“"; font-family: Georgia; font-size: 90px; left: 0; position: absolute; top:35px;}
+.preview-box blockquote:after {bottom: -25px; color: #d8d8d8; content: "”"; font-family: Georgia; font-size: 90px; position: absolute; right:0;}
+.blockquote-author{float:left; font-size:20px; color:#005d8a; font-weight:600; text-align:center; width:210px;}
+.blockquote-author img{width:80px; height:80px; object-fit:cover; border-radius:100%; float:left;}
+.blockquote-author div{overflow:hidden; padding-top:15px; padding-left:20px;}
+.blockquote-author small{color:#ccc; text-transform:uppercase; font-size:14px;}
+.blockquote-header{padding-bottom:20px;}
+.powered-by{text-align:right; padding:10px 0 20px 0; font-size:20px;}
+.powered-by img{vertical-align:middle;}
+.blockquote-verified{float:right; text-align:right;}
+.blockquote-verified img{vertical-align:middle;}
+.blockquote-verified .btn{vertical-align:middle; border-radius:4px; margin-left:30px; font-style:italic;}
+.blockquote-verified .btn-success{background:#4b9a0b url(../img/icon-verified.png) no-repeat 15px 5px; padding-left:44px;}
+.blockquote-verified small{display:inline-block; color:#ccc; padding-top:10px; font-size:14px;}
+
+.trix-editor_col {
+	border: 1px solid #CCC;
+	trix-toolbar {padding: 10px 10px 0 10px;}
+	trix-editor{border-radius: 0px;border: none;border-top: 1px solid #CCC;}
+}
+.ml10{margin-left: 10px;}
+
+
+@media screen and (max-width:768px){
+	.reputation-head .search, .reputation-head .filter-drop{display:block;}	
+	.reputation-head .filters{float:none; clear:both; padding-left:10px;}
+	.reputation-head .filter-drop{padding-left:0;}
+	.reputation-head .filter-drop .form-control.ratingFilter, .reputation-head .filter-drop .form-control, .reputation-head .search .form-control{width:100%; margin:5px 0;}
+	.reputation-head .search .form-control{width:100%;}
+	.widget-dropdown{margin-left:0;}
+	.reputation-head .filters .form-control{margin-left:0;}
+	.widget-dropdown .dropdown-menu{left:0; right:auto;}
+}

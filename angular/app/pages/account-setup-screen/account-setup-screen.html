@@ -1,0 +1,177 @@
+<section class="content-header">
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-cogs" aria-hidden="true"></i> Account Setup Status</span>
+    </h1>
+</section>
+<section class="site-content integrations">
+    <article class="section">
+        <div class="panel">
+            <div class="panel-body" ng-if="userSetup">
+                <p>Make the most every conversation by integrating
+                    <span class="highlight">Evergenius</span> with other apps you use and complete account
+                    <span class="highlight">setup</span> steps.</p>
+            </div>
+        </div>
+        <h2 ng-if="userSetup">Account Setup</h2>
+        <div class="panel" ng-if="userSetup">
+            <div class="panel-body setup">
+                <ul style="list-style: none">
+                    <li ng-if="providersSetup">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <i class="fa fa-calendar"></i>
+                                <div class="setup-info">
+                                    <h3>Setup Providers and Schedule</h3>
+                                    <p>This will create provider profiles on wordpress website and allow patients to book appointments.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.providers_setup=='0'">
+                                <a ui-sref="app.docotoradd" class="btn btn-primary">Setup Now</a>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.providers_setup=='1'">
+                                <i class="fa fa-check"></i>
+                            </div>
+                        </div>
+                    </li>
+                    <li ng-if="userSetup">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <i class="fa fa-user"></i>
+                                <div class="setup-info">
+                                    <h3>Team Members</h3>
+                                    <p>Add your team members to manage your leads </p>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.user_setup=='0'">
+                                <a ui-sref="app.staffadd" class="btn btn-primary">Setup Now</a>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.user_setup=='1'">
+                                <i class="fa fa-check"></i>
+                            </div>
+                        </div>
+                    </li>
+                    <li ng-if="notificationSetup">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <i class="fa fa-envelope"></i>
+                                <div class="setup-info">
+                                    <h3>Setup Email/SMS Notifications</h3>
+                                    <p>Setup emails and SMS to be sent to team members and patients.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.notification_setup=='0'">
+                                <a ui-sref="app.notificationssettings" class="btn btn-primary">Setup Now</a>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.notification_setup=='1'">
+                                <i class="fa fa-check"></i>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Integrations</h2>
+        <div class="panel">
+            <div class="panel-body setup">
+                <ul style="list-style: none">
+                    <li ng-if="googleAnalytic">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <i class="fa fa-line-chart"></i>
+                                <div class="setup-info">
+                                    <h3>Google Analytic</h3>
+                                    <p ng-if="configDetail.google_analytics_setup=='0'">Get access to your website analytics direcly on
+                                        <span class="highlight">EverGenius Dashboard</span>
+                                    </p>
+                                    <p ng-if="configDetail.google_analytics_setup=='1' && !ShowEditGoogle">Get access to your website analytics direcly on
+                                        <span class="highlight">EverGenius Dashboard</span>
+                                    </p>
+                                    <p ng-if="configDetail.google_analytics_setup=='1' && ShowEditGoogle">Google Analytic Profile ID:
+                                        <span class="highlight">{{configDetail.google_profile_id}}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 text-right" ng-if="configDetail.google_analytics_setup=='0'">
+                                <a href="{{appUrl}}/api/google/login-google-accont/{{api_key}}" class="btn btn-primary">Integrate</a>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.google_analytics_setup=='1'">
+                                <i class="fa fa-check" ng-if="configDetail.google_analytics_setup=='1' && !ShowEditGoogle"></i>
+                                <button class="btn btn-primary" ng-if="configDetail.google_analytics_setup=='1' && ShowEditGoogle" ng-click="editGoogleanalytic()">Reset</button>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li ng-if="twilioSetup">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <i class="fa fa-twillio"></i>
+                                <div class="setup-info">
+                                    <h3>Twilio</h3>
+                                    <p ng-if="configDetail.twilio_setup=='0'">Setup
+                                        <span class="highlight">Call Forwarding</span> from phone number to your company phone number &amp; get access
+                                        to all
+                                        <span class="highlight">Call</span> and
+                                        <span class="highlight">SMS logs</span>
+                                    </p>
+                                    <p ng-if="configDetail.twilio_setup=='1'&& !ShowEditTwillio">Setup
+                                        <span class="highlight">Call Forwarding</span> from phone number to your company phone number &amp; get access
+                                        to all
+                                        <span class="highlight">Call</span> and
+                                        <span class="highlight">SMS logs</span>
+                                    </p>
+                                    <div ng-if="configDetail.twilio_setup=='1' && ShowEditTwillio">
+                                        <div class="twillio-no">
+                                            <label>Twillio phone number</label>
+                                            <span class="highlight">{{countryCode}}{{twillioNumber |tel}}</span>
+                                        </div>
+                                        <div class="twillio-no">
+                                            <label>Forwards to</label>
+                                            <span class="highlight">{{countryCode}}{{forwardTwillioNo |tel}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 text-right" ng-if="configDetail.twilio_setup=='0'">
+                                <a ng-click="twillioIntegration()" class="btn btn-primary">Integrate</a>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.twilio_setup=='1'">
+                                <i class="fa fa-check" ng-if="configDetail.twilio_setup=='1' && !ShowEditTwillio"></i>
+                                <button class="btn btn-primary" ng-if="configDetail.twilio_setup=='1' && ShowEditTwillio" ng-click="editTwillio(configDetail.twilio_number,configDetail.twillio_forwaring_to)">Edit</button>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li ng-if="sendgridSetup">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <i class="fa fa-sendgrid"></i>
+                                <div class="setup-info">
+                                    <h3>SendGrid</h3>
+                                    <p>Setup
+                                        <span class="highlight">Email API Key</span> to send email blast</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.sendgrid_setup=='0'">
+                                <a ui-sref="app.companysmtpsettings" class="btn btn-primary">Integrate</a>
+                            </div>
+                            <div class="col-sm-2 text-right" ng-if="configDetail.sendgrid_setup=='1'">
+                                <i class="fa fa-check"></i>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-if="!skipNotShow">
+            <a ng-click="skipStep()" class="btn btn-success">Skip Setup</a>
+        </div>
+
+        </div>
+    </article>
+
+</section>

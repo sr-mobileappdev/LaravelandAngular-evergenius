@@ -1,0 +1,105 @@
+<div class="content dashboard-page">
+    <div accountsetup></div>
+</div>
+<script type="text/ng-template" id="/twillio-step-1-modal.html"> 
+      <div class="modal-dialog">
+      
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+                  <h4 class="modal-title">Allocate New Phone Number</h4>
+              </div>
+            <form class="form-horizontal" name="twillioForm" ng-submit="allocateFunction(twillioForm.$valid)" novalidate>
+                 <div class="modal-body add-new-funnel">
+              <div class="row">
+               <div class="col-sm-4" ng-class="{ 'has-error': twillioForm.phone.$invalid && ( vm.formSubmitted || twillioForm.phone.$touched) }">
+      								<label for="inputEmail3" class="control-label">Area Code*</label>
+      								<div>
+      							   <input class="form-control" type="tel"  size="3"  maxlength="3" ng-model="areaCode" name="phone"  placeholder="Area Code" required>
+                                          <p ng-show="twillioForm.phone.$error.required && ( vm.formSubmitted || twillioForm.phone.$touched)" class="help-block">Area Code is required.</p>
+      								</div>
+      							</div>
+        
+      
+             <div class="col-sm-8" >
+      								<label for="inputEmail3" class="control-label">Owner</label>
+      								<div>
+      									<input type="text" class="form-control" ng-model="ownerName" name="name" placeholder="Owner Name" readonly tabindex="1">
+      									
+      								</div>
+      							</div>
+            </div>
+                 
+                  <div class="modal-footer">
+                     
+                     <div class="box-footer">
+                              <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+                              <button type="submit" class="btn btn-default pull-right" ng-disabled="file_error">Allocate</button>
+                          </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+      <div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+    		<img src="../../img/loading_evergenius.gif" alt="loading..">
+    		<h3>Loading....</h3>
+    	</div>
+      </script>
+<script type="text/ng-template" id="/twillio-step-2-modal.html">
+      <div class="modal-dialog">
+  
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+                      <h4 class="modal-title">Update '{{ownerNumber}}'</h4>
+                  </div>
+                  <form class="form-horizontal" name="twillioForm" ng-submit="upDateFunction(twillioForm.$valid)" novalidate>
+                      <div class="modal-body add-new-funnel">
+                          <div class="row">
+                               <div class="col-sm-6">
+                                      <label for="inputEmail3" class="control-label">Owner</label>
+                                      <div>
+                                          <input type="text" class="form-control" ng-model="ownerName" name="name" placeholder="Owner Name" readonly tabindex="1">
+  
+                          </div>
+                                      </div>  
+                            
+                            <div class="col-sm-6" ng-class="{ 'has-error': twillioForm.userphone.$invalid && ( vm.formSubmitted || twillioForm.userphone.$touched) }">
+							<label for="inputEmail3" class="control-label">Forward to</label>
+							<div>
+								<input tabindex="2" type="text" phone-input class="form-control" ng-model="forwardTo" name="phone" placeholder="Phone"
+							required	 >
+								
+							</div>
+						</div>
+   </div>
+  <div class="row">
+    <div class="col-sm-6" ng-class="{ 'has-error': twillioForm.userphone.$invalid && ( vm.formSubmitted || twillioForm.userphone.$touched) }">
+							<label for="inputEmail3" class="control-label">Records calls ?</label>
+							<div>
+							
+               	<label class="switch">
+                      <input ng-model="recordCalls" ng-true-value="'1'" ng-false-value="0" name="status"  type="checkbox" class="flat-red">
+                            <div class="slider round"></div>
+                         </label>
+							</div>
+						</div>
+  
+  </div>
+  <div class="row mt20">
+    <div class="col-sm-12"><div class="alert alert-danger">By enabling call recording, you agree that, you will notify your callers that your call will be recorded.</div>
+      </div>   
+           </div>
+                                  <div class="modal-footer">
+                                          <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+                                          <button type="submit" class="btn btn-default pull-right" ng-disabled="file_error">Update</button>
+  
+                                  </div>
+          </form>
+                          </div>
+                      </div>
+                      <div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+		<img src="../../img/loading_evergenius.gif" alt="loading..">
+		<h3>Loading....</h3>
+	</div>
+  </script>

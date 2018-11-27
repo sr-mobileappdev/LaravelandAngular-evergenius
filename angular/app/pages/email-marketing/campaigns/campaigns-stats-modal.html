@@ -1,0 +1,48 @@
+<div class="modal-dialog modal-1">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a class="close" ng-click="closemodal()">&times;</a>
+
+            <h4 class="modal-title">Email Broadcast Summary</h4>
+
+        </div>
+        <div class="modal-body ">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="summary-box opened">
+                        <img ng-src="/img/em-icons/icon-opened.png">
+                        <span>{{stats_data.opened}} </span> opened
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="summary-box clicked">
+                        <img ng-src="/img/em-icons/icon-clicked.png">
+                        <span>{{stats_data.clicks}}</span> clicked
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="summary-box sent">
+                        <img ng-src="/img/em-icons/icon-sent.png">
+                        <span>{{stats_data.sent}}</span> sent
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="summary-box">
+                        <img ng-src="/img/em-icons/icon-bounced.png">
+                        <span>{{stats_data.bounced}}</span> bounced
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="summary-box">
+                        <img ng-src="/img/em-icons/icon-complaint.png">
+                        <span>{{stats_data.spams}}</span> complaints
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+
+    </div>
+</div>

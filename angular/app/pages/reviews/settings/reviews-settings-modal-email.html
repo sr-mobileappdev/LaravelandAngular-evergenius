@@ -1,0 +1,28 @@
+<div class="add-appointment">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <form name="email_content_form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+                    <h4 class="modal-title">Edit Email</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" ng-show="update_success">Email updated successfully..</div>
+                    <div class="form-group">
+                        <label>Email Subject</label>
+                        <input type="text" required="" class="form-control" ng-model="email_content.email_subject">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Body</label>
+                        <trix-editor ng-if="true" trix-id="noti_2" class="email_textarea" angular-trix ng-model="email_content.message" name="message_2"></trix-editor>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" ng-disabled="email_content_form.$invalid" ng-click="save_email_content(email_content_form.$valid)" class="btn btn-primary"
+                        value="Save">
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal" ng-click="closemodal()">Back</button>
+                </div>
+        </form>
+        </div>
+    </div>

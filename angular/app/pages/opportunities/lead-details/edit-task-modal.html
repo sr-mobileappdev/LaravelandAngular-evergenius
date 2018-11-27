@@ -1,0 +1,83 @@
+<div class="modal-dialog modal-1">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a class="close" ng-click="closemodal()">&times;</a>
+            <!--span ng-click="closemodal()">X</span-->
+            <p>Edit Task</p>
+        </div>
+        <form name="addTasks" novalidate="" ng-submit="update_task()">
+            <div class="modal-body add-task-modal">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alerts alert-success" ng-show="task_added">Task has beed updated.</div>
+                        <label>Type</label>
+                        <div class="radio_list">
+                            <label ng-repeat="type in task_types" ng-if="type.name!='First Contact'">
+                                <input type="radio" name="task_typ" ng-true-value="1" ng-false-value="0" ng-model="task.type_id" value="type.id" ng-value="type.id" required="" ng-checked="type.id==default_task_types"> <span>{{type.name}} <i class="fa fa-check-circle"></i></span>
+                            </label>
+                        </div>
+                        <p ng-show="addTasks.task_typ.$error.required && (formSubmitted || addTasks.task_typ.$touched)" class="form-error">Task Type is required.</p>
+                    </div>
+                </div>
+                <div class="row mtop15">
+                    <div class="col-sm-12">
+                        <label>Subject</label>
+                        <input type="text" class="form-control" name="task_title" ng-model="task.title" required="">
+                        <p ng-show="addTasks.task_title.$error.required && (formSubmitted || addTasks.task_title.$touched)" class="form-error">Subject is required.</p>
+                    </div>
+                </div>
+                <div class="row mtop15">
+                    <div class="col-md-4">
+                        <label>Date & Time</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup ng-model="task.date" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                            <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-3">
+                        <label>Duration</label>
+                        <select class="form-control custom" ng-model="task.duration" name="task_duration" required="">
+                            <option value="15 min" selected="">15 Min</option>
+                            <option value="30 min" >30 Min</option>
+                            <option value="1 hour">1 Hour</option>
+                            <option value="2 hours">2 Hours</option>
+                            <option value="3 hours">3 Hours</option>
+                            <option value="6 hours">6 Hours</option>
+                            <option value="8 hours">8 Hours</option>
+                        </select>
+                        <p ng-show="addTasks.task_duration.$error.required && (formSubmitted || addTasks.task_duration.$touched)" class="form-error">Duration is required.</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Task Priority</label>
+                        <select class="form-control custom" ng-model="task.priority" name="task_priority" required="">
+                            <option value="high" selected="">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="normal">Normal</option>
+                        </select>
+                        <p ng-show="addTasks.task_priority.$error.required && (formSubmitted || addTasks.task_priority.$touched)" class="form-error">priority is required.</p>
+                    </div>
+                </div>
+                <div class="row mtop15">
+                    <div class="col-sm-12">
+                        <label>Note</label>
+                        <textarea class="form-control" placeholder="Enter Notes" ng-model="task.description" name="task_note" required="" maxlength="250"  ng-maxlength="250"></textarea>
+                        <p ng-show="addTasks.task_note.$error.required && (formSubmitted || addTasks.task_note.$touched)" class="form-error">Note is required.</p>
+                        <span class="error" ng-show="addTasks.task_note.$error.maxlength">
+                        Maximum length should be 250
+                        </span>
+                        <small class="pull-right">(Max. chars 250)</small>
+                        </div>
+                </div>
+          
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+                <input type="submit" class="btn btn-default" value="Update" ng-disabled="addTasks.task_note.$invalid">
+            </div>
+        </form>
+    </div>
+</div>
+

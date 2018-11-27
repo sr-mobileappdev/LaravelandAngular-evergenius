@@ -1,0 +1,45 @@
+<section class="content-header">
+    <h1 class="pull-left valign">
+        <span style="margin-right:6px;">
+            <i class="fa fa-history"></i>
+        </span>Recent Activities</h1>
+    <article class="select-date pull-right">
+        <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date"
+            max="vm.max_date" />
+    </article>
+</section>
+<section class="content">
+    <section class="site-content">
+        <div class="mobile-overlay"></div>
+        <article class="section">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel recent-activity-wrapper">
+                        <div class="panel-heading">Activities</div>
+                        <div class="panel-body recent-activity" id="list-wrapper" ng-style="iframeHeight">
+                            <table class="table table-striped">
+                                <div infinite-scroll='load_recent_activity(datePicker.startDate,datePicker.endDate)' infinite-scroll-disabled='busy' infinite-scroll-distance='6'
+                                    infinite-scroll-parent='true'>
+                                    <tr ng-repeat="item in activity_list" ng-show="activity_list.length && item.message!=''" ng-if="item.message!=''">
+                                        <td width="100">
+                                            <i class="{{item.icon}}"></i>
+                                        </td>
+                                        <td ng-bind-html="uCanTrust(item.message)"></td>
+                                        <td width="100">{{item.created_at | astimeDiff}}</td>
+                                    </tr>
+                                    <tr ng-show="!activity_list.length">
+                                        <td colspan="3">No Data Found</td>
+                                    </tr>
+                                    <tr ng-show="busy">
+                                        <td colspan="3">Loading...</td>
+                                    </tr>
+                                </div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!--/ end total calls -->
+    </section>
+</section>

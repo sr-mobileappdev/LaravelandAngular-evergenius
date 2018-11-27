@@ -1,0 +1,73 @@
+<section class="site-content">
+    <article class="content-header">
+        <h2>Create Request Reviews Widget</h2>
+        <div class="panel">
+            <div class="review-settings display-review">
+                <div class="panel-body">
+
+                    <div class="preview-settings" style="border: none;">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Body background color</label>
+                                    <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="formfield.bodyBackgroundColor">
+                                </div>
+                                <div class="form-group">
+                                    <label>Label colors</label>
+                                    <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="formfield.labelColor">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Body font size(px)</label>
+                                    <select ng-model="formfield.bodyText" class="form-control">
+                                        <option ng-repeat="x in font_sizes" value="{{x}}">{{x}}</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Submit button background</label>
+                                    <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="formfield.submitButtonBackgroundColor">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Submit button font color</label>
+                                    <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="formfield.submitFontColor">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Cancel button background</label>
+                                    <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="formfield.cancelButtonBackground">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Cancel button font Color</label>
+                                    <input minicolors="customSettings" id="color-input" class="form-control" type="text" ng-model="formfield.cancelButtonFontColor">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 generated-code">
+                                <div class="form-group">
+                                    <label>Generated code</label>
+                                    <button class="btn" ngclipboard data-clipboard-text="{{web_script}}">
+                                        Copy to clipboard
+                                    </button>
+                                    <textarea id="foo" class="form-control" placeholder="HTML Code here" readonly="" ng-model="web_script"></textarea>
+                                </div>
+                                <button ng-click="preview_code()" class="btn btn-primary pull-right">Preview</button>
+                                <button ng-click="save_code()" class="btn btn-primary">Save</button>
+                                <div class="alert alert-success" ng-if="form_submitted" style="margin-top:5px;">Changes saved successfully!!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+
+                    <a onclick="history.back()" class="btn btn-primary">
+                        <i class="fa fa-angle-left"></i> Back</a>
+                    <button type="button" class="btn btn-default pull-right" ng-click="restore_default_form()">Restore Default Colors</button>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

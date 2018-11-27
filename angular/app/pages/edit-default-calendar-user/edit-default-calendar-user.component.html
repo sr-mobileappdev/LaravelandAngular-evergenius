@@ -1,0 +1,651 @@
+<section class="content-header">
+    <h1>
+        {{vm.celendarData.data.user_info.name}}
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a href="#">Dashboard</a>
+        </li>
+        <li>
+            <a href="#">Calendars</a>
+        </li>
+        <li>
+            <a ui-sref="app.viewcalendar({userId: {{vm.userId}}})">Calendar View</a>
+        </li>
+        <li class="active">Edit Default Calendar</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <form name="working_plan" class="working_plan">
+                <div class="box" style="padding: 15px">
+                    <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+                    <div class="box-header">
+                        <!--<h3 class="box-title">Setting Calender</h3>-->
+                        <div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="appointment_legnth_block">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="appointment-label">Appointment Length:</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="select-wrapper">
+                                    <select class="form-control input-sm" ng-model="vm.celendarData.data.default_appointment_length" name="app_legnth" required="">
+                                        <option ng-selected="x.id == vm.celendarData.data.default_appointment_length" ng-repeat="x in vm.default_app_lengths" value="{{x.id}}">{{x.title}}</option>
+                                    </select>
+                                </div>
+                                <p ng-show="working_plan.app_legnth.$error.required && ( vm.formSubmitted || working_plan.app_legnth.$touched)" class="help-block">Appointment Length is required.</p>
+                            </div>
+                            <div class="col-md-5"></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- Schedule Table -->
+                    <h3 class="box-title">Create default day and time</h3>
+                    <div class="schedule-table">
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table ">
+                                <tbody>
+                                    <tr>
+                                        <th width="25%">Day</th>
+                                        <th width="25%">Is Open</th>
+                                        <th width="25%">Start Time</th>
+                                        <th width="25%">End Time</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Monday</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input ng-model="vm.celendarData.data.working_plan.monday_open" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </td>
+                                        <!-- Hide When Enable Day -->
+                                        <td ng-hide="vm.celendarData.data.working_plan.monday_open">
+                                            Closed
+                                        </td>
+                                        <td ng-hide="vm.celendarData.data.working_plan.monday_open">
+                                            Closed
+                                        </td>
+                                        <!-- Show When Enable Day -->
+                                        <td ng-show="vm.celendarData.data.working_plan.monday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.monday.start" name="mon_start" ng-required="vm.celendarData.data.working_plan.monday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.monday.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.mon_start.$error.required  &&  ( vm.formSubmitted || working_plan.mon_start.$touched)" class="help-block">Start Time is required.</p>
+                                        </td>
+                                        <td ng-show="vm.celendarData.data.working_plan.monday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.monday.end" name="mon_end" ng-required="vm.celendarData.data.working_plan.monday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.monday.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.mon_end.$error.required &&  ( vm.formSubmitted || working_plan.mon_end.$touched)" class="help-block">End Time is required.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tuesday</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input ng-model="vm.celendarData.data.working_plan.tuesday_open" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </td>
+                                        <!-- Hide When Enable Day -->
+                                        <td ng-hide="vm.celendarData.data.working_plan.tuesday_open">
+                                            Closed
+                                        </td>
+                                        <td ng-hide="vm.celendarData.data.working_plan.tuesday_open">
+                                            Closed
+                                        </td>
+                                        <!-- Show When Enable Day -->
+                                        <td ng-show="vm.celendarData.data.working_plan.tuesday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.tuesday.start" name="tue_start" ng-required="vm.celendarData.data.working_plan.tuesday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.tuesday.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.tue_start.$error.required && tue_open &&  ( vm.formSubmitted || working_plan.tue_start.$touched)"
+                                                class="help-block">Start Time is required.</p>
+                                        </td>
+                                        <td ng-show="vm.celendarData.data.working_plan.tuesday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.tuesday.end" name="tue_end" ng-required="vm.celendarData.data.working_plan.tuesday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.tuesday.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.tue_end.$error.required && tue_open &&  ( vm.formSubmitted || working_plan.tue_end.$touched)" class="help-block">End Time is required.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wednesday</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input ng-model="vm.celendarData.data.working_plan.wednesday_open" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </td>
+                                        <!-- Hide When Enable Day -->
+                                        <td ng-hide="vm.celendarData.data.working_plan.wednesday_open">
+                                            Closed
+                                        </td>
+                                        <td ng-hide="vm.celendarData.data.working_plan.wednesday_open">
+                                            Closed
+                                        </td>
+                                        <!-- Show When Enable Day -->
+                                        <td ng-show="vm.celendarData.data.working_plan.wednesday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.wednesday.start" name="wed_start" ng-required="vm.celendarData.data.working_plan.wednesday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.wednesday.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.wed_start.$error.required && vm.celendarData.data.working_plan.wednesday_open &&  ( vm.formSubmitted || working_plan.wed_start.$touched)"
+                                                class="help-block">Start Time is required.</p>
+                                        </td>
+                                        <td ng-show="vm.celendarData.data.working_plan.wednesday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.wednesday.end" name="wed_end" ng-required="vm.celendarData.data.working_plan.wednesday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.wednesday.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.wed_end.$error.required && vm.celendarData.data.working_plan.wednesday_open &&  ( vm.formSubmitted || working_plan.wed_end.$touched)"
+                                                class="help-block">End Time is required.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thursday</td>
+                                        <!-- Show When Enable Day -->
+                                        <td>
+                                            <label class="switch">
+                                                <input ng-model="vm.celendarData.data.working_plan.thursday_open" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </td>
+                                        <!-- Hide When Enable Day -->
+                                        <td ng-hide="vm.celendarData.data.working_plan.thursday_open">
+                                            Closed
+                                        </td>
+                                        <td ng-hide="vm.celendarData.data.working_plan.thursday_open">
+                                            Closed
+                                        </td>
+                                        <!-- Show When Enable Day -->
+                                        <td ng-show="vm.celendarData.data.working_plan.thursday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.thursday.start" name="thu_start" ng-required="vm.celendarData.data.working_plan.thursday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.thursday.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.thu_start.$error.required && thu_open &&  ( vm.formSubmitted || working_plan.thu_start.$touched)"
+                                                class="help-block">Start Time is required.</p>
+                                        </td>
+                                        <td ng-show="vm.celendarData.data.working_plan.thursday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.thursday.end" name="thu_end" ng-required="vm.celendarData.data.working_plan.thursday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.thursday.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.thu_end.$error.required && thu_open &&  ( vm.formSubmitted || working_plan.thu_end.$touched)" class="help-block">End Time is required.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Friday</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input ng-model="vm.celendarData.data.working_plan.friday_open" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </td>
+                                        <!-- Hide When Enable Day -->
+                                        <td ng-hide="vm.celendarData.data.working_plan.friday_open">
+                                            Closed
+                                        </td>
+                                        <td ng-hide="vm.celendarData.data.working_plan.friday_open">
+                                            Closed
+                                        </td>
+                                        <!-- Show When Enable Day -->
+                                        <td ng-show="vm.celendarData.data.working_plan.friday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.friday.start" name="fri_start" ng-required="vm.celendarData.data.working_plan.friday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.friday.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.fri_start.$error.required && fri_open &&  ( vm.formSubmitted || working_plan.fri_start.$touched)"
+                                                class="help-block">Start Time is required.</p>
+                                        </td>
+                                        <td ng-show="vm.celendarData.data.working_plan.friday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.friday.end" name="fri_end" ng-required="vm.celendarData.data.working_plan.friday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.friday.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.fri_end.$error.required && fri_open &&  ( vm.formSubmitted || working_plan.fri_end.$touched)" class="help-block">End Time is required.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saturday</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input ng-model="vm.celendarData.data.working_plan.saturday_open" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </td>
+                                        <!-- Hide When Enable Day -->
+                                        <td ng-hide="vm.celendarData.data.working_plan.saturday_open">
+                                            Closed
+                                        </td>
+                                        <td ng-hide="vm.celendarData.data.working_plan.saturday_open">
+                                            Closed
+                                        </td>
+                                        <!-- Show When Enable Day -->
+                                        <td ng-show="vm.celendarData.data.working_plan.saturday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.saturday.start" name="sat_start" ng-required="vm.celendarData.data.working_plan.saturday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.saturday.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.sat_start.$error.required && sat_open &&  ( vm.formSubmitted || working_plan.sat_start.$touched)"
+                                                class="help-block">Start Time is required.</p>
+                                        </td>
+                                        <td ng-show="vm.celendarData.data.working_plan.saturday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.saturday.end" name="sat_end" ng-required="vm.celendarData.data.working_plan.saturday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.saturday.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.sat_end.$error.required && sat_open &&  ( vm.formSubmitted || working_plan.sat_end.$touched)" class="help-block">End Time is required.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sunday</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input ng-model="vm.celendarData.data.working_plan.sunday_open" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </td>
+                                        <!-- Hide When Enable Day -->
+                                        <td ng-hide="vm.celendarData.data.working_plan.sunday_open">
+                                            Closed
+                                        </td>
+                                        <td ng-hide="vm.celendarData.data.working_plan.sunday_open">
+                                            Closed
+                                        </td>
+                                        <!-- Show When Enable Day -->
+                                        <td ng-show="vm.celendarData.data.working_plan.sunday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.sunday.start" name="sun_start" ng-required="vm.celendarData.data.working_plan.sunday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.sunday.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.sun_start.$error.required && sun_open &&  ( vm.formSubmitted || working_plan.sun_start.$touched)"
+                                                class="help-block">Start Time is required.</p>
+                                        </td>
+                                        <td ng-show="vm.celendarData.data.working_plan.sunday_open">
+                                            <div class="select-wrapper">
+                                                <select class="form-control input-sm" ng-model="vm.celendarData.data.working_plan.sunday.end" name="sun_end" ng-required="vm.celendarData.data.working_plan.sunday_open">
+                                                    <option ng-selected="x.id ==vm.celendarData.data.working_plan.sunday.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p ng-show="working_plan.sun_end.$error.required && sun_open &&  ( vm.formSubmitted || working_plan.sun_end.$touched)" class="help-block">End Time is required.</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.Schedule Table -->
+                    <div class="break-section">
+                        <div class="box-header">
+                            <div class="box-tools" style="display: block;">
+                                <button class="btn btn-primary" ng-click="vm.addBreaks(vm.userId)">
+                                    <i class="fa fa-plus"></i> Add Break</button>
+                            </div>
+                            <h3 class="box-title">Breaks</h3>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <tr>
+                                    <th width="20%">Day</th>
+                                    <th width="30%">Start Time</th>
+                                    <th width="30%">End Time</th>
+                                    <th width="10%">Action</th>
+                                </tr>
+                                <!--Moday-->
+                                <tr ng-repeat="mb in vm.celendarData.data.working_plan.monday.breaks" ng-show="vm.celendarData.data.working_plan.monday_open">
+                                    <td>Monday</td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.start" name="x">
+                                                <option ng-selected="x.id ==mb.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.end" name="x2">
+                                                <option ng-selected="x.id ==mb.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- <input type="text" class="form-control" name="x2" ng-model="mb.end" name=""> -->
+                                    </td>
+                                    <td>
+                                        <button ng-click="vm.deletebreak('monday',$index)" class="btn btn-danger btn-trash">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!--Tuesday-->
+                                <tr ng-repeat="mb in vm.celendarData.data.working_plan.tuesday.breaks" ng-show="vm.celendarData.data.working_plan.tuesday_open">
+                                    <td>Tuesday</td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.start" name="x">
+                                                <option ng-selected="x.id ==mb.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="form-control input-sm" ng-model="mb.end" name="x2">
+                                            <option ng-selected="x.id ==mb.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                            </option>
+                                        </select>
+                                        <!-- <input type="text" class="form-control" name="x2" ng-model="mb.end" name=""> -->
+                                    </td>
+                                    <td>
+                                        <button ng-click="vm.deletebreak('tuesday',$index)" class="btn btn-danger btn-trash">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!--wednesday-->
+                                <tr ng-repeat="mb in vm.celendarData.data.working_plan.wednesday.breaks" ng-show="vm.celendarData.data.working_plan.wednesday_open">
+                                    <td>Wednesday</td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.start" name="x">
+                                                <option ng-selected="x.id ==mb.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.end" name="x2">
+                                                <option ng-selected="x.id ==mb.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- <input type="text" class="form-control" name="x2" ng-model="mb.end" name=""> -->
+                                    </td>
+                                    <td>
+                                        <button ng-click="vm.deletebreak('wednesday',$index)" class="btn btn-danger btn-trash">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!--thursday-->
+                                <tr ng-repeat="mb in vm.celendarData.data.working_plan.thursday.breaks" ng-show="vm.celendarData.data.working_plan.thursday_open">
+                                    <td>Thursday</td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.start" name="x">
+                                                <option ng-selected="x.id ==mb.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.end" name="x2">
+                                                <option ng-selected="x.id ==mb.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- <input type="text" class="form-control" name="x2" ng-model="mb.end" name=""> -->
+                                    </td>
+                                    <td>
+                                        <button ng-click="vm.deletebreak('thursday',$index)" class="btn btn-danger btn-trash">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!--friday-->
+                                <tr ng-repeat="mb in vm.celendarData.data.working_plan.friday.breaks" ng-show="vm.celendarData.data.working_plan.friday_open">
+                                    <td>Friday</td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.start" name="x">
+                                                <option ng-selected="x.id ==mb.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.end" name="x2">
+                                                <option ng-selected="x.id ==mb.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- <input type="text" class="form-control" name="x2" ng-model="mb.end" name=""> -->
+                                    </td>
+                                    <td>
+                                        <button ng-click="vm.deletebreak('friday',$index)" class="btn btn-danger btn-trash">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!--saturday-->
+                                <tr ng-repeat="mb in vm.celendarData.data.working_plan.saturday.breaks" ng-show="vm.celendarData.data.working_plan.saturday_open">
+                                    <td>Saturday</td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.start" name="x">
+                                                <option ng-selected="x.id ==mb.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.end" name="x2">
+                                                <option ng-selected="x.id ==mb.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- <input type="text" class="form-control" name="x2" ng-model="mb.end" name=""> -->
+                                    </td>
+                                    <td>
+                                        <button ng-click="vm.deletebreak('saturday',$index)" class="btn btn-danger btn-trash">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!--sunday-->
+                                <tr ng-repeat="mb in vm.celendarData.data.working_plan.sunday.breaks" ng-show="vm.celendarData.data.working_plan.sunday_open">
+                                    <td>Sunday</td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.start" name="x">
+                                                <option ng-selected="x.id ==mb.start" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="select-wrapper">
+                                            <select class="form-control input-sm" ng-model="mb.end" name="x2">
+                                                <option ng-selected="x.id ==mb.end" ng-repeat="x in vm.times_allow" value="{{x.id}}">{{x.title}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- <input type="text" class="form-control" name="x2" ng-model="mb.end" name=""> -->
+                                    </td>
+                                    <td>
+                                        <button ng-click="vm.deletebreak('sunday',$index)" class="btn btn-danger btn-trash">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!vm.celendarData.data.working_plan.monday.breaks.length && !vm.celendarData.data.working_plan.tuesday.breaks.length && !vm.celendarData.data.working_plan.wednesday.breaks.length &&
+                            !vm.celendarData.data.working_plan.tuesday.breaks.length && 
+                            !vm.celendarData.data.working_plan.thursday.breaks.length &&
+                            !vm.celendarData.data.working_plan.friday.breaks.length && 
+                            !vm.celendarData.data.working_plan.saturday.breaks.length && 
+                            !vm.celendarData.data.working_plan.sunday.breaks.length
+                            ">
+                                    <td colspan="4"> No Breaks</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-action ">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="submit" class="btn btn-default" ng-click="vm.save(working_plan.$valid)" name="submit" value="Update Calendar"
+                                    ng-model="update_schedule"> &nbsp;
+                                <a ui-sref="app.viewcalendar({userId: {{vm.userId}}})" class="btn btn-primary">View Calendar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+<!-- Modal For Breaks-->
+<div id="breakmodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="addbreaks.html">
+    <div class="modal-dialog modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" ng-click="closemodal()">&times;</a>
+                <p>Add Break </p>
+            </div>
+            <form name="unavailabe" class="availablity-popup">
+                <div class="modal-body">
+                    <div ng-if="alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+                    <div class="alert alert-danger" ng-show="valid_error">Please fill all mandatory fields.</div>
+                    <div class="alert alert-danger" ng-show="time_error">Please enter valid time.</div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label class="time-label">Start Time:<span class="required">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="hidden" name="time_from" ng-model="unavail.time_from" required="">
+                            <div uib-timepicker ng-model="unavail.time_from" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+                            <p ng-show="unavailabe.time_from.$error.required" class="help-block">Start Time is required.</p>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label class="time-label">End Time:<span class="required">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="hidden" name="time_to" ng-model="unavail.time_to" required="">
+                            <div uib-timepicker ng-model="unavail.time_to" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+                            <p ng-show="unavailabe.time_to.$error.required" class="help-block">End Time is required.</p>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label class="time-label">Days:<span class="required">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="checkbox-areas checkboxes">
+							<ul>
+							
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.monday" id="mon"><label for="mon">Monday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.tuesday" id="tue"><label for="tue">Tuesday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.wednesday" id="wed"><label for="wed">Wednesday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.thursday" id="thu"><label for="thu">Thursday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.friday" id="fri"><label for="fri">Friday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.saturday" id="sat"><label for="sat">Saturday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.sunday" id="sun"><label for="sun">Sunday</label>
+                            </li>
+							</ul>
+							</div>
+                        </div>
+                    </div>
+                    <div class="row mtop15">
+					 <div class="col-md-3">&nbsp;</div>
+                        <div class="col-sm-8">
+                            <button type="button" ng-click="ok(unavailabe.$valid)" name="submit" value="submit" ng-disabled="unavail.days.length==0" class="btn btn-primary">Submit {{vm.next_time_val}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

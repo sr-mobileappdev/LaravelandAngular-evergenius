@@ -1,0 +1,223 @@
+<section class="content-header">
+    <h1 class="pull-left">
+        <span style="margin-right:6px;">
+            <i class="fa fa-phone"></i>
+        </span>Contact Details</h1>
+    <div class="btn-right-header double-buttons">
+
+        <div class="send-sms inline" ng-hide="!vm.appointmentdata.data.sms_list.length">
+            <button title="Send SMS" type="button" class="btn btn-primary" ng-click="vm.sendSmsBlock()" value="View SMS" ng-model="checked"
+                aria-label="Toggle ngShow">
+                <i class="fa fa-eye"></i> View SMS</button>
+            <div class="sms-box" ng-show="vm.checkedsms">
+                <h4>SMS History</h4>
+                <ul class="sms-list" ng-show="vm.list_sms">
+                    <li ng-repeat="sms in vm.appointmentdata.data.sms_list" ng-class="sms.direction != 'inbound' ? 'sms-out' : 'sms-in'">
+                        <p>{{sms.sms_body}}</p>
+                        <small>
+                            <span>
+                                <i class="fa fa-mail-forward" ng-if="sms.direction != 'inbound'"></i>
+                            </span>
+                            <span>
+                                <i class="fa fa-mail-reply" ng-if="sms.direction == 'inbound' "></i>
+                            </span>
+                            <i class="fa fa-clock-o"></i> {{sms.sent_time | astimeDiff }}
+                        </small>
+                    </li>
+                </ul>
+                <hr class="clearfix">
+                <div class="form-row" style="margin-top: 18px;">
+                    <input type="button" value="Cancel" class="btn btn-primary" ng-click="vm.sendSmsBlock()">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="send-sms inline ">
+            <button title="Send SMS" type="button" class="btn btn-primary" ng-click="vm.viewSmsBlock()" value="Send SMS" ng-model="checked"
+                aria-label="Toggle ngShow">
+                <i class="fa fa-reply"></i> Send SMS</button>
+            <div class="sms-box" ng-show="vm.checked">
+                <form name="sms_form" ng-submit="vm.sendsms(sms_form.$valid)" novalidate>
+                    <div class="sens-sms-form">
+                        <div class="alert alert-danger" ng-show="vm.sms_error">Something Went wrong.</div>
+                        <div class="alert alert-success" ng-show="vm.sms_success" id="success_send_su">SMS Sent Successfully</div>
+                        <div class="form-row">
+                            <label>Mobile No.</label>
+                            <input type="tel" ng-model="vm.sms_to" readonly="" name="sms_to" class="form-control" required="">
+                            <p ng-show="sms_form.sms_to.$error.required && ( vm.formSubmitted || sms_form.sms_to.$touched)" class="help-block">Mobile number is Required</p>
+                        </div>
+                        <div class="form-row">
+                            <label>Message</label>
+                            <textarea ng-maxlength="200" maxlength="200" class="form-control" ng-model="vm.sms_body" name="sms_body" required=""></textarea>
+                            <p ng-show="sms_form.sms_body.$error.required && (vm.formSubmitted)" class="help-block">Message is Required</p>
+                            <p ng-show="sms_form.sms_body.$error.maxlength && ( vm.formSubmitted || sms_form.sms_body.$touched)" class="help-block">Maximum 200 characters are allowed.</p>
+                        </div>
+                        <div class="form-row">
+                            <input type="submit" value="Send Now" class="btn btn-primary">
+                            <input type="button" value="Cancel" class="btn btn-primary" ng-click="vm.viewSmsBlock()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a ui-sref="app.appointments">Appointments</a>
+        </li>
+        <li class="active">Appointment Details</li>
+    </ol>
+</section>
+<section class="content">
+    <!-- Contact Details-->
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <div class="clearfix"></div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                </div>
+                <div class="box-body table-responsive no-padding custom-list">
+                    <div class="btn-top">
+                        <a ng-show="vm.can('add.edit.contacts')" ui-sref="app.contactedit({contactId: vm.appointmentdata.data.contacts[0].id})" class="btn btn-primary btn-blue">
+                            <i class="fa fa-pencil"></i> Edit Contact</a>
+                    </div>
+                    <ul>
+                        <li>
+                            <span class="lavel">Name</span>
+                            <span class="value">
+                                <a class="" uib-tooltip="View Contact" tooltip-placement="bottom" ui-sref="app.viewcontact({contactId:vm.appointmentdata.data.contacts[0].id})">
+                                    {{vm.appointmentdata.data.contacts[0].first_name}} {{vm.appointmentdata.data.contacts[0].last_name}}
+                                </a>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="lavel">Phone</span>
+                            <span class="value">
+                                <a href="tel:{{vm.appointmentdata.data.contacts[0].mobile_number}}">{{vm.appointmentdata.data.contacts[0].mobile_number}}</a>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="lavel">Email</span>
+                            <span class="value">
+                                <a href="mailto:{{vm.appointmentdata.data.contacts[0].email}}">{{vm.appointmentdata.data.contacts[0].email}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">D.O.B</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].birth_date | date}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Address</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].address}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">City</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].city}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">State</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].state}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Country</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].country}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Insurance #Id</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].insurance_Id}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Insurance Provider</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].insurance_provider}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Insurance Phone</span>
+                            <span class="value" ng-if="vm.appointmentdata.data.contacts[0].insurance_phone===''">Not Provided</span>
+                            <span class="value" ng-if="vm.appointmentdata.data.contacts[0].insurance_phone!==''">
+                                <a href="tel:{{vm.appointmentdata.data.contacts[0].insurance_phone}}">{{vm.appointmentdata.data.contacts[0].insurance_phone|tel}}</a>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="lavel">Insurance Group</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].insurance_group}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Appointment Details-->
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1 class="box-title">
+                <span style="margin-right:6px;">
+                    <i class="fa fa-clock-o"></i>
+                </span>Appointment Detail</h1>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                </div>
+                <div class="box-body table-responsive no-padding custom-list">
+                    <ul>
+                        <li>
+                            <span class="lavel">Appointment Time</span>
+                            <span class="value">{{vm.appointmentdata.data.start_datetime | asDate | date:'yyyy-MM-dd hh:mm a'}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">location</span>
+                            <span class="value">{{vm.appointmentdata.data.contacts[0].city}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Reason</span>
+                            <span class="value">{{vm.appointmentdata.data.appointment_reason[0].title}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Patient type</span>
+                            <span class="value patient_type">{{vm.appointmentdata.data.contact_type | capitalize}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Requested at</span>
+                            <span class="value">{{vm.appointmentdata.data.book_datetime | asDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <li>
+                            <span class="lavel">Scheduling Method</span>
+                            <span class="value">
+                                <i class="fa fa-phone" uib-tooltip="Phone" tooltip-placement="top" ng-if="vm.appointmentdata.data.scheduling_method=='phone'"></i>
+                                <i class="fa fa-desktop" uib-tooltip="Website" tooltip-placement="top" ng-if="vm.appointmentdata.data.scheduling_method=='web'"></i>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span class="lavel">Status</span>
+                            <span class="value select-status">
+                                <div class="select-wrapper">
+                                    <select ng-show="vm.can('update.appointments')" class="form-control" ng-model="vm.selected_val" id="select_status_{{vm.appointmentdata.data.id}}"
+                                        ng-change="vm.change_status({{vm.appointmentdata.data.id}})">
+                                        <option ng-repeat="x in vm.appointmentdata.data.all_status" ng-selected="{{x.id == vm.appointmentdata.data.appointment_status_id}}"
+                                            value="{{x.id}}">{{x.title}}</option>
+                                    </select>
+                                    <span ng-show="!vm.can('update.appointments')">
+                                        {{vm.appointmentdata.data.appointment_status[0].title == null ? 'Not updated' : vm.appointmentdata.data.appointment_status[0].title
+                                        }}</span>
+
+
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <a onclick="history.back()" class="btn btn-primary">
+                <i class="fa fa-angle-left"></i> Back</a>
+        </div>
+    </div>
+</section>

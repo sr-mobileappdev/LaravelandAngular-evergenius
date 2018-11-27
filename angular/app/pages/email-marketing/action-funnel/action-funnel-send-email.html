@@ -1,0 +1,333 @@
+<!-- 
+<div class="box-header">
+                                Send Email
+                            </div>  -->
+<div class="email-subject">
+	<div class="text-right">
+		<button class="btn btn-info" ng-click="setupDoAction(active_class)" ng-if="doAtion">Setup Now</button>
+	</div>
+	<button class="btn btn-primary pull-right" ng-click="gettagsPop(selectedIndex,$index)" type="button" id="x_message" ng-if="!doAtion">Add Tags</button>
+	<!-- <a href="#" class="btn btn-primary pull-right">Settings</a> -->
+	<span class="email-subject-icon" ng-bind-html="uCanTrust(icon)"></span>
+	<div class="email-info">
+		<span class="subject-line" ng-if="!doAtion">SUBJECT LINE</span>
+		<span class="subject-line" ng-if="doAtion">Action</span>
+		<span class="email-subject-name inline_class" ng-if="doAtion">{{getActionName(actionValue)}}
+			<span class="">
+				<i class="fa fa-caret-right do-action-frame" ng-if="doAtion"></i>
+			</span>
+			<span>
+				<a href="" ng-if="anchorShow" ng-click="goToList(doActionData)">{{doActionData.name}}</a>
+				<a href="" ng-if="!anchorShow">{{doActionData}}</a>
+			</span>
+		</span>
+		<span class="email-subject-name inline_class" inline-edit="list_name " ng-if="!doAtion" on-save="updateTodo(list_name,step_id,active_class)"
+		 on-cancel="cancelEdit(list_name)"></span>
+		<span class="email-days">
+			<label class="switch">
+				<input ng-model="active_class.status" ng-true-value="'1'" ng-false-value="2" name="x.status" type="checkbox" class="flat-red ng-pristine ng-untouched ng-valid ng-not-empty"
+				 ng-change="changeStatus(active_class.status,active_class)">
+				<div class="slider round"></div>
+			</label>
+			<!-- <i class="fa fa-pause" style="cursor:pointer;" ng-if="active_class.status == '1'" ng-click="changeStatus('2',active_class)" ></i>
+			<i class="fa fa-play" style="cursor:pointer;" ng-if="active_class.status == '2'" ng-click="changeStatus('1',active_class)" ></i> -->
+			<a href="" ng-click="action_modal('1',active_class)" data-toggle="modal" data-target="#add-note">{{get_status(active_class.status)}}</a> &nbsp;&nbsp;
+
+			<span class="appointment-rule" ng-if="new_text && showAppointment">
+				<strong>{{Obj.trigger_text}} {{trigger_action(Obj.trigger_value)}}</strong>
+				<strong>{{get_rule_timer(Obj.timetakenId)}}</strong> users appointment time and appointment status is
+				<strong>{{getOppertunitystage(Obj.appointmentId,apt_status)}}</strong>
+			</span>
+			<span class="appointment-rule" ng-if="new_text && showOpportunities">
+				<strong>{{Obj.trigger_text}} {{trigger_action(Obj.trigger_value)}}</strong>
+				<strong>{{get_rule_timer(Obj.timetakenId)}}</strong> users opportunity created time
+				<span ng-if="noShowstatus">and opportunity status is
+					<strong>{{getOppertunitystatus(Obj.opportunityStatus,opertunitiesData.opportunity_status)}}</strong>
+				</span>
+				<span ng-if="noShowstage">where opportunity stage is
+					<strong>{{getOppertunitystage(Obj.oppertunityStage,opertunitiesData.stages)}}</strong>
+				</span>
+				<span ng-if="noShowservice">and service is
+					<strong>{{getOppertunitystatus(Obj.oppertunityService,opertunitiesData.service)}}</strong>
+				</span>
+				<span ng-if="noShowsource">and source is
+					<strong>{{source_value}}</strong>
+				</span>
+			</span>
+			<i class="fa fa-calendar" ng-if="!new_text"></i>
+			<a href="" ng-click="action_modal('2',active_class)" ng-if="!new_text" data-toggle="modal" data-target="#add-note">
+				<span ng-if="active_class.trigger_value != '0'">{{active_class.trigger_value}} {{trigger_action(active_class.trigger_type)}}</span>
+				<span ng-if="active_class.trigger_value == '0'">Immediately</span>
+			</a>
+			<span ng-if="!new_text">after users sign up</span>
+
+
+			<span ng-if="showFunnellistifExist">&nbsp and Contact in
+				<a href="" ng-repeat="list in activatedList track by $index" ng-click="goToList(list)">&nbsp{{list.name}}</a>&nbsp List</span>
+		</span>
+
+	</div>
+
+
+</div>
+
+
+<div class="email-container pointer email-inner" ng-if="!doAtion">
+	<div class="emails-sent sent-email" ng-click="send_request(active_class,'1')" ng-if="send_Email_sms == true && template_show == true">
+		{{sent_count}}
+		<small>{{send_request_name}}</small>
+	</div>
+	<div class="emails-sent sms-new-box" ng-click="send_request(active_class,'1')" ng-if=" template_show != true">
+		{{sent_count}}
+		<small>{{send_request_name}}</small>
+	</div>
+	<div class="emails-sent sent-email" ng-if="send_Email_sms == true && template_show == true">
+		{{clicked_count}}
+		<small>Clicks</small>
+	</div>
+	<div class="emails-sent sent-email" ng-if="send_Email_sms == true && template_show == true">
+		{{opened_count}}
+		<small>Open</small>
+	</div>
+</div>
+<div class="email-container pointer email-inner" ng-if="doAtion">
+	<div class="emails-sent sent-email" ng-click="send_request(active_class,'1')" ng-if="!template_show">
+		{{sent_count}}
+		<small>{{send_request_name}}</small>
+	</div>
+
+</div>
+<div class="primary_cols" ng-if="template_showin == true">
+	<button class="btn btn-primary" ng-click="open_editor(editor_value)" data-toggle="modal" data-target="#add-note">
+		<i class="fa fa-edit"></i> Open Editor</button>
+</div>
+<div class="row">
+	<div class="col-sm-6"></div>
+	<div class="col-sm-6">
+		<p ng-if="template_show == true && !template_showin" style="margin-left: 65px">*Please select template ,its mandatory</p>
+	</div>
+</div>
+
+<div class="email-editor-container">
+	<div class="form-group" ng-if="template_show == true">
+
+		<div class="template-container">
+
+			<div class="row">
+				<div class="col-sm-4" ng-repeat="list in template_list" ng-if="!template_showin">
+					<div class="template-box">
+						<div class="template-box-content">
+							<h2>{{list.title}}</h2>
+							<img ng-src="{{list.preview_image}}" height="200" width="200" on-error-src="img/no-preview.png">
+						</div>
+						<div class="template-overlay">
+							<div class="template-buttons">
+								<a class="btn btn-success" ng-click="show_template(list,step_id)">Use this Template</a>
+								<a href="" class="btn btn-primary" ng-click="preview_template_modal(list.preview_image)" data-toggle="modal" data-target="#add-note">Preview this Template</a>
+								<a href="" class="btn btn-danger" ng-click="deleteTemplate(list)" data-toggle="modal" data-target="#add-note" ng-if="list.company_id !=null">Delete this Template</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div ng-bind-html="uCanTrust(emailBodytaken)" ng-if="template_showin == true"> </div>
+			</div>
+		</div>
+
+	</div>
+	<div class="appointment-opportunity">
+		<ul class="nav nav-tabs">
+			<li ng-class="{active:openAppointment == true}" ng-if="showAppointment">
+				<a ng-click="openAppointTab()">Appointments</a>
+			</li>
+			<li ng-class="{active:openOpertunities == true}" ng-if="showOpportunities">
+				<a ng-click="openOpporTab()">Opportunities</a>
+			</li>
+		</ul>
+
+		<div class="tab-content" ng-if="openOpertunities">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-4">
+						<label>Opportunity Stage</label>
+					</div>
+					<div class="col-sm-8">
+						<select name='oppertunityStage' class="form-control" ng-model="Obj.oppertunityStage">
+							<option ng-value="''">Select Stage</option>
+							<option ng-value="stage.id" ng-selected="Obj.oppertunityStage == stage.id" ng-repeat="stage in opertunitiesData.stages track by $index">{{stage.title}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-4">
+						<label>and Service is</label>
+					</div>
+					<div class="col-sm-8">
+						<select name='oppertunityService' class="form-control" ng-model="Obj.oppertunityService">
+							<option ng-value="''">Select Service</option>
+							<option ng-value="service.id" ng-selected="Obj.oppertunityService == service.id" ng-repeat="service in opertunitiesData.service track by $index">{{service.name}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-4">
+						<label>and Status is</label>
+					</div>
+					<div class="col-sm-8">
+						<select name='opportunityStatus' class="form-control" ng-model="Obj.opportunityStatus">
+							<option ng-value="''">Select Status</option>
+							<option ng-value="status.id" ng-selected="Obj.opportunityStatus == status.id" ng-repeat="status in opertunitiesData.opportunity_status track by $index">{{status.name}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-4">
+						<label>and Source is</label>
+					</div>
+					<div class="col-sm-8">
+						<div angucomplete-alt id="ex6" placeholder="Search Source" pause="500" selected-object="selectedSource" remote-url="/api/contacts/find-source?s="
+						 remote-url-request-formatter="remoteUrlRequestFn" remote-url-data-field="items" title-field="term_value" description-field="term_value"
+						 minlength="2" maxlength="25" input-class="form-control form-control-small" match-class="highlight" template-url="source-template.html"
+						 initial-value="source" tabindex="19">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group border-bottom">
+				<div class="row">
+					<div class="col-sm-4">
+						<label ng-if="template_show">Send Email</label>
+						<label ng-if="doAtion">Action taken</label>
+						<label ng-if="!doAtion && !template_show">Send Sms</label>
+					</div>
+					<div class="col-sm-8">
+						<div class="row">
+							<div class="col-sm-3 col-xs-3">
+								<select class="form-control" name='timetakenIds' ng-model="Obj.timetakenId">
+									<option ng-value="'1'" value="'1'">After</option>
+									<!-- <option ng-value="'2'" value="'2'">Before</option> -->
+								</select>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input class="form-control" ng-model="Obj.trigger_text" type="tel" size="3" maxlength="3" required>
+
+							</div>
+							<div class="col-sm-6 nopadding col-xs-4">
+								<div class="chosse-trigger">
+									<ul>
+										<li>
+											<input type="radio" name="day-hours" ng-model="Obj.trigger_value" ng-value="1">
+											<label>Days</label>
+										</li>
+										<li>
+											<input type="radio" name="day-hours" ng-model="Obj.trigger_value" ng-value="2">
+											<label>Hours</label>
+										</li>
+										<li>
+											<input type="radio" name="day-hours" ng-model="Obj.trigger_value" ng-value="3">
+											<label>Min</label>
+										</li>
+
+									</ul>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="text-right">
+				<button class="btn btn-info" ng-click="save_rule(step_id,action_rule_id,'opportunity')">Save</button>
+			</div>
+
+		</div>
+
+		<div class="tab-content" ng-if="openAppointment">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-4">
+						<label>Appointment Status is</label>
+					</div>
+					<div class="col-sm-8">
+						<select name='appointmentId' class="form-control" ng-model="Obj.appointmentId">
+							<option ng-value="status.id" ng-selected="Obj.appointmentId == status.id" ng-repeat="status in apt_status track by $index">{{status.title}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group border-bottom">
+				<div class="row">
+					<div class="col-sm-4">
+						<label ng-if="template_show">Send Email</label>
+						<label ng-if="doAtion">Action taken</label>
+						<label ng-if="!doAtion && !template_show">Send Sms</label>
+					</div>
+					<div class="col-sm-8">
+						<div class="row">
+							<div class="col-sm-3 col-xs-3">
+								<select class="form-control" name='timetakenIds' ng-model="Obj.timetakenId">
+									<option ng-value="'1'" value="'1'">After</option>
+									<option ng-value="'2'" value="'2'">Before</option>
+								</select>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input class="form-control" ng-model="Obj.trigger_text" type="tel" size="3" maxlength="3" required>
+
+							</div>
+							<div class="col-sm-6 nopadding col-xs-4">
+								<div class="chosse-trigger">
+									<ul>
+										<li>
+											<input type="radio" name="day-hours" ng-model="Obj.trigger_value" ng-value="1">
+											<label>Days</label>
+										</li>
+										<li>
+											<input type="radio" name="day-hours" ng-model="Obj.trigger_value" ng-value="2">
+											<label>Hours</label>
+										</li>
+										<li>
+											<input type="radio" name="day-hours" ng-model="Obj.trigger_value" ng-value="3">
+											<label>Min</label>
+										</li>
+
+									</ul>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+
+			<div class="text-right">
+				<button class="btn btn-info" ng-click="save_rule(step_id,action_rule_id,'appointment')">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="source-template.html">
+        <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+            <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectSource" maxlength="25" />
+            <div class="angucomplete-dropdown" ng-show="showDropdown">
+                <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+                <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                    <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                    <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+                </div>
+                <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                    <div class="angucomplete-title"><strong>{{ searchStr }}</strong></div>
+                </div>
+            </div>
+        </div>
+    </script>

@@ -1,0 +1,137 @@
+<div class="content dashboard-page agent-dashboard">
+    <section class="site-content">
+        <div class="select-date">
+            <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date" max="vm.max_date" />
+        </div>
+        <!-- Sale Funnel -->
+        <article class="section">
+            <h2 class="pull-left section-title">Sales Funnel</h2>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="sale-graph" ui-sref="app.oppertunities">
+                                <p class="funnel-text-dashboard">{{funnel_text}}</p>
+                                <img src="img/loading_evergenius.gif" ng-if="loading_funnel" height="300px">
+                                <img src="/img/funnel-blank.jpg"  ng-if="total_leads<1 && loading_funnel==false" style="height: 301px;width: 448px;">
+                                    <highchart id="chart1" config="chartConfig" ng-if="total_leads>0 && loading_funnel==false"></highchart>
+                                <div class="dashboard-appointments-lagend sale-lagend"> <span>${{closed_amount | number : 0}}</span>
+                                </div>
+                                <div class="sale-values">
+                                    <div class="sale-value-box">
+                                        <h2>{{conv_rate}}%</h2> Conversion Rate
+                                    </div>
+                                    <div class="sale-value-box">
+                                        <h2>${{total_amnt | number : 0}}</h2> Total Value
+                                    </div>
+                                    <div class="sale-value-box">
+                                        <h2>${{closed_amount | number : 0}}</h2> Amount closed
+                                    </div>
+                                </div>
+                            </div>
+                       
+                        </div>
+                    </div>
+                    <div class="activities-tabs assignments_col">
+                        <h2 class="section-title">ASSIGNMENTS</h2>
+                        <div class="box">
+                            <div id="home" class="tab-pane fade in active">
+                                <table class="add_task">
+                                    <tr>
+                                        <th>NAME</th>
+                                        <th width="20%" align="center">STAGE</th>
+                                    </tr>
+                                    <tr ng-repeat="tasks in Recent_tasks">
+                                        <td ui-sref="app.viewcontact({contactId: tasks.contact_id})">
+                                            <a href="">
+                                                <h6><b>{{tasks.contact.first_name}} {{tasks.contact.last_name}}</b> - {{tasks.contact.email}}</h6>
+                                                <p>{{remove_country_code(tasks.contact.phone) | tel}}</p>
+                                            </a>
+                                        </td>
+                                        <td align="center"> <a href="" class="button01" ng-class="tasks.stage.slug">{{tasks.stage.title}}</a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activities-tabs sale-dashboard">
+                        <h2 class="section-title">Tasks</h2>
+                        <div class="box">
+                            <button class="btn btn-primary add-note" ng-click="action_modal()" data-toggle="modal" data-target="#add-note">Add Task</button>
+                            <ul class="nav nav-tabs">
+                                <li ng-click="active_contact_view('tasks')"><a data-toggle="tab">Tasks</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tasks" ng-if="active_contact_tab=='tasks'" class="tab-pane fade in" ng-class="{'active':active_contact_tab=='tasks'}">
+                                    <table class="add_task" ng-if="tasks.length">
+                                        <tr ng-repeat="task in tasks track by $index">
+                                            <td ng-class="{'completed_task': task.open==0}">
+                                                <h6 ng-class="{'strike-text': task.open==0}" ng-click="edit_task(task.id)">{{task.type.name}} <span class="call-status" ng-class="{'critical': task.priority == 'high','medium': task.priority == 'medium','normal': task.priority == 'normal'}"></span> <span>({{task.duration}})</span></h6>
+                                                <p class="task-title" ng-class="{'strike-text': task.open==0}">{{task.title}}</p>
+                                                <p class="task-description">{{task.description | limitTo:50}} <a href="" ng-if="task.description.length>50" ng-click="read_taks(task.id)">Read more</a></p>
+                                            </td>
+                                            <td>{{task.contact.first_name}}&nbsp{{task.contact.last_name}}</td>
+                                            <td><i class="fa fa-calendar-o"></i> on {{task.action_date | asDate | date:'yyyy/MM/dd'}} &nbsp;&nbsp;{{task.action_date | asDate | date:'hh:mm a'}}</td>
+                                            <td><a class="button_sm" ng-class="{'task_completed': task.open==0}" ng-click="change_task_status(task.id,task.open,$index)">{{task.open==1 ? 'Incomplete' : 'Completed'}}</a></td>
+                                            <td><a ng-click="delete_task(task.id)" class="fa fa-times-circle"></a></td>
+                                        </tr>
+                                    </table>
+                                    <div class="" style="padding: 9px 18px 18px;" ng-if="!tasks.length">
+                                        Tasks not found.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="recent-activities">
+                        <h2>Recent Activities</h2>
+                        <div id="list-wrapper">
+                            <div infinite-scroll='load_recent_activity()' infinite-scroll-disabled='busy' infinite-scroll-distance='6' infinite-scroll-parent='true'>
+                                <div class="box" ng-class="{box_first:activity_list.length==1}" ng-repeat="activity in activity_list" ng-show="activity_list.length" ng-if="activity.message!=''">
+                                    <span class="circle"></span>
+                                    <!-- <h4>Patient form filled</h4> -->
+                                    <p><span ng-bind-html="uCanTrust(activity.message)"></span></p>
+                                    <small>{{activity.created_at | astimeDiff}}</small>
+                                </div>
+                                <div class="box box_first" ng-show="!activity_list.length">
+                                    <span class="circle"></span>
+                                    <p>Activity history not found.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!--/ end appointments-->
+        <!-- end return on investment -->
+    </section>
+</div>
+<script type="text/ng-template" id="action_modal_window.html">
+    <div class="modal-dialog modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" ng-click="closemodal()">&times;</a>
+                <!--span ng-click="closemodal()">X</span-->
+                <p>{{modal_title}}</p>
+            </div>
+            <form name="modal_action_form" ng-submit="submit_action_form()" novalidate>
+                <div class="modal-body" ng-if="current_tab!='tasks'">
+                    <div class="alert alert-success" ng-if="form_submitted">Message added successfully!!</div>
+                    <textarea class="form-control" placeholder="Please enter message here !" name="message" ng-model="task.message" required=""></textarea>
+                    <p ng-show="modal_action_form.message.$error.required && form_submit  && (modal_action_form.message.$touched || add_ac_form)" class="help-block">Message is required.</p>
+                </div>
+                <div class="modal-footer" ng-if="current_tab!='tasks'">
+                    <button class="btn btn-primary" ng-disabled="modal_action_form.$invalid" type="submit">{{submit_button_title}}</button>
+                    <button class="btn btn-success" type="button" ng-click="closemodal()">Cancel</button>
+                </div>
+            </form>
+            <div ng-if="current_tab=='tasks'">
+                <add-task-modal></add-task-modal>
+            </div>
+        </div>
+    </div>
+</script>

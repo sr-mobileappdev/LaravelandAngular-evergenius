@@ -1,0 +1,42 @@
+<section class="content-header">
+
+  <h1>
+    <span style="margin-right:6px;">
+      <i class="fa fa-users"></i>
+    </span>Manage staff</h1>
+  <div class="add_btn btn-right-header">
+
+    <div class="btn-right-header">
+      <a ng-show="vm.can('manage.roles')" ui-sref="app.manageroles" class="btn btn-success">Groups </a> &nbsp;
+      <a ui-sref="app.staffadd" class="btn btn-primary">
+        <i class="fa fa-plus"></i> Add Staff</a>
+    </div>
+
+
+  </div>
+  <ol class="breadcrumb">
+    <li>
+      <a ui-sref="app.landing">
+        <i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li class="active">
+      <span style="margin-right:6px;">
+        <i class="fa fa-users"></i>
+      </span>Manage staff</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-info">
+
+        <div class="box-body">
+          <div class="box-body">
+            <table datatable="" width="100%" class="table table-striped table-bordered" ng-if="vm.displayTable" dt-options="vm.dtOptions"
+              dt-columns="vm.dtColumns"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,116 @@
+<section class="content-header">
+
+    <h1 class="box-title">
+        <span style="margin-right:6px;"> {{funnel_name}}
+            <a class="button_sm live-pause" style="font-size: 16px;margin-left: 8px" href="" ng-class="{'task_completed': statusOfFunnel != 1}"
+                uib-tooltip="{{ statusOfFunnel == 1 ? 'Action Funnel Status is Live': 'Action Funnel Status is Paused No Action in funnel will be executed.' }}"
+                tooltip-placement="bottom">{{ statusOfFunnel == 1 ? 'Live' + ' ' : 'Paused' }}</a>
+    </h1>
+
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing" href="#/">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li class="active">Contacts</li>
+    </ol>
+    <div class="btn-right-header">
+        <div class="afghan">
+            <!-- <img src="img/live-loader.svg" alt="" uib-tooltip="Action Funnel Status is Live" tooltip-placement="bottom" ng-if="statusOfFunnel == '1'">
+            <img src="img/pause-funnel.svg" alt="" uib-tooltip="Action Funnel Status is Paused No Action in funnel will be executed."
+                tooltip-placement="bottom" ng-if="statusOfFunnel == '0'"> -->
+
+
+        </div>
+        <a class="btn btn-success pull-right" ng-click="delete_funnel_modal()" data-toggle="modal" data-target="#add-note">Delete</a> &nbsp;
+        <a class="btn btn-primary pull-right mr10" ng-click="edit_funnel_modal(funnel_details,'1')">
+            <i class="fa fa-pencil"> </i>Edit</a>
+    </div>
+</section>
+<section class="content">
+    <article class="section">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="box box-primary">
+                    <div class="funnels-details">
+                        <div class="funnel-col send-notification">
+                            <div class="email-tabs">
+                                <ul class="chat-scrollbar">
+
+                                    <li ng-repeat="list in funnel_list" ng-class="{active:active_class === list}" ng-click="list_detail(list,action_type(list.action_type))">
+
+                                        <a href="" class="tab-link" id="myHre">
+                                            <div class="email-number">
+                                                <span class="email-number-change">{{list.trigger_value}}
+                                                    <small>{{trigger_action(list.trigger_type)}}</small>
+                                                </span>
+                                                <span class="notification-icon" ng-bind-html="uCanTrust(action_type(list.action_type))"></span>
+                                            </div>
+                                            <span class="action-name">{{ list.name | limitTo: 35 }}{{list.name.length > 35 ? '..' : ''}}</span>
+                                            <span
+                                                class="notification-icon" ng-click="funnel_delete(list.id)">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="add-action">
+                                        <a href="" ng-click="action_modal('0')" data-toggle="modal" data-target="#add-note">
+                                            <i class="fa fa-plus"></i> Add Action</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="funnel-col send-email">
+
+                            <div class="no-action" ng-if="funnel_list == ''">
+                                <div class="text-center">
+                                    <img src="img/logo-admin.png">
+                                </div>
+                                <p>Please Setup Actions</p>
+                                <a href="" class="btn btn-primary" ng-click="action_modal('0')" data-toggle="modal" data-target="#add-note">
+                                    <i class="fa fa-plus"></i> Add Action</a>
+                            </div>
+
+                        </div>
+                        <div class="funnel-container" actionfunnelsendemail ng-if="funnel_list != ''">
+
+                        </div>
+                        <div class="box-footer" ng-if="funnel_list != ''">
+                            <a onclick="history.back()" class="btn btn-primary">
+                                <i class="fa fa-angle-left"></i> Back</a>
+                            <a href="" role="">
+
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+<!--/ end main -->
+<script type="text/ng-template" id="merge-tags.html">
+    <div class="modal-dialog modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" ng-click="closemodal()">&times;</a>
+                <!--span ng-click="closemodal()">X</span-->
+                <p>Tags - List</p>
+            </div>
+            
+                <div class="modal-body" >
+                   <div class="row">
+								<div class="col-sm-4" ng-repeat="tagdata in tags" >
+                                    <a ng-click ="puttagInEditor(tagdata.value)" href=""><strong>{{tagdata.name}}:</strong> <br> {{tagdata.value}}</a></div>								
+                            </div>
+                </div>
+                <div class="modal-footer" >
+                </div>
+            
+           
+        </div>
+    </div>
+</script>

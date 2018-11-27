@@ -1,0 +1,317 @@
+<section class="content-header">
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-pencil" aria-hidden="true"></i>Add Contact</span>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a ui-sref="app.contacts">Contact List</a>
+        </li>
+        <li>
+            <a ui-sref="app.contacts">Contact </a>
+        </li>
+        <li class="active">Add Contact</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box box-primary">
+                <form name="contactForm" class="form-horizontal" ng-submit="console.log('save')" novalidate>
+                    <div class="box-body">
+                        <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                            <h4>{{alert.title}}</h4>
+                            <p>{{alert.msg}}</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.first_name.$invalid && ( vm.formSubmitted || contactForm.first_name.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">First Name*:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="vm.contactData.data.first_name" name="first_name" placeholder="First Name"
+                                            required tabindex="1" maxlength="25">
+                                        <p ng-show="contactForm.first_name.$error.required && ( vm.formSubmitted || contactForm.first_name.$touched)" class="help-block">First name is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.last_name.$invalid && ( vm.formSubmitted || contactForm.last_name.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Last Name*:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="vm.contactData.data.last_name" name="last_name" placeholder="Last Name"
+                                            required tabindex="2" maxlength="25">
+                                        <p ng-show="contactForm.last_name.$error.required && ( vm.formSubmitted || contactForm.last_name.$touched)" class="help-block">Last name is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.mobile_number.$invalid && ( vm.formSubmitted || contactForm.mobile_number.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Phone*:</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" ng-model="country_code">
+                                            <option ng-repeat="code in country_codes" ng-selected="country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code">{{code.code}}({{code.dial_code}})
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" phone-input class="form-control" ng-model="vm.contactData.data.mobile_number" name="mobile_number" placeholder="Phone"
+                                            required tabindex="3">
+                                        <p ng-show="contactForm.mobile_number.$error.required && ( vm.formSubmitted || contactForm.mobile_number.$touched)" class="help-block">Phone is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.email.$invalid && ( vm.formSubmitted || contactForm.email.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Email*:</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" ng-model="vm.contactData.data.email" name="email" placeholder="Email" required tabindex="4">
+                                        <p ng-show="contactForm.email.$error.required && ( vm.formSubmitted || contactForm.email.$touched)" class="help-block">Email is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label for="gender" class="col-sm-3 control-label">Gender:</label>
+                                <div class="col-sm-9">
+                                    <div class="contact-gender">
+                                        <input type="radio" name="gender" ng-model="vm.contactData.data.gender" value="Male" tabindex="5"> Male
+                                        <input type="radio" name="gender" ng-model="vm.contactData.data.gender" value="Female" tabindex="6"> Female
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.birth_date.$invalid && ( vm.formSubmitted || contactForm.birth_date.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">D.O.B:</label>
+                                    <div class="col-sm-9">
+                                        <p class="input-group">
+                                            <input type="text" placeholder="YYYY-MM-DD" ui-date-format="mm/dd/yyyy" class="form-control" uib-datepicker-popup ng-model="vm.contactData.data.birth_date"
+                                                is-open="popup2.opened" datepicker-options="dateOptions" close-text="Close" tabindex="6"
+                                                name="birth_date" />
+                                            <span class="input-group-btn">
+
+                                                <button type="button" class="btn btn-default" ng-click="open2()">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </button>
+
+                                            </span>
+                                        </p>
+                                        <p ng-show="contactForm.birth_date.$invalid && ( vm.formSubmitted || contactForm.birth_date.$touched)" class="help-block">Enter valid date of birth.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.address.$invalid && ( vm.formSubmitted || contactForm.address.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Address:</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" ng-model="vm.contactData.data.address" tabindex="7"> </textarea>
+                                        <p ng-show="contactForm.address.$error.required && ( vm.formSubmitted || contactForm.address.$touched)" class="help-block">Address is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.address.$invalid && ( vm.formSubmitted || contactForm.address.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Address 2:</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" ng-model="vm.contactData.data.address_2" tabindex="8"> </textarea>
+                                        <p ng-show="contactForm.address.$error.required && ( vm.formSubmitted || contactForm.address.$touched)" class="help-block">Address2 is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.city.$invalid && ( vm.formSubmitted || contactForm.city.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">City:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="city" placeholder="City" ng-model="vm.contactData.data.area" id="city_name"
+                                            ng-keydown="vm.change_city()" vs-google-autocomplete="city_input_options" vs-state="vm.contactData.data.state"
+                                            vs-country="vm.contactData.data.country" vs-city="vm.contactData.data.city" tabindex="9">
+                                        <input type="hidden" ng-model="vm.contactData.data.city" name="">
+                                        <p ng-show="contactForm.city.$error.required && ( vm.formSubmitted || contactForm.city.$touched)" class="help-block">City is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.state.$invalid && ( vm.formSubmitted || contactForm.state.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">State:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="vm.contactData.data.state" name="state" placeholder="State" vs-google-autocomplete="country_input_options"
+                                            tabindex="10">
+                                        <p ng-show="contactForm.state.$error.required && ( vm.formSubmitted || contactForm.state.$touched)" class="help-block">State is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.zip_code.$invalid && ( vm.formSubmitted || contactForm.zip_code.$touched ) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">ZIP Code:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" maxlength="8" class="form-control" ng-model="vm.contactData.data.zip_code" name="zip_code" minlength="0"
+                                            max="7" placeholder="Zip Code" tabindex="11">
+                                        <p ng-show="contactForm.zip_code.$invalid && ( vm.formSubmitted || contactForm.zip_code.$touched)" class="help-block">Please enter valid ZIP code</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group" ng-class="{ 'has-error': contactForm.country.$invalid && ( vm.formSubmitted || contactForm.country.$touched) }">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Country:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="vm.contactData.data.country" name="country" placeholder="Country" vs-google-autocomplete="country_input_options"
+                                            tabindex="12">
+                                        <p ng-show="contactForm.country.$error.required && ( vm.formSubmitted || contactForm.country.$touched)" class="help-block">Country is required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Insurance #Id:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="vm.contactData.data.insurance_Id" name="insurance_Id" placeholder="Insurance #Id"
+                                            tabindex="13">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Insurance Provider:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="vm.contactData.data.insurance_provider" uib-typeahead="insurancename as insurancename.name for insurancename in insurancename | filter:{name:$viewValue}"
+                                            class="form-control" typeahead-show-hint="true" typeahead-min-length="0" placeholder="Insurance Provider"
+                                            tabindex="14">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Insurance Phone:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" phone-input class="form-control" ng-model="vm.contactData.data.insurance_phone" name="insurance_phone"
+                                            placeholder="Insurance Phone" tabindex="15">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Insurance Group:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="vm.contactData.data.insurance_group" name="insurance_group" placeholder="Insurance Group"
+                                            tabindex="16">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Referred By:</label>
+                                    <div class="col-sm-9">
+                                        <div angucomplete-alt id="ex5" placeholder="Search Referal" pause="500" selected-object="selectedProject" remote-url="/api/contacts/find-contact?s="
+                                            remote-url-request-formatter="remoteUrlRequestFn" remote-url-data-field="items" title-field="first_name,last_name"
+                                            description-field="first_name,last_name" minlength="2" input-class="form-control form-control-small"
+                                            match-class="highlight" template-url="/my-custom-template.html" initial-value="sdsfsdf"
+                                            tabindex="17">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Source:</label>
+                                    <div class="col-sm-9">
+                                        <div angucomplete-alt id="ex6" placeholder="Search Source" pause="500" selected-object="selectedSource" remote-url="/api/contacts/find-source?s="
+                                            remote-url-request-formatter="remoteUrlRequestFn" remote-url-data-field="items" title-field="term_value"
+                                            description-field="term_value" minlength="2" input-class="form-control form-control-small"
+                                            match-class="highlight" template-url="/source-template.html" initial-value="" tabindex="18">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Tags:</label>
+                                    <div class="col-sm-9">
+                                        <tags-input ng-model="vm.contactData.data.tags" add-on-paste="true" tabindex="19">
+                                            <auto-complete source="loadTags($query)" match-class="{even: $index % 2 == 0, odd: $index % 2 != 0}">></auto-complete>
+                                        </tags-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 ">
+                                <div class="form-group add-new-funnel">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">List Subscription:</label>
+                                    <div class="col-sm-9">
+                                        <tags-input ng-model="vm.tags" track-by-expr="$index" display-property="title" add-on-paste="true" key-property="id" placeholder="Select Email Lists"
+                                            tabindex="20">
+                                            <auto-complete source="load_list_Tags($query)" min-length="0" load-on-focus="true" load-on-empty="true" max-results-to-show="32"></auto-complete>
+                                        </tags-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <a ui-sref="app.contacts" class="btn btn-primary">
+                            <i class="fa fa-angle-left"></i> Back</a>
+                        <button type="submit" class="btn btn-default pull-right" ng-click="vm.save(contactForm.$valid)" ng-disabled="contactForm.$invalid">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<script type="text/ng-template" id="/my-custom-template.html">
+    <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+        <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectreffer" />
+        <div class="angucomplete-dropdown" ng-show="showDropdown">
+            <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+            <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>
+            <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                <div ng-if="imageField" class="angucomplete-image-holder">
+                    <img ng-if="result.image && result.image != ''" ng-src="{{result.image}}" class="angucomplete-image" />
+                    <div ng-if="!result.image && result.image != ''" class="angucomplete-image-default"></div>
+                </div>
+                <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+                <div ng-if="matchClass && result.description && result.description != ''" class="angucomplete-description" ng-bind-html="result.description"></div>
+                <div ng-if="!matchClass && result.description && result.description != ''" class="angucomplete-description">{{result.description}}</div>
+            </div>
+            <div class="angucomplete-row" ng-click="selectResult({first_name: searchStr, originalObject: { first_name: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                <div class="angucomplete-title">Select '{{ searchStr }}'</div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="/source-template.html">
+    <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+        <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectSource" maxlength="25" />
+        <div class="angucomplete-dropdown" ng-show="showDropdown">
+            <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+            <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+            </div>
+            <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                <div class="angucomplete-title"><strong>{{ searchStr }}</strong> will be added as new source.</div>
+            </div>
+        </div>
+    </div>
+</script>

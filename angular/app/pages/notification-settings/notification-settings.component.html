@@ -1,0 +1,338 @@
+<section class="content-header">
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-bell"></i>
+        </span>Notification Settings</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a ui-sref="app.userlist">Notification Settings</a>
+        </li>
+        <li class="active">Edit User</li>
+    </ol>
+</section>
+<section class="content notifications-page">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box box-primary box-primary-new">
+                <form class="form-horizontal" name="companyForm" ng-submit="vm.save(companyForm.$valid)" novalidate>
+                    <div class="box-body">
+                        <!--Accordion 1-->
+                        <uib-accordion close-others="oneAtATime">
+                            <div uib-accordion-group class="panel-default panel-accordiannew panel-accordiannewn" is-open="status.open">
+                                <uib-accordion-heading>
+                                    Send Notification Alerts
+                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                </uib-accordion-heading>
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-2 control-label">Send Email To:</label>
+                                            <div class="col-sm-10">
+
+                                                <tags-input ng-model="selectedTags" placeholder="Add a email" name="emailtags" display-property="email" add-on-paste="true"
+                                                    add-from-autocomplete-only="true" tabindex="20" max-length="300" allow-leftover-text="false"
+                                                    key-property="id" track-by-expr="$index">
+                                                    <auto-complete source="loadTags($query)" template="my-email-template"></auto-complete>
+                                                </tags-input>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-2 control-label">Send SMS To:</label>
+                                            <div class="col-sm-10">
+
+                                                <tags-input ng-model="selectedTagss" name="tagsnumber" placeholder="Add a phone number" add-on-paste="true" add-from-autocomplete-only="true"
+                                                    display-property="phone" tabindex="20" max-length="15" allow-leftover-text="false"
+                                                    key-property="id" track-by-expr="$index">
+                                                    <auto-complete source="loadnumberTags($query)" template="my-phone-template"></auto-complete>
+                                                </tags-input>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 notify-label">
+                                        <label>Notification Condition</label>
+                                    </div>
+                                    <div class="col-md-2 col-xs-12">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-10 col-xs-12 office-notification">
+                                        <ul class="custom-checkbox">
+                                            <li>
+                                                <input type="checkbox" id="newcall" name="new_call_notification_email" ng-model="vm.companyeditdata.data.notification_controls.new_call_notification_email"
+                                                    ng-true-value="'1'" ng-false-value="'0'">
+                                                <label for="newcall">New Call</label>
+                                            </li>
+
+                                            <li>
+                                                <input type="checkbox" id="newsms" name="new_sms_notification_email" ng-model="vm.companyeditdata.data.notification_controls.new_sms_notification_email"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="newsms">New SMS</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="newreview" name="new_review_notification_email" ng-model="vm.companyeditdata.data.notification_controls.new_review_notification_email"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="newreview">New Review</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="performance" name="daily_performance_report" ng-model="vm.companyeditdata.data.notification_controls.daily_performance_report"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="performance">Daily Performance Report</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="newopertunity" name="new_opertunity" ng-model="vm.companyeditdata.data.notification_controls.new_opertunity"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="newopertunity">New Opportunity</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="social_post_publish_email" name="social_post_publish_email" ng-model="vm.companyeditdata.data.notification_controls.social_post_publish_email"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="social_post_publish_email">Social Post Publish</label>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                                <div class="row ptop20">
+                                    <div class="col-md-2 col-xs-12">
+                                        <label>SMS</label>
+                                    </div>
+                                    <div class="col-md-10 col-xs-12 office-notification">
+                                        <ul class="custom-checkbox">
+                                            <li>
+                                                <input type="checkbox" id="newsms1" name="new_sms_notification_sms" ng-model="vm.companyeditdata.data.notification_controls.new_sms_notification_sms"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="newsms1">New SMS</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="newreview1" name="new_review_notification_sms" ng-model="vm.companyeditdata.data.notification_controls.new_review_notification_sms"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="newreview1">New Review</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="new_opertunity_SMS" name="new_opertunity_SMS" ng-model="vm.companyeditdata.data.notification_controls.new_opertunity_SMS"
+                                                    ng-true-value="'1'" ng-false-value="0">
+                                                <label for="new_opertunity_SMS">New Opportunity</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--/Accordion 1-->
+
+
+
+
+                            <div uib-accordion-group class="panel-default panel-accordiannew">
+                                <uib-accordion-heading>
+                                    Sms Templates
+                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                </uib-accordion-heading>
+                                <div ng-repeat="x in vm.companyeditdata.data.company_notifications track by $index" ng-if="x.type=='sms'" class="form-group"
+                                    ng-class="{ 'has-error': companyForm.message_{{x.id}}.$invalid && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched) }">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-5 col-md-2 control-label">{{x.title}}</label>
+                                        <div class="col-sm-7 col-md-10" style="margin-top: 10px;">
+                                            <textarea id="username_{{$index}}" ng-model="x.message" class="form-control" style="height: 90px;" name="message_{{x.id}}">{{x.message}}</textarea>
+                                            <p ng-show="companyForm.message_{{x.id}}.$error.required && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched)"
+                                                class="help-block">Message is required.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-2 control-label">Enable</label>
+                                        <div class="col-sm-4 col-md-6" style="margin-top: 7px;">
+                                            <label class="switch">
+                                                <input ng-model="x.status" ng-true-value="'1'" ng-false-value="0" name="x.status" value="{{x.status}}" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4" style="margin-top: 7px;">
+                                            <button class="btn btn-primary pull-right" ng-click="gettagsPop(selectedIndex,$index,x.type_key,'sms')" type="button" id="x_message">Add Tags</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- -->
+                            </div>
+                            <div uib-accordion-group class="panel-default panel-accordiannew">
+                                <uib-accordion-heading>
+                                    Email Templates
+                                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                </uib-accordion-heading>
+
+                                <div ng-repeat="x in vm.companyeditdata.data.company_notifications" ng-if="x.type=='mail'" class="form-group" ng-class="{ 'has-error': companyForm.message_{{x.id}}.$invalid && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched) }">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-5 col-md-2 control-label">{{x.title}}</label>
+                                        <div class="col-sm-7 col-md-10">
+                                            <input type="text" class="form-control" ng-model="x.email_subject" placeholder="Email Subject" name="eamil_subject_{{x.id}}">
+                                            <br/>
+
+                                            <trix-editor trix-id="msfg{{x.id}}" angular-trix trix-initialize="trixInitialize(e, editor);" trix-change="trixChange(e, editor);"
+                                                trix-selection-change="trixSelectionChange(e,
+                                    editor);" trix-focus="trixFocus(e, editor);" trix-blur="trixBlur(e, editor);" trix-file-accept="trixFileAccept(e, editor);"
+                                                trix-attachment-add="trixAttachmentAdd(e, editor);" trix-attachment-remove="trixAttachmentRemove(e, editor);"
+                                                ng-model="x.message" name="message_{{x.id}}"></trix-editor>
+
+                                            <p ng-show="companyForm.message_{{x.id}}.$error.required && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched)"
+                                                class="help-block">Message is required.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-2 control-label">Enable</label>
+                                        <div class="col-sm-4 col-md-6" style="margin-top: 7px;">
+                                            <label class="switch">
+                                                <input ng-model="x.status" ng-true-value="'1'" ng-false-value="0" name="x.status" value="{{x.status}}" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4" style="margin-top: 7px;">
+                                            <button class="btn btn-primary pull-right" ng-click="gettagsPop(selectedIndex,$index,x.type_key)" type="button" id="x_message">Add Tags</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div ng-repeat="x in vm.companyeditdata.data.company_notifications" ng-if="x.type=='appointement_status'" class="form-group"
+                                    ng-class="{ 'has-error': companyForm.message_{{x.id}}.$invalid && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched) }">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-5 col-md-2 control-label">{{x.title}}</label>
+                                        <div class="col-sm-7 col-md-10">
+                                            <input type="text" class="form-control" ng-model="x.email_subject" placeholder="Appointment Status Subject" name="eamil_subject_{{x.id}}">
+                                            <br/>
+                                            <trix-editor trix-id="{{x.id}}" angular-trix trix-initialize="trixInitialize(e, editor);" trix-change="trixChange(e, editor);"
+                                                trix-selection-change="trixSelectionChange(e,
+                                    editor);" trix-focus="trixFocus(e, editor);" trix-blur="trixBlur(e, editor);" trix-file-accept="trixFileAccept(e, editor);"
+                                                trix-attachment-add="trixAttachmentAdd(e, editor);" trix-attachment-remove="trixAttachmentRemove(e, editor);"
+                                                ng-model="x.message" name="message_{{x.id}}"></trix-editor>
+
+                                            <p ng-show="companyForm.message_{{x.id}}.$error.required && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched)"
+                                                class="help-block">Message is required.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-2 control-label">Enable</label>
+                                        <div class="col-sm-4 col-md-6">
+                                            <label class="switch">
+                                                <input ng-model="x.status" ng-true-value="'1'" ng-false-value="0" name="x.status" value="{{x.status}}" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4" style="margin-top: 7px;">
+                                            <button class="btn btn-primary pull-right" ng-click="gettagsPop(selectedIndex,$index,x.type_key)" type="button" id="x_message">Add Tags</button>
+                                        </div>
+                                        <hr>
+                                    </div>
+
+                                </div>
+
+                                <div ng-repeat="x in vm.companyeditdata.data.company_notifications" ng-if="x.type=='general_settings'" class="form-group"
+                                    ng-class="{ 'has-error': companyForm.message_{{x.id}}.$invalid && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched) }">
+                                    <div class="row">
+                                        <label for="inputEmail3" class="col-sm-5 col-md-2 control-label">{{x.title}}</label>
+                                        <div class="col-sm-7 col-md-10">
+                                            <input type="text" class="form-control" ng-model="x.email_subject" placeholder="Subject" name="eamil_subject_{{x.id}}">
+                                            <br/>
+
+                                            <trix-editor trix-id="noti_{{x.id}}" angular-trix trix-initialize="trixInitialize(e, editor);" trix-change="trixChange(e, editor);"
+                                                trix-selection-change="trixSelectionChange(e,
+                                    editor);" trix-focus="trixFocus(e, editor);" trix-blur="trixBlur(e, editor);" trix-file-accept="trixFileAccept(e, editor);"
+                                                trix-attachment-add="trixAttachmentAdd(e, editor);" trix-attachment-remove="trixAttachmentRemove(e, editor);"
+                                                ng-model="x.message" name="message_{{x.id}}"></trix-editor>
+
+                                            <p ng-show="companyForm.message_{{x.id}}.$error.required && ( vm.formSubmitted || companyForm.message_{{x.id}}.$touched)"
+                                                class="help-block">Message is required.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <label for="inputEmail3" class="col-sm-4 col-md-2 control-label">Enable</label>
+                                        <div class="col-sm-4 col-md-6">
+                                            <label class="switch">
+                                                <input ng-model="x.status" ng-true-value="'1'" ng-false-value="0" name="x.status" value="{{x.status}}" type="checkbox" class="flat-red">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4" style="margin-top: 7px;">
+                                            <button class="btn btn-primary pull-right" ng-click="gettagsPop(selectedIndex,$index,x.type_key)" type="button" id="x_message">Add Tags</button>
+                                        </div>
+                                        <hr>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </uib-accordion>
+                    </div>
+                    <div class="box-footer box-footer-accordian">
+                        <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                            <h4>{{alert.title}}</h4>
+                            <p>{{alert.msg}}</p>
+                        </div>
+                        <a ui-sref="app.userlist" class="btn btn-primary">
+                            <i class="fa fa-angle-left"></i> Back</a>
+                        <button type="submit" class="btn btn-default pull-right" ng-disabled="companyForm.$invalid">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/ng-template" id="group-template.html">
+    <div class="panel-heading">
+      <h4 class="panel-title" style="color:#fa39c3">
+        <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
+          <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
+            {{heading}}
+          </span>
+        </a>
+      </h4>
+    </div>
+    <div class="panel-collapse collapse" uib-collapse="!isOpen">
+      <div class="panel-body" style="text-align: right" ng-transclude></div>
+    </div>
+  </script>
+<script type="text/ng-template" id="my-email-template">
+  <div class="left-panel">
+    {{data.name}}
+  </div>
+  <div class="right-panel">
+    <span ng-bind-html="$highlight($getDisplayText())"></span>
+  </div>
+</script>
+<script type="text/ng-template" id="my-phone-template">
+  <div class="left-panel">
+    {{data.name}}
+  </div>
+  <div class="right-panel">
+    <span ng-bind-html="$highlight($getDisplayText())"></span>
+  </div>
+</script>
+<script type="text/ng-template" id="merge-tags.html">
+    <div class="modal-dialog modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" ng-click="closemodal()">&times;</a>
+                <!--span ng-click="closemodal()">X</span-->
+                <p>Tags - List</p>
+            </div>
+            
+                <div class="modal-body" >
+                   <div class="row">
+								<div class="col-sm-4" ng-repeat="tagdata in tags" >
+                                    <a ng-click ="puttagInEditor(tagdata.tag)" href=""><strong>{{tagdata.name}}:</strong> <br> {{tagdata.tag}}</a></div>
+								
+                            </div>
+                </div>
+                <div class="modal-footer" >
+                    <!-- <button class="btn btn-success" type="button" ng-click="">add tag</button> -->
+                </div>
+            
+           
+        </div>
+    </div>
+</script>

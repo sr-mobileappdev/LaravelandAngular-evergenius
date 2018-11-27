@@ -1,0 +1,95 @@
+<section class="content-header">
+    <h1 class="box-title">
+        <span style="margin-right:6px;">
+            <i class="fa fa-vcard-o"></i>
+        </span> Contacts </h1>
+    <div class="btn-right-header">
+        <a ui-sref="app.contactadd" class="btn btn-success" ng-show="vm.can('add.edit.contacts')">
+            <i class="fa fa-plus"></i>Add Contact </a> &nbsp;
+        <a ui-sref="app.emimport-contacts" class="btn btn-primary" ng-show="vm.can('import.contacts')">
+            <i class="fa fa-file-excel-o"></i> Import CSV</a>
+    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li class="active">Contacts</li>
+    </ol>
+
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-body">
+                    <div ng-if="vm.alerts" ng-show="showMessage" class="alert alert-{{alert.type}} fadein fadeout" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+
+                    <div class="contact-filters" ng-if="vm.can('opportunity')">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Assignee</label>
+                                <select class="form-control custom" id="selected_assine" ng-model="selected_assine">
+                                    <option value="">Select Assignee</option>
+                                    <option ng-repeat="assine in assines" ng-value="assine.id">{{assine.name}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Stage</label>
+                                <select class="form-control custom" id="selected_stage" ng-model="selected_stage">
+                                    <option value="">Select Stage</option>
+                                    <option ng-repeat="stage in lead_stages" ng-value="stage.id">{{stage.title}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Source</label>{{selected_source}}
+                                <select class="form-control custom" ng-model="selected_source" id="selected_source">
+                                    <option value="">Select Source</option>
+                                    <option ng-repeat="source in sources" ng-value="source.id">{{source.value}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tag</label>
+                                <div angucomplete-alt id="ex6" placeholder="Search Source" pause="500" selected-object="selectedSource" remote-url="/api/contacts/find-tag?s="
+                                     remote-url-request-formatter="remoteUrlRequestFn" remote-url-data-field="items" title-field="term_value"
+                                     description-field="term_value" minlength="2" input-class="form-control form-control-small"
+                                     match-class="highlight" template-url="/source-template.html" initial-value="selected_tag"
+                                     tabindex="19">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button type="button" class="btn btn-primary" ng-click="searchContacts()">Search</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="table-wrapper responsive">
+                        <input type="checkbox" ng-model="all"> <button class="btn btn-danger" ng-click="deleteallcheck()" ng-model="tableSelection[$index]">  Delete </button>
+                        <table datatable="" id="{{tableId}}" width="100%" class="table table-striped table-bordered  checklass" ng-if="vm.displayTable" dt-instance="vm.dtInstanceCallback"
+                               dt-options="vm.dtOptions" dt-columns="vm.dtColumns"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/ng-template" id="/source-template.html">
+    <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+        <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectSource" maxlength="25" />
+        <div class="angucomplete-dropdown" ng-show="showDropdown">
+            <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+            <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+            </div>
+            <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                <div class="angucomplete-title"><strong>{{ searchStr }}</strong> will be added as new source.</div>
+            </div>
+        </div>
+    </div>
+</script>

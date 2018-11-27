@@ -1,0 +1,57 @@
+<section class="content-header">
+
+    <h1 class="box-title">
+        <span style="margin-right:6px;">
+            <i class="fa fa-comment"></i>
+        </span> New SMS Broadcast</h1>
+    <div class="btn-right-header">
+        <a class="btn btn-success" ng-click="vm.save_campign(newCampaignsForm.$valid,'sendsms',1,beeConfig )" ng-if="status_check == false"
+            ng-disabled="newCampaignsForm.$invalid ">Save & Send Test</a>
+        <a class="btn btn-primary" ng-click="vm.save_campign(newCampaignsForm.$valid,'draft',1,beeConfig)" ng-if="status_check == false"
+            ng-disabled="newCampaignsForm.$invalid ">Save Draft</a>
+    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing" href="#/">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li class="active">Contacts</li>
+    </ol>
+</section>
+
+<div class="media alert alert-danger smtp-alert" ng-if="campaignErrorstate">
+    <b>Warning</b>: {{campaignError}}
+</div>
+
+<section class="content">
+    <article class="section">
+        <div newsms></div>
+        <a onclick="history.back()" class="btn btn-primary">
+            <i class="fa fa-angle-left"></i> Back</a>
+    </article>
+</section>
+
+<script type="text/ng-template" id="merge-tags.html">
+        <div class="modal-dialog modal-1">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" ng-click="closemodal()">&times;</a>
+                    <!--span ng-click="closemodal()">X</span-->
+                    <p>Tags - List</p>
+                </div>
+                
+                    <div class="modal-body" >
+                       <div class="row">
+    								<div class="col-sm-4" ng-repeat="tagdata in tags" >
+                                        <a ng-click ="puttagInEditor(tagdata.tag)" href=""><strong>{{tagdata.name}}:</strong> <br> {{tagdata.tag}}</a></div>
+    								
+                                </div>
+                    </div>
+                    <div class="modal-footer" >
+                        <!-- <button class="btn btn-success" type="button" ng-click="">add tag</button> -->
+                    </div>
+                
+               
+            </div>
+        </div>
+    </script>

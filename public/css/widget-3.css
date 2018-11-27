@@ -1,0 +1,86 @@
+.mpopup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    height: 100vh;
+    padding-top: 17px;
+}
+.mpopup-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    max-width: 485px;
+   -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    height: 600px;
+}
+.mpopup-head {
+   /* padding: 2px 16px;
+    background-color: #ff0000;
+    color: white;*/
+}
+.mpopup-main {padding:0;}
+.mpopup-foot {
+    padding: 2px 16px;
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+#badge_pop{cursor: pointer; margin: 0px;}
+/* add animation effects */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* close button style */
+.popupClose {
+    color: #080808;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    top:12px;
+    background: #fff;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 100%;
+}
+.popupClose:hover, popupClose:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#mpopupLink{font-size:20px;}
+
+@media screen and (max-width:480px){
+    .mpopup-content{margin: 0 0px;}
+    .popupClose{top: -12px;}
+    .mpopup-content{height: 155vh;}
+    #widgetiframe iframe{height: 155vh!important;}
+}
+
+.badge_anchore{
+    bottom: 0px;
+    right: 0px;
+    position: fixed;
+    z-index: 99999;
+    line-height: 0px;
+}

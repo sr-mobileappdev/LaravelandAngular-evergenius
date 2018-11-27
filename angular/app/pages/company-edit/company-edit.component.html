@@ -1,0 +1,444 @@
+<section class="content-header">
+	<h1 class="pull-left">
+		<span style="margin-right:6px;">
+			<i class="fa fa-users"></i>
+		</span>Edit Company</h1>
+	<a ui-sref="app.companybuildscreen({ companyOBJ: companyObj, id: vm.companyeditdata.data.id, alerts: alert })" ng-if="notShowsitebuilder"
+	 class="btn btn-primary pull-right">
+		<span style="margin-right:6px;">
+			<i class="fa fa-globe"></i>
+		</span>Build Website</a>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<div class="box box-primary">
+				<form class="form-horizontal" name="companyForm" ng-submit="vm.save(companyForm.$valid)" novalidate>
+					<div class="box-body">
+						<div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+							<h4>{{alert.title}}</h4>
+							<p>{{alert.msg}}</p>
+						</div>
+						<div class="setting-box">
+							<h4>General Settings</h4>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.name.$invalid && ( vm.formSubmitted || companyForm.name.$touched) }">
+									<label for="inputEmail3" class="control-label">Clinic Name</label>
+									<div>
+										<input tabindex="1" type="text" class="form-control" ng-model="vm.companyeditdata.data.name" name="name" placeholder="Name"
+										 required>
+										<p ng-show="companyForm.name.$error.required && ( vm.formSubmitted || companyForm.name.$touched)" class="help-block">Name is required.</p>
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.email.$invalid && ( vm.formSubmitted || companyForm.email.$touched) }">
+									<label for="inputEmail3" class="control-label">Email</label>
+									<div>
+										<input tabindex="2" type="email" class="form-control" ng-model="vm.companyeditdata.data.email" name="email" placeholder="Email"
+										 required>
+										<p ng-show="companyForm.email.$error.required && ( vm.formSubmitted || companyForm.email.$touched)" class="help-block">Email is required.</p>
+										<p ng-show="companyForm.email.$error.email  && ( vm.formSubmitted || companyForm.email.$touched)" class="help-block">This is not a valid email.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.phone.$invalid && ( vm.formSubmitted || companyForm.phone.$touched) }">
+									<label for="inputEmail3" class="control-label">Phone</label>
+									<div>
+										<input tabindex="3" type="text" phone-input class="form-control" ng-model="vm.companyeditdata.data.phone" name="phone" placeholder="Phone"
+										 required>
+										<p ng-show="companyForm.phone.$error.required && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">Phone is required.</p>
+										<p ng-show="companyForm.phone.$error.phone  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is not a valid Phone.</p>
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.website_url.$invalid && ( vm.formSubmitted || companyForm. website_url.$touched) }">
+									<label for="inputEmail3" class="control-label">Website URL</label>
+									<div>
+										<input tabindex="4" type="url" class="form-control" ng-model="vm.companyeditdata.data.site_url" name="website_url" placeholder="Website URL e.g. companydomain.com "
+										 required="" ng-required ng-pattern="domain_regex">
+
+										<p ng-show="companyForm.phone.$error.website_url  && ( vm.formSubmitted || companyForm.website_url.$touched)" class="help-block">This is Required.</p>
+
+										<p ng-show="companyForm.phone.$invalid  && ( vm.formSubmitted || companyForm.website_url.$touched)" class="help-block">Please enter valid URL.</p>
+										<small>e.g. http://companydomain.com</small>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.api_url.$invalid && ( vm.formSubmitted || companyForm. api_url.$touched) }">
+									<label for="inputEmail3" class="control-label">Website API URL</label>
+									<div>
+										<input tabindex="5" type="url" class="form-control" ng-model="vm.companyeditdata.data.api_url" name="api_url" placeholder="Website API URL"
+										 required="" ng-required>
+										<p ng-show="companyForm.api_url.$error.api_url  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is Required.</p>
+
+										<p ng-show="companyForm.api_url.$invalid  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">please enter valid API UR</p>
+
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.api_access_token.$invalid && ( vm.formSubmitted || companyForm. api_access_token.$touched) }">
+									<label for="inputEmail3" class="control-label">Website API Key</label>
+									<div>
+										<input tabindex="6" type="text" class="form-control" ng-model="vm.companyeditdata.data.api_access_token" name="api_access_token"
+										 placeholder="Website API Key" required="" ng-required>
+										<p ng-show="companyForm.api_access_token.$error.api_access_token  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.city.$invalid && ( vm.formSubmitted || companyForm.city.$touched) }">
+									<label for="inputEmail3" class="control-label">City</label>
+									<div>
+										<input tabindex="7" type="text" class="form-control" ng-model="vm.companyeditdata.data.city" name="city" placeholder="City"
+										 required="" ng-required ng-model="vm.companyeditdata.data.area" id="city_name" vs-google-autocomplete="city_input_options"
+										 vs-state="vm.companyeditdata.data.state" vs-country="vm.companyeditdata.data.country" vs-city="vm.companyeditdata.data.city">
+										<input type="hidden" ng-model="vm.companyeditdata.data.city" name="">
+										<p ng-show="companyForm.city.$error.city  && ( vm.formSubmitted || companyForm.city.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.state.$invalid && ( vm.formSubmitted || companyForm.state.$touched) }">
+									<label for="inputEmail3" class="control-label">State</label>
+									<div>
+										<input tabindex="8" type="text" class="form-control" ng-model="vm.companyeditdata.data.state" name="state" placeholder="State"
+										 required="" ng-required>
+										<p ng-show="companyForm.phone.$error.phone  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.country.$invalid && ( vm.formSubmitted || companyForm.country.$touched) }">
+									<label for="inputEmail3" class="control-label">Country</label>
+									<div class="uiselect-country">
+										<input tabindex="9" type="text" class="form-control" ng-model="vm.companyeditdata.data.country" name="country" placeholder="Country"
+										 required="" ng-required>
+
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.zip_code.$invalid && ( vm.formSubmitted || companyForm.zip_code.$touched) }">
+									<label for="inputEmail3" class="control-label">ZIP code</label>
+									<div>
+										<input tabindex="11" type="text" class="form-control" ng-model="vm.companyeditdata.data.zip_code" name="zip_code" maxlength="8"
+										 placeholder="zip code">
+										<p ng-show="companyForm.zip_code.$invalid  && ( vm.formSubmitted || companyForm.zip_code.$touched)" class="help-block">Please enter valid ZIP code</p>
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.address.$invalid && ( vm.formSubmitted || companyForm. address.$touched) }">
+									<label for="inputEmail3" class="control-label">Address</label>
+									<div>
+										<textarea tabindex="10" type="text" class="form-control" ng-model="vm.companyeditdata.data.address" name="address" placeholder="Address"></textarea>
+									</div>
+								</div>
+
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.api_key.$invalid && ( vm.formSubmitted || companyForm. api_key.$touched) }">
+									<label for="inputEmail3" class="control-label">EverGenius Api Key</label>
+									<div>
+										<input tabindex="12" readonly="" type="text" class="form-control" ng-model="vm.companyeditdata.data.api_key" name="api_key"
+										 placeholder="Website API URL" required="" ng-required>
+										<p ng-show="companyForm.api_key.$error.api_key  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12" ng-class="{ 'has-error': companyForm.description.$invalid && ( vm.formSubmitted || companyForm.description.$touched) }">
+									<label for="inputEmail3" class="control-label">Description </label>
+									<div>
+										<trix-editor trix-id="msfg_bio" angular-trix ng-model="vm.companyeditdata.data.description" name="message_bio" tabindex="12"></trix-editor>
+
+										<!-- <textarea tabindex="8" type="text" class="form-control" ng-model="vm.companyeditdata.data.description" name="description" placeholder="Description"></textarea> -->
+										<p ng-show="companyForm.description.$error.required  && ( vm.formSubmitted || companyForm.description.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Company Logo</label>
+									<div class="company-logo">
+										<img width="200" src="{{vm.companyeditdata.data.logo}}" id="logo-block" ng-show="!vm.upload_img_block">
+										<i class="fa fa-trash btn-sm btn-primary" ng-click="vm.hide_logo_img()" ng-hide="vm.upload_img_block || !vm.companyeditdata.data.logo"></i>
+
+										<div class="inpul-box" ng-show="vm.upload_img_block || !vm.companyeditdata.data.logo ">
+											<div class="file-upload">
+												<input tabindex="10" type="file" placeholder="Select Logo" id="filebox" value="Select Logo" title="Select Logo" name="filebox"
+												 ng-model="vm.company_logo" base-sixty-four-input>
+
+												<a href="#" class="btn btn-primary">Browse</a>
+												<p class="file_name_choose">
+													<sman ng-show="!vm.company_logo.filename">No file Chosen</sman> {{vm.company_logo.filename}}</p>
+
+											</div>
+										</div>
+
+
+
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Publish Profile to Honest Doctor</label>
+									<div>
+										<label class="switch">
+											<input ng-model="vm.companyeditdata.data.hd_publish_status" ng-true-value="'1'" ng-false-value="0" name="x.status" value="1"
+											 type="checkbox" class="flat-red ng-pristine ng-untouched ng-valid ng-not-empty">
+											<div class="slider round"></div>
+										</label>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="setting-box">
+							<h4>User Information</h4>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.username.$invalid && ( vm.formSubmitted || companyForm.username.$touched) }">
+									<label for="inputEmail3" class="control-label">Primary User</label>
+									<div>
+										<input type="text" class="form-control" ng-model="vm.companyeditdata.data.user_name" name="username" placeholder="Name">
+
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.userphone.$invalid && ( vm.formSubmitted || companyForm.userphone.$touched) }">
+									<label for="inputEmail3" class="control-label">Phone</label>
+									<div>
+										<input tabindex="3" type="text" phone-input class="form-control" ng-model="vm.companyeditdata.data.user_phone" name="phone"
+										 placeholder="Phone">
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.user_email.$invalid && ( vm.formSubmitted || companyForm. user_email.$touched) }">
+									<label for="inputEmail3" class="control-label">User Email</label>
+									<div>
+										<input tabindex="14" type="text" class="form-control" ng-model="vm.companyeditdata.data.user_email" name="user_email" placeholder="Enter user email"
+										 required="" ng-required>
+										<p ng-show="companyForm.user_email.$error.user_email  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.user_password.$invalid && ( vm.formSubmitted || companyForm. user_password.$touched) }">
+									<label for="inputEmail3" class="control-label">User Password</label>
+									<div>
+										<input tabindex="15" type="password" class="form-control" ng-model="vm.companyeditdata.data.user_password" name="user_password"
+										 placeholder="Enter user password" required="" ng-required>
+										<p ng-show="companyForm.user_password.$error.user_password  && ( vm.formSubmitted || companyForm.user_password.$touched)"
+										 class="help-block">This is Required.</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<!-- Other Comapny Settings -->
+						<div class="setting-box">
+							<h4>Additional Settings</h4>
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Facebook Url</label>
+									<div>
+										<input tabindex="16" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.facebook_url" name="facebook_url"
+										 placeholder="Facebook URL">
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Twilio Number</label>
+									<div>
+										<input tabindex="17" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.twilio_number" name="twilio_number"
+										 placeholder="Twilio Number">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Twilio SID</label>
+									<div>
+										<input tabindex="18" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.twilio_sid" name="twilio_sid"
+										 placeholder="Twilio SID">
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Twilio Auth ID</label>
+									<div>
+										<input tabindex="19" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.twilio_auth_id" name="twilio_auth_id"
+										 placeholder="Twilio Auth ID">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Mailchimp Api Key</label>
+									<div>
+										<input tabindex="20" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.mailchimp_api_key"
+										 name="mailchimp_api_key" placeholder="MailChimp Api Key">
+
+
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Twilio Enable</label>
+									<div>
+										<select tabindex="23" name="twilio_enable" class="form-control" ng-model="vm.companyeditdata.data.companysettings.twilio_enable">
+											<option value="0">Disable</option>
+											<option value="1">Enable</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">TimeZone</label>
+									<div>
+										<select tabindex="24" name="twilio_enable" class="form-control" ng-model="vm.companyeditdata.data.companysettings.timezone">
+											<option value="Pacific/Midway">(GMT-11:00) Midway Island, Samoa</option>
+											<option value="America/Adak">(GMT-10:00) Hawaii-Aleutian</option>
+											<option value="Etc/GMT+10">(GMT-10:00) Hawaii</option>
+											<option value="Pacific/Marquesas">(GMT-09:30) Marquesas Islands</option>
+											<option value="Pacific/Gambier">(GMT-09:00) Gambier Islands</option>
+											<option value="America/Anchorage">(GMT-09:00) Alaska</option>
+											<option value="America/Ensenada">(GMT-08:00) Tijuana, Baja California</option>
+											<option value="Etc/GMT+8">(GMT-08:00) Pitcairn Islands</option>
+											<option value="America/Los_Angeles">(GMT-08:00) Pacific Time (US & Canada)</option>
+											<option value="America/Denver">(GMT-07:00) Mountain Time (US & Canada)</option>
+											<option value="America/Chihuahua">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+											<option value="America/Dawson_Creek">(GMT-07:00) Arizona</option>
+											<option value="America/Belize">(GMT-06:00) Saskatchewan, Central America</option>
+											<option value="America/Cancun">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
+											<option value="Chile/EasterIsland">(GMT-06:00) Easter Island</option>
+											<option value="America/Chicago">(GMT-06:00) Central Time (US & Canada)</option>
+											<option value="America/New_York">(GMT-05:00) Eastern Time (US & Canada)</option>
+											<option value="America/Havana">(GMT-05:00) Cuba</option>
+											<option value="America/Bogota">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
+											<option value="America/Caracas">(GMT-04:30) Caracas</option>
+											<option value="America/Santiago">(GMT-04:00) Santiago</option>
+											<option value="America/La_Paz">(GMT-04:00) La Paz</option>
+											<option value="Atlantic/Stanley">(GMT-04:00) Faukland Islands</option>
+											<option value="America/Campo_Grande">(GMT-04:00) Brazil</option>
+											<option value="America/Goose_Bay">(GMT-04:00) Atlantic Time (Goose Bay)</option>
+											<option value="America/Glace_Bay">(GMT-04:00) Atlantic Time (Canada)</option>
+											<option value="America/St_Johns">(GMT-03:30) Newfoundland</option>
+											<option value="America/Araguaina">(GMT-03:00) UTC-3</option>
+											<option value="America/Montevideo">(GMT-03:00) Montevideo</option>
+											<option value="America/Miquelon">(GMT-03:00) Miquelon, St. Pierre</option>
+											<option value="America/Godthab">(GMT-03:00) Greenland</option>
+											<option value="America/Argentina/Buenos_Aires">(GMT-03:00) Buenos Aires</option>
+											<option value="America/Sao_Paulo">(GMT-03:00) Brasilia</option>
+											<option value="America/Noronha">(GMT-02:00) Mid-Atlantic</option>
+											<option value="Atlantic/Cape_Verde">(GMT-01:00) Cape Verde Is.</option>
+											<option value="Atlantic/Azores">(GMT-01:00) Azores</option>
+											<option value="Europe/Belfast">(GMT) Greenwich Mean Time : Belfast</option>
+											<option value="Europe/Dublin">(GMT) Greenwich Mean Time : Dublin</option>
+											<option value="Europe/Lisbon">(GMT) Greenwich Mean Time : Lisbon</option>
+											<option value="Europe/London">(GMT) Greenwich Mean Time : London</option>
+											<option value="Africa/Abidjan">(GMT) Monrovia, Reykjavik</option>
+											<option value="Europe/Amsterdam">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+											<option value="Europe/Belgrade">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+											<option value="Europe/Brussels">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+											<option value="Africa/Algiers">(GMT+01:00) West Central Africa</option>
+											<option value="Africa/Windhoek">(GMT+01:00) Windhoek</option>
+											<option value="Asia/Beirut">(GMT+02:00) Beirut</option>
+											<option value="Africa/Cairo">(GMT+02:00) Cairo</option>
+											<option value="Asia/Gaza">(GMT+02:00) Gaza</option>
+											<option value="Africa/Blantyre">(GMT+02:00) Harare, Pretoria</option>
+											<option value="Asia/Jerusalem">(GMT+02:00) Jerusalem</option>
+											<option value="Europe/Minsk">(GMT+02:00) Minsk</option>
+											<option value="Asia/Damascus">(GMT+02:00) Syria</option>
+											<option value="Europe/Moscow">(GMT+03:00) Moscow, St. Petersburg, Volgograd</option>
+											<option value="Africa/Addis_Ababa">(GMT+03:00) Nairobi</option>
+											<option value="Asia/Tehran">(GMT+03:30) Tehran</option>
+											<option value="Asia/Dubai">(GMT+04:00) Abu Dhabi, Muscat</option>
+											<option value="Asia/Yerevan">(GMT+04:00) Yerevan</option>
+											<option value="Asia/Kabul">(GMT+04:30) Kabul</option>
+											<option value="Asia/Yekaterinburg">(GMT+05:00) Ekaterinburg</option>
+											<option value="Asia/Tashkent">(GMT+05:00) Tashkent</option>
+											<option value="Asia/Kolkata">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+											<option value="Asia/Katmandu">(GMT+05:45) Kathmandu</option>
+											<option value="Asia/Dhaka">(GMT+06:00) Astana, Dhaka</option>
+											<option value="Asia/Novosibirsk">(GMT+06:00) Novosibirsk</option>
+											<option value="Asia/Rangoon">(GMT+06:30) Yangon (Rangoon)</option>
+											<option value="Asia/Bangkok">(GMT+07:00) Bangkok, Hanoi, Jakarta</option>
+											<option value="Asia/Krasnoyarsk">(GMT+07:00) Krasnoyarsk</option>
+											<option value="Asia/Hong_Kong">(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
+											<option value="Asia/Irkutsk">(GMT+08:00) Irkutsk, Ulaan Bataar</option>
+											<option value="Australia/Perth">(GMT+08:00) Perth</option>
+											<option value="Australia/Eucla">(GMT+08:45) Eucla</option>
+											<option value="Asia/Tokyo">(GMT+09:00) Osaka, Sapporo, Tokyo</option>
+											<option value="Asia/Seoul">(GMT+09:00) Seoul</option>
+											<option value="Asia/Yakutsk">(GMT+09:00) Yakutsk</option>
+											<option value="Australia/Adelaide">(GMT+09:30) Adelaide</option>
+											<option value="Australia/Darwin">(GMT+09:30) Darwin</option>
+											<option value="Australia/Brisbane">(GMT+10:00) Brisbane</option>
+											<option value="Australia/Hobart">(GMT+10:00) Hobart</option>
+											<option value="Asia/Vladivostok">(GMT+10:00) Vladivostok</option>
+											<option value="Australia/Lord_Howe">(GMT+10:30) Lord Howe Island</option>
+											<option value="Etc/GMT-11">(GMT+11:00) Solomon Is., New Caledonia</option>
+											<option value="Asia/Magadan">(GMT+11:00) Magadan</option>
+											<option value="Pacific/Norfolk">(GMT+11:30) Norfolk Island</option>
+											<option value="Asia/Anadyr">(GMT+12:00) Anadyr, Kamchatka</option>
+											<option value="Pacific/Auckland">(GMT+12:00) Auckland, Wellington</option>
+											<option value="Etc/GMT-12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
+											<option value="Pacific/Chatham">(GMT+12:45) Chatham Islands</option>
+											<option value="Pacific/Tongatapu">(GMT+13:00) Nuku'alofa</option>
+											<option value="Pacific/Kiritimati">(GMT+14:00) Kiritimati</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Google analytics profile ID</label>
+									<div>
+										<input tabindex="25" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.analytics_profile_id"
+										 name="analytics_profile_id" placeholder="Google analytics profile ID">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">LTV Value($)</label>
+									<div>
+										<input tabindex="26" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.ltv_value" name="ltv_value"
+										 placeholder="Add your ltv value here">
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Yext Location ID</label>
+									<div>
+										<input tabindex="27" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.yext_location_id"
+										 name="yext_location_id" placeholder="Yext Location ID">
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Perfect Audience Site ID</label>
+									<div>
+										<input tabindex="28" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.pa_site_id" name="pa_site_id"
+										 placeholder="Perfect Audience Site ID">
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Monthly Marketing Budget</label>
+									<div>
+										<input tabindex="29" type="text" class="form-control" ng-model="vm.companyeditdata.data.companysettings.monthly_marketing_budget"
+										 name="monthly_marketing_budget" placeholder="Monthly Marketing Budget">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<a ui-sref="app.manageclients" class="btn btn-primary">
+							<i class="fa fa-angle-left"></i> Back</a>
+						<button type="submit" class="btn btn-default pull-right" ng-disabled="file_error">Update</button>
+					</div>
+				</form>
+			</div>
+		</div>
+</section>

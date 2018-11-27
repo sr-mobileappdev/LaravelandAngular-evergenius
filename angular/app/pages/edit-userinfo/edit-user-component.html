@@ -1,0 +1,201 @@
+<section class="content-header">
+    <h1 class="pull-left">
+        <span style="margin-right:6px;">
+            <i class="fa fa-users"></i>
+        </span>Edit User</h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box box-primary">
+                <form class="form-horizontal" name="userForm" ng-submit="vm.save(userForm.$valid)" novalidate>
+                    <div class="box-body">
+                        <div ng-if="vm.alerts && showAlert" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                            <h4>{{alert.title}}</h4>
+                            <p>{{alert.msg}}</p>
+                        </div>
+                        <div class="setting-box">
+                            <h4>General Settings</h4>
+                            <div class="row">
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.name.$invalid && ( vm.formSubmitted || userForm.name.$touched) }">
+                                    <label for="inputEmail3" class="control-label">Name*</label>
+                                    <div>
+                                        <input tabindex="1" type="text" class="form-control" ng-model="vm.usereditdata.data.name" name="name" placeholder="Name"
+                                            required>
+                                        <p ng-show="userForm.name.$error.required && ( vm.formSubmitted || userForm.name.$touched)" class="help-block">Name is required.</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.email.$invalid && ( vm.formSubmitted || userForm.email.$touched) }">
+                                    <label for="inputEmail3" class="control-label">Email*</label>
+                                    <div>
+                                        <input tabindex="2" type="email" class="form-control" ng-model="vm.usereditdata.data.email" name="email" placeholder="Email"
+                                            required>
+                                        <p ng-show="userForm.email.$error.required && ( vm.formSubmitted || userForm.email.$touched)" class="help-block">Email is required.</p>
+                                        <p ng-show="userForm.email.$error.email  && ( vm.formSubmitted || userForm.email.$touched)" class="help-block">This is not a valid email.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.phone.$invalid && ( vm.formSubmitted || userForm.phone.$touched) }">
+                                    <label for="inputEmail3" class="control-label">Phone*</label>
+                                    <div>
+                                        <input tabindex="3" type="text" phone-input class="form-control" ng-model="vm.usereditdata.data.phone" name="phone" placeholder="Phone"
+                                            required>
+                                        <p ng-show="userForm.phone.$error.required && ( vm.formSubmitted || userForm.phone.$touched)" class="help-block">Phone is required.</p>
+                                        <p ng-show="userForm.phone.$error.phone  && ( vm.formSubmitted || userForm.phone.$touched)" class="help-block">This is not a valid Phone.</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.city.$invalid && ( vm.formSubmitted || userForm.city.$touched) }">
+                                    <label for="inputEmail3" class="control-label">City</label>
+                                    <div>
+                                        <input tabindex="4" type="text" class="form-control" name="city" placeholder="City" ng-model="vm.usereditdata.data.area"
+                                            id="city_name" vs-google-autocomplete="city_input_options" vs-state="vm.usereditdata.data.state"
+                                            vs-country="vm.usereditdata.data.country" vs-city="vm.usereditdata.data.city" ng-keydown="vm.change_city()">
+                                        <input type="hidden" ng-model="vm.usereditdata.data.city" name="">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.state.$invalid && ( vm.formSubmitted || userForm.state.$touched) }">
+                                    <label for="inputEmail3" class="control-label">State</label>
+                                    <div>
+                                        <input tabindex="5" type="text" class="form-control" ng-model="vm.usereditdata.data.state" name="state" placeholder="State">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.country.$invalid && ( vm.formSubmitted || userForm.country.$touched) }">
+                                    <label for="inputEmail3" class="control-label">Country</label>
+                                    <div class="uiselect-country">
+                                        <input tabindex="6" type="text" class="form-control" ng-model="vm.usereditdata.data.country" name="country" placeholder="Country">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.zip_code.$invalid && ( vm.formSubmitted || userForm.zip_code.$touched) }">
+                                    <label for="inputEmail3" class="control-label">ZIP code</label>
+                                    <div>
+                                        <input tabindex="7" type="text" class="form-control" ng-model="vm.usereditdata.data.zip" name="zip_code" maxlength="8" placeholder="Zip code">
+                                        <p ng-show="userForm.zip_code.$invalid  && ( vm.formSubmitted || userForm.zip_code.$touched)" class="help-block">Please enter valid ZIP code</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.address.$invalid && ( vm.formSubmitted || userForm. address.$touched) }">
+                                    <label for="inputEmail3" class="control-label">Address</label>
+                                    <div>
+                                        <textarea tabindex="8" type="text" class="form-control" ng-model="vm.usereditdata.data.address" name="address" placeholder="Address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6" ng-class="{ 'has-error': userForm.website_url.$invalid && ( vm.formSubmitted || userForm. website_url.$touched) }">
+                                    <label for="filebox" class="control-label">Profile Photo :</label>
+
+                                    <div class="photo-container">
+                                        <input type="file" ngf-select="upload($files,true)" ngf-multiple="true" ng-model="imageSrc" ng-if="image_path.length ==null || image_path.length == '' "
+                                            tabindex="9">
+                                        <img ng-src="{{image_path}}" class="img-thumbnail" style="width:200px; height:200px;" ng-if="image_path.length > 0">
+                                        <a href="" class="btn btn-primary" ng-click="delete_photo()" ng-if="image_path.length > 0">
+                                            <i class="fa fa-close"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <h4>User Role</h4>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3" class="control-label">Role</label>
+                                    <div>
+                                        <select class="form-control" ng-model="vm.usereditdata.data.role" tabindex="10">
+                                            <option value="admin.super" ng-if="!showSelectedrole">Super Admin</option>
+                                            <option value="super.admin.agent" ng-if="!showSelectedrole">Agency</option>
+                                            <option value="super.call.center">Call Center</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row roleBox" ng-if="licence">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3" class="control-label">Name Of Agency *</label>
+                                    <div>
+                                        <input class="form-control" type="text" ng-model="vm.usereditdata.data.agency_name" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3" class="control-label">Number of Licenses *</label>
+                                    <div>
+                                        <input class="form-control" type="number" ng-model="vm.usereditdata.data.num_license" required>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="roleBox" id="callCenter" ng-if="selectOffices">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label for="inputEmail3" class="control-label">Select Offices</label>
+                                        <div>
+                                            <div class="subject-info-box-1">
+                                                <select multiple="multiple" id='lstBox1' class="form-control" size="5" multiple ng-model="available" ng-options="client as client.name for client in availableclients">
+                                                </select>
+                                            </div>
+
+                                            <div class="subject-info-arrows text-center">
+                                                <input id="moverightall" type="button" ng-click="moveAll(availableclients,selectedclients)" value='>>' class="btn btn-default"
+                                                />
+                                                <br />
+                                                <input id="moveright" type="button" ng-click="moveItem(available[0], availableclients,selectedclients)" value='>' class="btn btn-default"
+                                                />
+                                                <br />
+                                                <input type='button' id='moveleft' value='<' class="btn btn-default" ng-click="moveItem(vm.usereditdata.selected[0],selectedclients, availableclients)"
+                                                />
+                                                <br />
+                                                <input type='button' id='moveleftAll' value='<<' class="btn btn-default" ng-click="moveAll(selectedclients,availableclients)"
+                                                />
+                                            </div>
+
+                                            <div class="subject-info-box-2">
+                                                <select multiple="multiple" id='lstBox2' class="form-control" size="5" multiple ng-model="vm.usereditdata.selected" ng-options="client as client.name for client in selectedclients">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row roleBox" ng-if="selectOffices || showPermissions">
+                                <div class="col-sm-12">
+                                    <label for="inputEmail3" class="control-label">Permissions</label>
+                                    <div>
+                                        <ul class="checkbox">
+                                            <li ng-repeat="permission in permission_list ">
+                                                <input id="chkCustomer_{{permission.id}}" name="permissions.name" type="checkbox" ng-model="selectedItem[permission.value]"
+                                                    ng-change="GetValue(selectedItem[permission.value],permission.value,$index)"
+                                                    multiple ng-init="checked=true">
+                                                <label for="chkCustomer_{{permission.id}}">{{permission.name}}</label>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="box-footer">
+                            <a ui-sref="app.manageusers" class="btn btn-primary">
+                                <i class="fa fa-angle-left"></i> Back</a>
+                            <button type="submit" class="btn btn-default pull-right" ng-disabled="userForm.$invalid">Update</button>
+                        </div>
+                </form>
+                </div>
+            </div>
+</section>

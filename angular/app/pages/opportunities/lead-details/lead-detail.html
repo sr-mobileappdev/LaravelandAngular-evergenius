@@ -1,0 +1,391 @@
+<section class="site-content lead-detail-page">
+    <div class="mobile-overlay"></div>
+    <section class="content-header pl0">
+        <h1 class="box-title">lead detail</h1>
+        <div class="btn-right-header">
+            <a class="btn btn-default mr5" ui-sref='app.oppertunities'>
+                Back</a>
+            <a class="btn btn-primary" data-toggle="modal" ng-click="add_appointment()">
+                <i class="fa fa-plus"></i> Add New</a>
+        </div>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="app.landing" href="#/">
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li class="active">Contacts</li>
+        </ol>
+    </section>
+    <article class="section contact-detail">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="box box-primary pb30">
+                    <div class="box-header with-border">
+                        <div class="pull-right">
+                            <div class="filter-drop pull-left">
+                                <span>Assignee</span>
+                                <select class="form-control custom" ng-model="lead_detail.user_id">
+                                    <option value="">Select Assignee</option>
+                                    <option ng-repeat="assignees in lead_assignees track by $index" ng-selected="assignees.id == lead_detail.user_id" ng-value="assignees.id">{{assignees.name}}</option>
+                                </select>
+                            </div>
+                            <div class="filter-drop pull-left">
+                                <span>Stage</span>
+                                <select class="form-control custom" ng-model="lead_detail.stage_id">
+                                    <option value="">Select stage</option>
+                                    <option ng-repeat="stage in stages track by $index" ng-selected="lead_detail.stage_id==lead_detail" ng-value="stage.id">{{stage.title}}</option>
+                                </select>
+                            </div>
+                            <button ng-click="modal_update_lead()" class="btn btn-default">Edit Lead</button>
+                            <a ui-sref="app.contactedit({contactId: contact_id})" class="btn btn-primary">Edit Contact</a>
+
+                        </div>
+                    </div>
+                    <div class="box-body table-responsive no-padding custom-list">
+                        <ul class="clearfix">
+                            <li>
+                                <span class="lavel">Contact Name</span>
+                                <span class="value ng-binding">{{contact_name}}
+                                    <span ng-switch="" on="vm.contactdata.data.is_existing">
+                                        <!-- ngSwitchWhen: 0 -->
+                                        <small class="label bg-green ng-scope" ng-switch-when="0">new</small>
+                                        <!-- end ngSwitchWhen: -->
+                                        <!-- ngSwitchWhen: 1 -->
+                                    </span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="lavel">LTV Value (USD)</span>
+                                <span class="value ng-binding">${{contact_ltv_value}}</span>
+                            </li>
+                            <li>
+                                <span class="lavel">Email</span>
+                                <span class="value ng-binding">{{contact_email}}</span>
+                            </li>
+                            <li>
+                                <span class="lavel">Phone</span>
+                                <span class="value ng-binding">{{contact_phone}}</span>
+                            </li>
+                            <li>
+                                <span class="lavel">Stage</span>
+                                <span class="value ng-binding">{{contact_stage}}</span>
+                            </li>
+                            <li>
+                                <span class="lavel">Source</span>
+                                <span class="value ng-binding">{{contact_source.name}}</span>
+                            </li>
+                            <li>
+                                <span class="lavel">Tags</span>
+                                <span class="value ng-binding">
+
+                                </span>
+                            </li>
+                            <li>
+                                <span class="lavel">LTV</span>
+                                <span class="value ng-binding">{{lead_detail.ltv}}</span>
+                            </li>
+                            <li>
+                                <span class="lavel">Service</span>
+                                <span class="value ng-binding">{{contact_service}}</span>
+                            </li>
+                            <li>
+                                <span class="lavel">Assignee</span>
+                                <span class="value ng-binding">{{contact_assignee}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activities-tabs">
+                    <h3 class="box-title">
+                        <span style="margin-right:6px;">
+                            <i class="fa fa-tasks"></i>
+                        </span>Activities</h3>
+                    <div class="box">
+                        <button class="btn btn-primary add-note" ng-if="active_contact_tab=='tasks' || active_contact_tab=='conversation' || active_contact_tab=='notes'"
+                            ng-click="action_modal()" data-toggle="modal" data-target="#add-note">{{action_title}}</button>
+                        <ul class="nav nav-tabs">
+                            <li ng-class="{'active':active_contact_tab=='tasks'}" ng-click="active_contact_view('tasks')">
+                                <a data-toggle="tab">Tasks</a>
+                            </li>
+                            <li ng-class="{'active':active_contact_tab=='conversation'}" ng-click="active_contact_view('conversation')">
+                                <a data-toggle="tab">Conversation</a>
+                            </li>
+                            <li ng-class="{'active':active_contact_tab=='call_logs'}" ng-click="active_contact_view('call_logs')">
+                                <a data-toggle="tab">Call Logs</a>
+                            </li>
+                            <li ng-class="{'active':active_contact_tab=='notes'}" ng-click="active_contact_view('notes')">
+                                <a data-toggle="tab">Notes</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div ng-if="active_contact_tab=='tasks'" class="tab-pane fade in" ng-class="{'active':active_contact_tab=='tasks'}">
+                                <table class="add_task">
+                                    <tr ng-repeat="task in tasks">
+                                        <td>
+                                            <h6>{{task.type.name}}</h6>
+                                            <p>{{task.title}}</p>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-calendar-o"></i> on {{task.action_date | asDate | date:'yyyy/MM/dd'}} &nbsp;&nbsp;{{task.action_date
+                                            | asDate | date:'hh:mm a'}} 11:00 am</td>
+                                        <td>
+                                            <a class="button_sm" ng-class="{'task_completed': task.open == 1}" ng-click="change_task_status(task.id,task.open)">{{task.open==1 ? 'Incomplete' : 'Completed'}}</a>
+                                        </td>
+                                        <td>
+                                            <a ng-click="delete_task(task.id)" class="fa fa-times-circle"></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div ng-if="active_contact_tab=='conversation'" class="tab-pane fade in" ng-class="{'active':active_contact_tab=='conversation'}">
+                                <ul class="sms-list block-scroll">
+                                    <li ng-repeat="sms in vm.contactdata.data.sms_list" ng-show="vm.contactdata.data.sms_list.length" ng-class="sms.direction != 'inbound' ? 'sms-in' : 'sms-out'">
+                                        <p uib-tooltip="{{sms.direction != 'inbound' ? 'Sent at ' : 'Received at '}} {{sms.sent_time | asDate | date:'MMM d, yyyy hh:mm a' }}"
+                                            tooltip-placement="{{sms.direction != 'inbound' ? 'left' : 'right'}}">{{sms.sms_body}}</p>
+                                        <small>
+                                            <span>
+                                                <i class="fa fa-mail-forward" ng-if="sms.direction != 'inbound'"></i>
+                                            </span>
+                                            <span>
+                                                <i class="fa fa-mail-reply" ng-if="sms.direction == 'inbound' "></i>
+                                            </span>
+                                            <i class="fa fa-clock-o"></i> {{sms.sent_time | astimeDiff }}
+                                        </small>
+                                    </li>
+                                    <li ng-show="!vm.contactdata.data.sms_list.length">SMS Not Found.</li>
+                                </ul>
+                            </div>
+                            <div id="menu1" ng-if="active_contact_tab=='call_logs'" class="tab-pane fade in" ng-class="{'active':active_contact_tab=='call_logs','in':active_contact_tab=='call_logs'}">
+                                <ul class="calls-list call-logs block-scroll">
+                                    <li ng-show="!vm.contactdata.data.calls_list.length">Calls Not Found.</li>
+                                    <li ng-repeat="call in vm.contactdata.data.calls_list" ng-show="vm.contactdata.data.calls_list.length">
+                                        {{call.call_start_at | asDate | date:'y-MMM-d hh:mm a'}}
+                                        <small>
+                                            <span>
+                                                <i class="fa fa-mail-forward" ng-show="call.call_direction=='inbound'"></i>
+                                                <i class="fa fa-mail-reply" ng-show="!call.call_direction=='inbound'"></i>
+                                            </span>
+                                            <i class="fa fa-clock-o"></i> {{call.call_duration}} </small>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="menu2" ng-if="active_contact_tab=='notes'" class="tab-pane fade in" ng-class="{'active':active_contact_tab=='notes','in':active_contact_tab=='notes'}">
+                                <div class="block-scroll">
+                                    <table class="notes-table" width="100%">
+                                        <tr ng-repeat="item in commentlist" ng-if="commentlist.length>0">
+
+                                            <td width="75%">{{item.comment}}</td>
+                                            <td width="25%" align="right" tooltip-placement="top" class="post-by" uib-tooltip="{{item.comment_at  | asDate | date:'MMM d, yyyy hh:mm a'}}">
+                                                <span>{{item.created_by_name}}</span> &nbsp;|&nbsp; {{item.relativeTime}}</td>
+                                        </tr>
+                                        <tr ng-if="commentlist.length<=0">
+                                            <td>Notes not found</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="recent-activities">
+                    <h2>Recent Activities</h2>
+                    <div id="list-wrapper">
+                        <div infinite-scroll='load_recent_activity()' infinite-scroll-disabled='busy' infinite-scroll-distance='6' infinite-scroll-parent='true'>
+                            <div class="box" ng-class="{box_first:activity_list.length==1}" ng-repeat="activity in activity_list" ng-show="activity_list.length"
+                                ng-if="activity.message!=''">
+                                <span class="circle"></span>
+                                <!-- <h4>Patient form filled</h4> -->
+                                <p>
+                                    <span ng-bind-html="uCanTrust(activity.message)"></span>
+                                </p>
+                                <small>{{activity.created_at | astimeDiff}}</small>
+                            </div>
+                            <div class="box box_first" ng-show="!activity_list.length">
+                                <span class="circle"></span>
+                                <p>Activity history not found.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+<!--/ end main -->
+<a href="#" class="scrollup">
+    <i class="fa fa-angle-up fa-2x"></i>
+</a>
+<script type="text/ng-template" id="add-appointment.html">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="closemodal()">&times;</button>
+                <h4 class="modal-title">Add Appointment</h4>
+            </div>
+            <form name="modalForm" novalidate>
+                <div class="modal-body">
+                    <h3><span>Lead Info</span></h3>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Stage</label>
+                            <select class="form-control custom" ng-model="stage_id">
+                                <option ng-repeat="stage in stages track by $index" ng-selected="stage.id == stage_id" ng-value="stage.id">{{stage.title}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <label>LTV Value</label>
+                                    <input placeholder="Enter Value" type="text" class="form-control" ng-model="user.value">
+                                </div>
+                                <div class="col-sm-4 pt30">USD</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Services</label>
+                            <select class="form-control custom" ng-model="services_id">
+                                <option ng-repeat="services in lead_services track by $index" ng-selected="services_id == services.id" ng-value="services.id">{{services.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h3><span>Insurance</span></h3>
+                    <div class="row">
+                        <div class="col-sm-6" ng-class="{ 'has-error': modalForm.contact_name.$invalid }">
+                            <label>Contact Name</label>
+                            <input type="text" class="form-control" placeholder="Add Contact Name" ng-model="user.contactname" name="contact_name">
+                            <p ng-show="(modalForm.contact_name.$touched)" class="help-block">Name is required.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Assignee</label>
+                            <select class="form-control custom" ng-model="assignees_id">
+                                <option ng-repeat="assignees in lead_assignees track by $index" ng-selected="assignees.id == assignees_id" ng-value="assignees.id">{{assignees.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" ng-class="{ 'has-error': modalForm.email.$invalid && ( formSubmitted || modalForm.email.$touched) }">
+                            <label>Email</label>
+                            <input type="email" class="form-control" placeholder="Email" ng-model="user.email" name="email" required>
+                            <p ng-show="modalForm.email.$error.required && (modalForm.email.$touched)" class="help-block">Email is required.</p>
+                            <p ng-show="modalForm.email.$error.email && (modalForm.email.$touched)" class="help-block">Enter Valid email .</p>
+                        </div>
+                        <div class="col-sm-6" ng-class="{ 'has-error': modalForm.phone.$invalid && ( modalForm.phone.$touched) }">
+                            <label>Phone</label>
+                            <input type="text" phone-input ng-maxlength="16" maxlength="16" ng-minlength="10" minlength="10" class="form-control" placeholder="Phone" name="phone" ng-model="user.phone" required>
+                            <p ng-show="modalForm.phone.$error.required && (modalForm.phone.$touched)" class="help-block">Phone is required.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Source</label>
+                            <select class="form-control custom" ng-model="source_id">
+                                <option ng-repeat="source in sources track by $index" ng-selected="source.id == source_id" ng-value="source.id">{{source.name}}</option>
+                            </select>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="" class="btn btn-primary " ng-click="closemodal()">Cancel</a>
+                    <input type="submit" class="btn btn-default" ng-disabled="modalForm.$invalid" value="Create" ng-click="create_form(user)">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- </div> -->
+</script>
+<div id="add-note0" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Note</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control">Please add note here</textarea>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Add Note">
+                <a href="#" class="btn btn-cancel" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="add-appointment-2.html" type="text/ng-template">
+    <!-- <div id="add-note" class="modal fade add-appointment pop_up02" role="dialog">  -->
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+                <h4 class="modal-title">Add Task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Call Types</label>
+                        <div class="radio_list">
+                            <label>
+                                <input type="radio" name="root"> <span>Call <i class="fa fa-check-circle"></i></span></label>
+                            <label>
+                                <input type="radio" name="root"> <span>Meeting <i class="fa fa-check-circle"></i></span></label>
+                            <label>
+                                <input type="radio" name="root"> <span>Task <i class="fa fa-check-circle"></i></span></label>
+                            <label>
+                                <input type="radio" name="root"> <span>Email <i class="fa fa-check-circle"></i></span></label>
+                            <label>
+                                <input type="radio" name="root"> <span>Other <i class="fa fa-check-circle"></i></span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Subject</label>
+                        <input type="text" class="form-control" name="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Date & Time</label>
+                        <div class="row date_time_col">
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" datetimepicker datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}" placeholder="" name="time" ng-model="schedule_time"> </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Duration</label>
+                        <select class="form-control custom">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Note</label>
+                        <textarea class="form-control" placeholder="Enter Notes"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Assignee</label>
+                        <select class="form-control custom"></select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Contact Link</label>
+                        <input type="text" class="form-control" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn btn-primary " ng-click="closemodal()">Cancel</a>
+                <input type="submit" class="btn btn-default" value="Add" data-dismiss="modal" data-toggle="modal" data-target="#add-appointment-2">
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+</script>

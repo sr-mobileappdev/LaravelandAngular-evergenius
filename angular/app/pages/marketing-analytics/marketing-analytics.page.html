@@ -1,0 +1,58 @@
+<section class="content-header">
+    <h1 class="pull-left valign">
+        <span style="margin-right:6px;">
+            <i class="fa  fa-line-chart"></i>
+        </span>Email Marketing Analytics</h1>
+    <article class="select-date pull-right">
+        <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date"
+            max="vm.max_date" />
+    </article>
+</section>
+
+<section class="content">
+    <section class="site-content">
+        <div class="mobile-overlay"></div>
+        <article class="section">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel mailchimp-campaigns">
+                        <table class="table global-table" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <th>Campaign name </th>
+                                <th>Sent</th>
+                                <th>Open Rate</th>
+                                <th>Clicks</th>
+                                <th>Bounces</th>
+                                <th>Spam</th>
+                                <th>Subscribers</th>
+                            </tr>
+                            <tr ng-if="reports.length" ng-repeat="item in reports">
+                                <td>
+                                    <span class="campaign-title">{{item.name}}</span>
+                                </td>
+                                <td>{{item.sent_count}}</td>
+                                <td>{{item.opened_count}}
+                                    <span class="mc-rate">{{item.openper}}%</span>
+                                </td>
+                                <td>{{item.clicks_count}}
+                                    <span class="mc-rate">{{item.clickper}} %</span>
+                                </td>
+                                <td>{{item.bounced_count}}</td>
+                                <td>{{item.spammed_count}}</td>
+                                <td>{{item.subscribed_count}}</td>
+
+                            </tr>
+                            <tr ng-if="!reports.length && busy">
+                                <td colspan="5" class="text-center">Loading.. </td>
+                            </tr>
+                            <tr ng-if="!reports.length && !busy">
+                                <td colspan="5" class="text-center">Data not found </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!--/ end total calls -->
+    </section>
+</section>

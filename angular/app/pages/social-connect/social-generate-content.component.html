@@ -1,0 +1,141 @@
+<section class="content-header">
+    <h1>
+        <span style="margin-right:6px;">
+            <i class="fa fa-send"></i>
+        </span>Social Connect</h1>
+
+</section>
+
+<section class="content social-page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="social-head">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="social-tabs">
+                            <ul>
+                                <li>
+                                    <a ui-sref="app.socialposts">Posts</a>
+                                </li>
+                                <li class="selected">
+                                    <a ui-sref="app.socialgeneratecontent">Generate Content</a>
+                                </li>
+                                <li>
+                                    <a ui-sref="app.socialconnectprofiles">Settings</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="btn-new-post">
+                            <a ui-sref="app.socialpostsadd" class="btn btn-primary">New Post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-generate-content">
+
+                <div class="generate-content-head">
+                    <div class="alerts alert-danger" ng-if="empty_keyword">Please enter search keyword.</div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <select class="select generate-content-select" id="select_search_type" ng-select="select_search_type()" ng-model="search_query_type">
+                                <option value="news">News</option>
+                                <option value="images">Images</option>
+                                <option value="video">Videos</option>
+
+                            </select>
+                        </div>
+                        <div class="col-sm-10">
+                            <form ng-submit="query_search()">
+                                <div class="input-group">
+                                    <input type="text" ng-model="searchkeywordd" id="search_keyword" class="form-control" placeholder="Search keyword">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-secondary" type="submit" ng-click="select_search_type()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center loading_bar_img" ng-if="generate_content_loading">
+                    <img src="../img/loading_evergenius.gif" style="width: 50px;">
+                    <p>Loading ....</p>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="generate-content-posts">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4" ng-repeat="feed in news_feed track by $index">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="post-image">
+                                    <img width="100%" ng-src="{{feed.image}}" altSrc="/img/no-image.jpg" onerror="this.src = $(this).attr('altSrc')"
+                                    />
+                                </div>
+                                <div class="post-info">
+                                    <a href="{{feed.link}}" target="_blank">
+                                        <h4>{{feed.title | limitTo: 90 }}{{feed.description.length > 90 ? '...' : ''}}</h4>
+                                    </a>
+                                    <p>{{feed.description | limitTo: 125 }}{{feed.description.length > 150 ? '...' : ''}}</p>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <a class="btn btn-secondary" data-toggle="modal" ng-click="post_content(feed)">Post</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Trends -->
+            <div class="google-trends">
+
+                <h3>Google Trending Keywords in</h3>
+                <select class="form-control" ng-model="selected_trend_location">
+                    <option ng-repeat="location in trend_locations | orderBy:title" ng-value="location.location_id">{{location.title}}</option>
+                </select>
+            </div>
+
+            <div class="trends">
+                <div class="text-center loading_bar_img" ng-if="loaing_trends">
+                    <img src="../img/loading_evergenius.gif" style="width: 50px;">
+                    <p>Loading ....</p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6" ng-repeat="trend in google_trends track by $index">
+                        <div class="panel" ng-click="load_generate_content('news',trend.title)">
+                            <div class="panel-body">
+                                <div class="post-image">
+                                    <img ng-src="{{trend.image}}" altSrc="/img/no-image.jpg" onerror="this.src = $(this).attr('altSrc')"
+                                    />
+                                    <span class="badge">{{trend.trend_rank}}</span>
+                                </div>
+                                <div class="post-info">
+                                    <h4>{{uCanTrust(trend.title) | limitTo: 90 }}{{trend.title.length > 90 ? '...' : ''}}</h4>
+                                    <p>
+                                        <strong>{{trend.search_rate}}</strong> searches</p>
+                                    <p ng-bind-html="uCanTrust(trend.news_title)" class="trend-title"></p>
+                                    <p> {{trend.news_description | limitTo: 80 }}{{trend.news_description.length > 80 ? '...'
+                                        : ''}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    </div>
+    </div>
+</section>

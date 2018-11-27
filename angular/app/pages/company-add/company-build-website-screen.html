@@ -1,0 +1,64 @@
+<section class="content-header">
+
+    <h1>
+
+        <ol class="breadcrumb">
+            <li>
+                <a>
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li>
+                <a>Add Company</a>
+            </li>
+        </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="box box-primary">
+                <div id="smartwizard" class="sw-main sw-theme-arrows">
+                    <ul class="nav nav-tabs step-anchor">
+                        <li class="nav-item done">
+                            <a href="" ng-click="goBackfunction('1')" class="nav-link">Step 1
+                                <br>
+                                <small>Create Company</small>
+                            </a>
+                        </li>
+                        <li class="nav-item done">
+                            <a href="" ng-click="goBackfunction('2')" class="nav-link">Step 2
+                                <br>
+                                <small>Complete Profile (HD)</small>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="" class="nav-link">Step 3
+                                <br>
+                                <small>Build Website</small>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="sw-container tab-content">
+                        <div id="step-1" class="tab-pane step-content" style="display: block;">
+                            <div class="setting-box">
+                                <h3 class="border-bottom border-gray pb-2">Setup new wordpress website</h3>
+                                <div class="setup-msg">Your website will be setup on a temporary URL.
+                                    <br> Once your website is ready, you will need to change the
+                                    <span class="badge">DNS</span> to make it live. Click
+                                    <a href="http://docs.evergenius.com/evergenius-wordpress-site-overview"
+                                        target="_BLANK" class="alert-color"> here</a> for details.
+                                    <div class="setup-buttons">
+                                        <a href="" class="btn btn-primary" ng-click="showSitebuilderModal()">
+                                            <span>
+                                                <i class="fa fa-globe"></i>
+                                            </span>Continue</a>
+                                        <a ui-sref="app.manageclients({alerts: alerts})" class="btn btn-success">Skip</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

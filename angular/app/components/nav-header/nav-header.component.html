@@ -1,0 +1,166 @@
+<header class="main-header">
+    <a href="javascript:void(0)" ng-click="redirect_admin()" class="logo" ng-if="!vm.isadmin">
+        <span class="logo-mini">
+            <img src="img/logo-admin.png">
+        </span>
+        <span class="logo-lg">
+            <img src="img/logo-admin.png">
+        </span>
+    </a>
+    <a href="#/admin/clients" class="logo" ng-if="vm.isadmin">
+        <span class="logo-mini">
+            <img src="img/logo-admin.png">
+        </span>
+        <span class="logo-lg">
+            <img src="img/logo-admin.png">
+        </span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="javascript:void(0)" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="search-filter">
+                    <i class="fa fa-search"></i>
+                    <input type="text" ng-model="searchStr" class="form-control" ng-model-options="{debounce: 500}" placeholder="Search Contacts"
+                    />
+                    <ul class="search-result-bx">
+                        <li ng-repeat="item in vm.contactSearchResult">
+                            <a ng-href="#/contact/{{item.id}}" ng-click="hideme()">
+                                <div class="search-bx-item">
+                                    <span class="search-bx-title">
+                                        <i class="fa fa-user"></i>{{item.fullname}}
+                                        <span class="search-bx-email">{{item.email}}</span>
+                                    </span>
+                                    <span class="search-bx-phn">
+                                        <i class="fa fa-phone"></i> {{item.mobile_number}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown notifications-menu ng-scope open" uib-dropdown="" ng-if="!vm.isadmin">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                    <ul class="dropdown-menu opportunity-dropdown">
+                        <li>
+                            <a ng-href="#" ng-click="add_main_appointment()" data-toggle="modal" data-target="#add-note" ng-show="vm.can('create.lead')">Add Opportunity</a>
+                        </li>
+                        <li>
+                            <a ng-href="#/contact-add">Add Contact</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown notifications-menu" uib-dropdown ng-if="!vm.isadmin">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" uib-dropdown-toggle>
+                        <i class="fa fa-bell-o"></i>
+                        <span ng-if="vm.notification_count>0" class="label label-warning">{{vm.notification_count}}</span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu ng-if="vm.notification_count >0">
+                        <li class="header">You have {{vm.notification_count}} notifications</li>
+                        <li>
+                            <ul class="menu">
+                                <li ng-repeat="ss in vm.notification_list" ng-if="ss.message">
+                                    <a href="#">
+                                        <i class="{{ss.icon}}"></i>
+                                        <span ng-bind-html="uCanTrust(ss.message)"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="footer">
+                            <a ui-sref="app.recentactivity" class="btn btn-primary">View all</a>
+                            <a href="javascript::void(0)" ng-click="clearnotifications()" class="btn btn-default">Clear Notifications</a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-if="!vm.isadmin" ng-show="vm.can('sms.records')">
+                    <a href="javascript:void(0)" ng-click="switch_companysettings()" class="dropdown-toggle" uib-dropdown-toggle>
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <!-- For Super admin -->
+                <li class="dropdown user user-menu notifications-menu switch-account" ng-class="{'admin_user':!vm.sa_selected_company}" uib-dropdown
+                    ng-click="toggle_header_bar($event)">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" uib-dropdown-toggle>
+                        <img ng-src="{{userData.avatar ? userData.avatar:'../../img/user.png' }}" class="user-image visible-xs" alt="" onError="this.src='//placeholdit.imgix.net/~text?txtfont=monospace,bold&bg=DD4B39&txtclr=ffffff&txt=A&w=45&h=45&txtsize=16'">
+                        <span class="hidden-xs">
+                            <span ng-if="userData.name">{{userData.name | capitalize}}</span>
+                            <span ng-if="!userData.name">Admin</span>
+                            <small ng-if="user_company_details.name && vm.sa_selected_company">{{user_company_details.name | capitalize}}</small>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li class="header" ng-show="vm.can('manage.staff') && !vm.isadmin">
+                            <div class="header-title">
+                                <a ui-sref="app.managestaff" ng-click="close_block()">Manage Staff</a>
+                            </div>
+                        </li>
+
+                        <li class="user-header" ng-if="!admin_companies">
+                            <img ng-src="{{userData.avatar ? userData.avatar:'../../img/user.png' }}" class="img-circle" alt="User Image" onError="this.src='//placeholdit.imgix.net/~text?txtfont=monospace,bold&bg=DD4B39&txtclr=ffffff&txt=A&w=90&h=90&txtsize=36'">
+                            <p>
+                                {{userData.name | capitalize}}
+                            </p>
+                        </li>
+                        <!-- For Super admin -->
+                        <li class="header" ng-if="admin_companies">
+                            <div class="header-title">
+                                Switch Account
+                                <a ng-click="switch_superadmin()" tooltip-placement="left" uib-tooltip="Super admin dashboard"
+                                    class="fa fa-exchange pull-right"></a>
+                            </div>
+                        </li>
+                        <li class="header" ng-if="admin_companies">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search account" name="search_company" ng-model="vm.search_comp">
+                            </div>
+                        </li>
+                        <li>
+                            <ul class="menu" ng-if="admin_companies">
+                                <li ng-repeat="comp in admin_companies| filter:{name:vm.search_comp} | orderBy:'name'">
+                                    <a ng-click="inper_company(comp.id, $index)">
+                                        <span>{{comp.name | capitalize}}</span>
+                                        <i class="fa fa-check" ng-show="comp.id==sa_selected_company"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a ui-sref="app.profile" class="btn btn-primary btn-flat" ng-if="profileShow">Profile</a>
+                            </div>
+                            <div class="pull-right">
+                                <a ui-sref="app.logout" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown tasks-menu" uib-dropdown>
+                    <a ui-sref="app.logout" class="dropdown-toggle" uib-dropdown-toggle>
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<script type="text/ng-template" id="/source-template.html">
+    <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+        <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectSource" maxlength="25" />
+        <div class="angucomplete-dropdown" ng-show="showDropdown">
+            <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+            <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+            </div>
+            <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                <div class="angucomplete-title"><strong>{{ searchStr }}</strong> will be added as new source.</div>
+            </div>
+        </div>
+    </div>
+</script>

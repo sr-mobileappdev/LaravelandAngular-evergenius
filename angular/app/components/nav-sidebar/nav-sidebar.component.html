@@ -1,0 +1,330 @@
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu" ng-if="!vm.hidemenu">
+            <li ui-sref-active="active" ng-if="!vm.isadmin  && (vm.adminrole=='admin.user' || vm.adminrole=='admin.super')">
+                <a ui-sref='app.landing'>
+                    <i class="icon-dashboard"></i>
+                    <span>Dashboard</span>
+                    <div ng-if="$root.is_mobile">Show me only in mobile</div>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin  && vm.adminrole!='admin.user' && (vm.adminrole!='admin.super')">
+                <a ui-sref='app.landing'>
+                    <i class="icon-dashboard"></i>
+                    <span>Dashboard</span>
+                    <div ng-if="$root.is_mobile">Show me only in mobile</div>
+                </a>
+            </li>
+             
+            <li ng-show="vm.can('view.provider')" ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.userlist'>
+                    <i class="icon-profile"></i>
+                    <span>Providers</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.adminrole=='admin.super' && vm.isadmin">
+                <a ui-sref='app.superdashboard'>
+                    <i class="icon-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.isadmin" ng-show="vm.can('view.all.clients')">
+                <a ui-sref='app.manageclients'>
+                    <i class="icon-clients"></i>
+                    <span>Clients</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.isadmin" ng-show="vm.can('view.superadmin.users')">
+                <a ui-sref='app.manageusers'>
+                    <i class="icon-profile"></i>
+                    <span>Manage Users</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.isadmin" ng-show="vm.can('superadmin.emailtemplates')">
+                <a ui-sref='app.emailtemplates'>
+                    <i class="icon-email-margketing"></i>
+                    <span>Email Templates</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.isadmin" ng-show="vm.can('superadmin.loginactivity')">
+                <a ui-sref='app.loginactivitydetails'>
+                    <i class="icon-past-bookings"></i>
+                    <span>Login Activity</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.isadmin" ng-show="vm.can('superadmin.infusionsoft')">
+                <a ui-sref='app.infusionsoftauth'>
+                    <i class="icon-infusionsoft"></i>
+                    <span>Infusionsoft</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.adminrole=='admin.super' && vm.isadmin">
+                <a ui-sref='app.gethdclinics'>
+                    <i class="icon-honest-doctor"></i>
+                    <span>HD clinics</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="vm.adminrole=='admin.super' && vm.isadmin">
+                <a ui-sref='app.provider'>
+                    <i class="icon-honest-doctor"></i>
+                    <span>HD Providers</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.contacts' ng-show="vm.can('view.contacts')">
+                    <i class="icon-contacts"></i>
+                    <span>Contacts</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.appointments' ng-show="vm.can('manage.appointments')">
+                    <i class="icon-appointments"></i>
+                    <span>Appointments</span>
+                </a>
+            </li>
+
+
+            <li ui-sref-active="active" ng-show="vm.can('opportunity')" ng-if="!vm.isadmin">
+                <a ui-sref='app.oppertunities'>
+                    <i class="icon-opportunities"></i>
+                    <span>Opportunities</span>
+                </a>
+            </li>
+            <li class="treeview" ng-if="!vm.isadmin && vm.user_role!='doctor'" ng-show="vm.can('view.calendar')" ui-sref-active="active">
+                <a href="javascript:void(0)" class="treelink no-colsp">
+                    <i class="icon-calendars"></i>
+                    <span>Calendars</span>
+                    <em class="pull-right">
+                        <img src="img/add.png" class="show-more">
+                        <img src="img/minus.png" class="show-less">
+                    </em>
+                </a>
+                <ul class="treeview-menu no-colsp">
+                    <li ng-repeat="cale_menu in vm.celendar_doctors" ui-sref-active="active" class="">
+                        <a ui-sref='app.viewcalendar({userId: {{cale_menu.id}}})' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>{{cale_menu.name | limitTo: 20 }}{{cale_menu.name.length > 20 ? '...' : ''}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li ui-sref-active="active" ng-if="vm.user_role=='doctor'">
+                <a ui-sref='app.viewcalendar({userId:vm.userData.id})' ng-show="vm.can('view.calendar')">
+                    <i class="icon-calendars"></i>
+                    <span>Calendar</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.callrecords' ng-show="vm.can('call.records')">
+                    <i class="icon-call-records"></i>
+                    <span>Call Records</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.conversation' ng-show="vm.can('sms.Conversation')">
+                    <i class="icon-conversation"></i>
+                    <span>Conversations</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" class="treeview" ng-if="!vm.isadmin">
+                <a href="" ng-show="vm.can('manage.emailmarketing')" class="treelink no-colsp">
+                    <i class="icon-email-margketing"></i>
+                    <span>Genius Funnels</span>
+                    <em class="pull-right">
+                        <img src="img/add.png" class="show-more">
+                        <img src="img/minus.png" class="show-less">
+                    </em>
+                </a>
+                <ul class="treeview-menu no-colsp">
+                    <li ui-sref-active="active" class="">
+                        <a class="" ui-sref="app.email-campaigns">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Email Broadcast</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" class="">
+                        <a class="" ui-sref=" app.smsbroadcast">
+                            <span class="fa fa-circle-o"></span>
+                            <span>SMS Broadcast</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" class="">
+                        <a class="" ui-sref='app.email-marketing'>
+                            <span class="fa fa-circle-o"></span>
+                            <span>Email Lists</span>
+                        </a>
+                    </li>
+
+                    <li ui-sref-active="active" class="">
+                        <a class="" ui-sref="app.action-funnel">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Action Funnels</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.smsrecords' ng-show="vm.can('sms.records')">
+                    <i class="icon-sms-records"></i>
+                    <span>SMS Records</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.recentactivity' ng-show="vm.can('recent.activity')">
+                    <i class="icon-recent-activity"></i>
+                    <span>Recent Activity</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.socialposts' ng-show="vm.can('social.connect')">
+                    <i class="icon-social"></i>
+                    <span>Social Connect</span>
+                </a>
+            </li>
+
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref="app.profilelisting" ng-show="vm.can('manage.profile')">
+                    <i class="icon-profile"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+
+                <a ui-sref="app.reviews" ng-show="vm.can('manage.reputation')">
+                    <i class="icon-reputation"></i>
+                    <span>Reputation</span>
+                </a>
+            </li>
+
+            <li class="treeview" ng-if="!vm.isadmin && (vm.can('analytics.google') || vm.can('analytics.retageting') || vm.can('analytics.mailchimp') || vm.can('analytics.keyword'))"
+                ui-sref-active="active">
+                <a href="javascript:void(0)" class="treelink no-colsp">
+                    <i class="icon-analytics"></i>
+                    <span>Analytics</span>
+                    <em class="pull-right">
+                        <img src="img/add.png" class="show-more">
+                        <img src="img/minus.png" class="show-less">
+                    </em>
+                </a>
+                <ul class="treeview-menu ">
+                    <li ui-sref-active="active" class="" ng-show="vm.can('analytics.google')">
+                        <a ui-sref='app.googleanalytics' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Google</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" class="" ng-show="vm.can('analytics.retageting')">
+                        <a ui-sref='app.perfectaudience' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Re-targeting</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" class="" ng-show="vm.can('manage.emailmarketing')">
+                        <a ui-sref='app.marketinganalytics' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Email Marketing</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" class="" ng-show="vm.can('analytics.keyword')">
+                        <a ui-sref='app.keywords' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Keywords</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview" ui-sref-active="active" ng-show="vm.can('reports.all')" ng-if="!vm.isadmin">
+                <a href="javascript:void(0)" class="treelink no-colsp">
+                    <i class="icon-analytics"></i>
+                    <span>Reports</span>
+                    <em class="pull-right">
+                        <img src="img/add.png" class="show-more">
+                        <img src="img/minus.png" class="show-less">
+                    </em>
+                </a>
+                <ul class="treeview-menu ">
+                    <li ui-sref-active="active" class="">
+                        <a ui-sref='app.agentReport' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Agent Performance</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a target="_blank" href="{{user_company_details.site_url}}" ng-show="vm.can('view.website')" ng-if="!vm.isadmin">
+                    <i class="icon-view-website"></i>
+                    <span> View Website</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="sidebar-menu" ng-if="vm.hidemenu && !vm.isadmin">
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.companysettings'>
+                    <i class="icon-call-records"></i>
+                    <span>Account</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.notificationssettings'>
+                    <i class="icon-sms-records"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.opportunitySetting'>
+                    <i class="icon-opportunities"></i>
+                    <span>Opportunities</span>
+                </a>
+            </li>
+            <li class="treeview" ui-sref-active="active">
+                <a href="javascript:void(0)" class="treelink no-colsp">
+                    <i class="icon-analytics"></i>
+                    <span>Staff Management</span>
+                    <em class="pull-right">
+                        <img src="img/add.png" class="show-more">
+                        <img src="img/minus.png" class="show-less">
+                    </em>
+                </a>
+                <ul class="treeview-menu ">
+                    <li ui-sref-active="active" class="">
+                        <a ui-sref='app.managestaff' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Manage Staff</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" class="" ng-show="vm.can('view.provider')">
+                        <a ui-sref='app.userlist' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Providers</span>
+                        </a>
+                    </li>
+                    <li ui-sref-active="active" class="" ng-show="vm.can('analytics.retageting')">
+                        <a ui-sref='app.manageroles' class="">
+                            <span class="fa fa-circle-o"></span>
+                            <span>Manage Group</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.companysmtpsettings'>
+                    <i class="icon-opportunities"></i>
+                    <span>Email Settings</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="!vm.isadmin">
+                <a ui-sref='app.integration-screen'>
+                    <i class="icon-integration"></i>
+                    <span>Integrations</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</aside>

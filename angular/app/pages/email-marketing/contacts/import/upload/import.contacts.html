@@ -1,0 +1,86 @@
+<section class="content-header">
+
+	<h1 class="box-title">
+		<span style="margin-right:6px;">
+			<i class="fa fa-envelope"></i>
+		</span> Import Contacts</h1>
+
+	<ol class="breadcrumb">
+		<li>
+			<a ui-sref="app.landing" href="#/">
+				<i class="fa fa-dashboard"></i> Home</a>
+		</li>
+		<li class="active">Contacts</li>
+	</ol>
+</section>
+<section class="content">
+	<article class="section">
+
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+
+				<div class="box box-primary import-contacts">
+					<form class="form-horizontal" name="permissionForm" ng-submit="vm.save(permissionForm)" novalidate>
+						<div class="box-header">
+							Import Contacts
+						</div>
+						<div class="box-body">
+
+							<div class="import-contacts-container">
+								<div class="import-steps">
+									<ul>
+										<li class="barprogress">
+											Upload
+											<span>Upload</span>
+										</li>
+										<li>
+											MAP Columns
+											<span>MAP Columns</span>
+										</li>
+										<li>
+											Review
+											<span>Review</span>
+										</li>
+									</ul>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-6">
+
+										<div class="form-group">
+											<label>CSV File</label>
+											<input type="file" name="contact_file" file-model="vm.contact_file" ng-model="vm.contact_file" class="form-control file-upload"
+											 ng-required="true">
+											<p class="note">
+												<strong>Note:</strong> Download sample csv
+												<a href="../demo-contacts.csv">file</a>
+											</p>
+										</div>
+
+									</div>
+									<div class="col-sm-6 " ng-if="erroeMessage">
+										<p class="alert alert-danger" style="margin-top: 25px">Please upload only csv file </p>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary pull-right" ng-disabled="permissionForm.$invalid">Upload</button>
+								<a href="#" class="btn btn-success pull-right">Cancel</a>
+							</div>
+					</form>
+
+					</div>
+
+				</div>
+
+			</div>
+			<div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+				<img src="../../img/loading_evergenius.gif" alt="loading..">
+				<h3>Loading....</h3>
+			</div>
+		</div>
+
+	</article>
+</section>

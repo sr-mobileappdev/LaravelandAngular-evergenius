@@ -1,0 +1,49 @@
+<form ng-submit="vm.login()" method="post" name="vm.loginForm">
+  <div class="callout callout-danger" ng-if="vm.loginfailederror">
+    <h4>Login Failed</h4>
+    <p>{{ vm.loginfailederror }}</p>
+  </div>
+  <div class="callout callout-danger" ng-if="vm.loginfailed">
+    <h4>Login Failed</h4>
+    <p>Incorrect Email/Username or Password.</p>
+  </div>
+  <div class="callout callout-danger" ng-if="vm.unverified">
+    <h4>Email Unverified</h4>
+    <p>Please check your email and click the verification link.</p>
+  </div>
+  <div class="callout callout-success" ng-if="vm.registerSuccess">
+    <h4>Registration Success!</h4>
+    <p>A verification link has been sent to your Email Account. Thank You!</p>
+  </div>
+  <div class="callout callout-success" ng-if="vm.successMsg">
+    <h4 class="success_green" style="color:#00a65a">Success!</h4>
+    <p>{{ vm.successMsg }}</p>
+  </div>
+  <div class="form-group has-feedback form_input">
+    <label>Username</label>
+    <input type="email" class="form-control" placeholder="Type your username" name="email" tabindex=1 ng-model="vm.email" ng-required="true"
+      ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
+    <span class="form-control-feedback icon-email"></span>
+  </div>
+  <div class="form-group has-feedback form_input">
+    <label>Password</label>
+    <input type="password" class="form-control" placeholder="Type your password" tabindex=2 name="password" ng-model="vm.password" ng-required="true">
+    <span class="form-control-feedback icon-lock"></span>
+  </div>
+  <div class="btn_sec">
+              <button type="submit" tabindex=3 class="btn btn-primary btn-block btn-flat signin_btn">Sign In</button> <a href="#" class="forget_pass" ui-sref="forgot_password">Forgot password?</a>
+   </div>
+  </div>
+</form>
+<div class="social-auth-links text-center">
+  <!-- <p>- OR -</p> -->
+  <!-- <a href="/auth/github" class="btn btn-block btn-social btn-github btn-flat">
+    <i class="fa fa-github"></i> Sign in using Github
+  </a> -->
+  <!--  <a href="/auth/google" class="btn btn-block btn-social btn-google btn-flat">
+    <i class="fa fa-google"></i> Sign in using Google+
+  </a> -->
+  <!-- <a href="/auth/facebook" class="btn btn-block btn-social btn-facebook btn-flat">
+    <i class="fa fa-facebook"></i> Sign in using Facebook
+  </a> -->
+</div>

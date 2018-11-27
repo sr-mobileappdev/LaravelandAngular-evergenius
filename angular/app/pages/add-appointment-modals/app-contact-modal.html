@@ -1,0 +1,174 @@
+<div class="add-appointment">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="closemodal()">&times;</button>
+                <h4 class="modal-title">Add Appointment</h4>
+            </div>
+            <div class="modal-body" ng-hide="hide_search_contact">
+                <div class="search-filter">
+                    <i class="fa fa-search"></i>
+                    <input type="text" ng-model="searchStr" class="form-control" ng-model-options="{debounce: 500}" placeholder="Search Contacts"
+                    />
+                    <ul class="search-result-bx">
+                        <li ng-repeat="item in contactSearchResult" ng-if="contactSearchResult.length">
+                            <a ng-click="selecteMe(item)">
+                                <div class="search-bx-item">
+                                    <span class="search-bx-title">
+                                        <i class="fa fa-user"></i>{{item.fullname}}
+                                        <span class="search-bx-email">{{item.email}}</span>
+                                    </span>
+                                    <span class="search-bx-phn">
+                                        <i class="fa fa-phone"></i> {{item.mobile_number}}</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li ng-if="!contactSearchResult.length && searched_val">
+                            <a ng-click="search_not_found()">
+                                <div class="search-bx-item">{{searchStr}} Add as new contact</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <form ng-show="add_new_contact" name="add_app_contact" ng-submit="add_appointment_contact_save(add_app_contact.$valid)" novalidate>
+                <div class="modal-body">
+                    <div class="line-info">
+                        <span>Contact Detail</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>First Name</label>
+                            <input type="text" ng-model="contact_info.first_name" class="form-control" name="first_name" required="" tabindex="1">
+                            <p ng-show="add_app_contact.first_name.$error.required && (add_app_contact.first_name.$touched || add_contact_form)" class="help-block">First name is required.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Last Name</label>
+                            <input type="text" ng-model="contact_info.last_name" class="form-control" name="last_name" required="" tabindex="2">
+                            <p ng-show="add_app_contact.last_name.$error.required && (add_app_contact.last_name.$touched || add_contact_form)" class="help-block">Last name is required.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Phone</label>
+                            <div class="row sub-row">
+                                <div class="col-sm-5">
+                                    <select class="form-control" ng-model="country_code">
+                                        <option ng-repeat="code in country_codes" ng-selected="country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code">{{code.code}}({{code.dial_code}})
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="text" ng-model="contact_info.mobile_number" phone-input class="form-control" ng-class="{'input-loading':load_phone}"
+                                        name="phone" required="" tabindex="3">
+                                </div>
+                            </div>
+                            <p ng-show="add_app_contact.phone.$error.required && (add_app_contact.phone.$touched || add_contact_form)" class="help-block">Phone is required.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Email</label>
+                            <input type="email" ng-model="contact_info.email" class="form-control" name="email" required="" tabindex="4">
+                            <p ng-show="add_app_contact.email.$error.required && (add_app_contact.email.$touched || add_contact_form)" class="help-block">Email is required.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>City</label>
+                            <input tabindex="6" type="text" ng-model="contact_info.area" class="form-control" name="city" vs-google-autocomplete="city_input_options"
+                                vs-state="contact_info.state" vs-country="contact_info.country" vs-city="contact_info.city" id="city_name">
+                            <input type="hidden" ng-model="contact_info.city" name="">
+                            <p ng-show="add_app_contact.city.$error.required && (add_app_contact.city.$touched || add_contact_form)" class="help-block">city is required.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>State</label>
+                            <input tabindex="7" type="text" ng-model="contact_info.state" class="form-control" name="state">
+                            <p ng-show="add_app_contact.state.$error.required && (add_app_contact.state.$touched || add_contact_form)" class="help-block">State is required.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Country</label>
+                            <input tabindex="8" type="text" ng-model="contact_info.country" class="form-control" name="country">
+                            <p ng-show="add_app_contact.country.$error.required && (add_app_contact.country.$touched || add_contact_form)" class="help-block">Country is required.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>ZIP code</label>
+                            <input tabindex="9" type="text" ng-model="contact_info.zip_code" class="form-control" name="zip_code" maxlength="8">
+                            <p ng-show="add_app_contact.zip_code.$invalid && (add_app_contact.zip_code.$touched || add_contact_form)" class="help-block">Please enter valid zipcode</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Notes</label>
+                            <textarea tabindex="10" class="form-control" ng-model="contact_info.notes" name="notes"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Insurance Company</label>
+                            <input tabindex="11" type="text" class="form-control" ng-model="contact_info.insurance_provider" name="insurance_provider">
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Insurance Group</label>
+                            <input tabindex="12" type="text" class="form-control" ng-model="contact_info.insurance_group" name="insurance_group">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Source</label>
+                            <div angucomplete-alt id="ex6" placeholder="Search Source" pause="500" selected-object="selectedSource" remote-url="/api/contacts/find-source?s="
+                                remote-url-request-formatter="remoteUrlRequestFn" remote-url-data-field="items" title-field="term_value"
+                                description-field="term_value" minlength="2" input-class="form-control form-control-small" match-class="highlight"
+                                template-url="/source-template.html" initial-value="" tabindex="13">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Tag</label>
+                            <div angucomplete-alt id="ex7" placeholder="Search Tag" pause="500" selected-object="selectedTag" remote-url="/api/contacts/find-tags?s="
+                                remote-url-request-formatter="remoteUrlRequestFn" remote-url-data-field="items" title-field="term_value"
+                                description-field="term_value" minlength="2" input-class="form-control form-control-small" match-class="highlight"
+                                template-url="/tag-custom-template.html" initial-value="" tabindex="14">
+                            </div>
+                            <input type="hidden" class="form-control" ng-model="contact_info.id" name="id">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Next">
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal" ng-click="closemodal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/ng-template" id="/tag-custom-template.html">
+        <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+            <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectTags" />
+            <div class="angucomplete-dropdown" ng-show="showDropdown">
+                <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+                <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                    <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                    <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+                </div>
+                <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                    <div class="angucomplete-title"><strong>{{ searchStr }}</strong> will be added as new source.</div>
+                </div>
+            </div>
+        </div>
+</div>
+</script>
+    <script type="text/ng-template" id="/source-template.html">
+    <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+        <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectSource" maxlength="25" />
+        <div class="angucomplete-dropdown" ng-show="showDropdown">
+            <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+            <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+                <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+                </div>
+            <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                <div class="angucomplete-title"><strong>{{ searchStr }}</strong> will be added as new source.</div>
+            </div>
+        </div>
+    </div>
+</script>

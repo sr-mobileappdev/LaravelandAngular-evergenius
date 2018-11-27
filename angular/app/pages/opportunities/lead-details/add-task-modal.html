@@ -1,0 +1,124 @@
+<div class="modal-header" ng-if="current_tab!='tasks' || agent_dashboard==true">
+    <a class="close" ng-click="closemodal()">×</a>
+    <!--span ng-click="closemodal()">X</span-->
+    <p class="ng-binding">Add Task</p>
+</div>
+<form name="addTasks" novalidate="" ng-submit="add_new_task()">
+    <div class="modal-body add-task-modal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alerts alert-success" ng-show="task_added">Task has beed added.</div>
+                <label>Type</label>
+
+                <div class="radio_list">
+                    <label ng-repeat="type in task_types" ng-if="type.name!='First Contact'">
+                        <input type="radio" name="task_typ" ng-true-value="1" ng-false-value="0" ng-model="task.type" value="type.id" ng-value="type.id"
+                            required="" ng-checked="type.id==default_task_types">
+                        <span>{{type.name}}
+                            <i class="fa fa-check-circle"></i>
+                        </span>
+                    </label>
+                </div>
+                <p ng-show="addTasks.task_typ.$error.required && (formSubmitted || addTasks.task_typ.$touched)" class="form-error">Task Type is required.</p>
+            </div>
+        </div>
+        <div class="row mtop15">
+            <div class="col-sm-12">
+                <label>Subject</label>
+                <input type="text" class="form-control" name="task_title" ng-model="task.title" required="" ng-required="true" maxlength="50"
+                    autocomplete="false">
+                <p ng-show="addTasks.task_title.$error.required && (formSubmitted || addTasks.task_title.$touched)" class="form-error">Subject is required.</p>
+            </div>
+        </div>
+        <div class="row mtop15">
+            <div class="col-md-4">
+                <label>Date & Time</label>
+                <div class="input-group">
+                    <div class="time_selected">
+                        <input type="text" class="form-control time-input" min-date="task.mindate" datetime-picker="dd MMM yyyy HH:mm" datepicker-options="dateOptions"
+                            ng-model="task.schedule_time" is-open="isOpen" required />
+                        <span class="input-group-btn">
+
+                            <button type="button" class="btn btn-default" ng-click="isOpen=true">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                    </div>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <label>Duration</label>
+                <select class="form-control custom" ng-model="task.duration" name="task_duration" required="">
+                    <option value="15 min" selected="">15 Min</option>
+                    <option value="30 min" selected="">30 Min</option>
+                    <option value="1 hour">1 Hour</option>
+                    <option value="2 hours">2 Hours</option>
+                    <option value="3 hours">3 Hours</option>
+                    <option value="6 hours">6 Hours</option>
+                    <option value="8 hours">8 Hours</option>
+                </select>
+                <p ng-show="addTasks.task_duration.$error.required && (formSubmitted || addTasks.task_duration.$touched)" class="form-error">Duration is required.</p>
+            </div>
+            <div class="col-sm-3 ">
+                <label>Task Priority</label>
+                <div class="task-priority">
+                    <i ng-class="{'critical': task.priority == 'high','medium': task.priority == 'medium','normal': task.priority == 'normal'}"></i>
+                    <select class="form-control custom" ng-model="task.priority" name="task_priority" required="">
+                        <option value="high" selected="">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="normal">Normal</option>
+                    </select>
+                </div>
+                <p ng-show="addTasks.task_priority.$error.required && (formSubmitted || addTasks.task_priority.$touched)" class="form-error">priority is required.</p>
+            </div>
+        </div>
+        <div class="row mtop15">
+            <div class="col-sm-12">
+                <label>Note</label>
+                <textarea class="form-control" placeholder="Enter Notes" ng-model="task.note" name="task_note" maxlength="250" ng-maxlength="250"></textarea>
+                <p ng-show="addTasks.task_note.$error.required && (formSubmitted || addTasks.task_note.$touched)" class="form-error">Note is required.</p>
+                <span class="error" ng-show="addTasks.task_note.$error.maxlength">
+                    Maximum length should be 250
+                </span>
+                <small class="pull-right">(Max. chars 250)</small>
+            </div>
+        </div>
+        <div class="row mtop15">
+            <div class="col-sm-6">
+                <label>Assignee</label>
+                <select required="" class="form-control custom" name="assinee" ng-model="task.user_id">
+                    <option ng-repeat="assignees in lead_assignees track by $index" ng-selected="assignees.id == task.user_id" ng-value="assignees.id">{{assignees.name}}</option>
+                </select>
+                <p ng-show="addTasks.assinee.$error.required && (formSubmitted || addTasks.assinee.$touched)" class="form-error">Assignee is required.</p>
+            </div>
+            <div class="col-sm-6">
+                <label>Contact Link</label>
+                <input type="text" ng-model="task.contact" class="form-control" placeholder="Search Contacts" required="" name="contact_link"
+                    ng-disabled="!showdiv" ng-required="showdiv" autocomplete="false" />
+                <div class="search-filter search-filter8" ng-if=" newdiv == true">
+                    <ul class="search-result-bx" ng-if="contactSearchResult.length > 0">
+                        <li ng-repeat="item in contactSearchResult" ng-if="item.lead!=null">
+                            <a ng-click="hideme(item)">
+                                <div class="search-bx-item">
+                                    <span class="search-bx-title">
+                                        <i class="fa fa-user"></i>{{item.fullname}}
+                                        <span class="search-bx-email">{{item.email}}</span>
+                                    </span>
+                                    <span class="search-bx-phn">
+                                        <i class="fa fa-phone"></i> {{item.mobile_number}}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p ng-show="addTasks.contact_link.$error.required && (formSubmitted || addTasks.contact_link.$touched)" class="form-error">Assignee is required.</p>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+        <input type="submit" class="btn btn-default" value="Add" ng-disabled="(addTasks.task_note.$invalid || addTasks.task_title.$error.required || addTasks.contact_link.$error.required) && (date_now < task.schedule_time)">
+    </div>
+</form>

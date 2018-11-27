@@ -1,0 +1,55 @@
+<div class="modal-dialog modal-1 modal_editer">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a class="close" ng-click="closemodal()">&times;</a>
+
+            <p>{{templateData.data.title}}</p>
+        </div>
+        <form name="email_temp_form" ng-submit="submit_action_form(email_temp_form.$valid)" novalidate>
+            <div class="modal-body add-contact-form">
+                <div class="row" ng-class="{ 'has-error': email_temp_form.email_subject.$invalid && ( vm.formSubmitted || email_temp_form.email_subject.$touched) }">
+                    <label for="inputEmail3" class="col-sm-1 control-label">Subject:</label>
+
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" ng-model="templateData.data.email_subject" name="email_subject" required tabindex="1">
+                        <p ng-show="email_temp_form.email_subject.$error.required && ( vm.formSubmitted || email_temp_form.email_subject.$touched)"
+                            class="help-block">Email subject is required.</p>
+                    </div>
+                </div>
+                <div class="row" ng-class="{ 'has-error': email_temp_form.temp_editor.$invalid && ( vm.formSubmitted || email_temp_form.temp_editor.$touched) }">
+                    <label for="inputEmail3" class="col-sm-1 control-label">Body:</label>
+                    <div class="col-sm-11">
+                        <trix-editor angular-trix ng-model="templateData.data.message" ng-if="true" required=""></trix-editor>
+                        <p ng-show="email_temp_form.temp_editor.$error.required && ( vm.formSubmitted || email_temp_form.temp_editor.$touched)" class="help-block">Body is required.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="inputEmail3" class="col-sm-1 control-label">Status:</label>
+                    <div class="col-sm-11">
+                        <label class="switch">
+                            <input ng-model="templateData.data.status" ng-true-value="'1'" ng-false-value="0" name="templateData.data.status" value="{{templateData.data.status}}"
+                                type="checkbox" class="flat-red">
+                            <div class="slider round"></div>
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+                    <button class="btn btn-success" ng-disabled="email_temp_form.$invalid" type="submit">Update</button>
+                </div>
+        </form>
+
+        </div>
+    </div>
+    <style>
+        trix-editor {
+            border: 1px solid #bbb;
+            border-radius: 3px;
+            margin: 0;
+            padding: 0.4em 0.6em;
+            min-height: 250px;
+            outline: none;
+        }
+    </style>

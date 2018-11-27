@@ -1,0 +1,25 @@
+<div class="modal-dialog modal-1 modal_editer">
+  <div class="modal-content" style="height: 700px;">
+    <div class="modal-header">
+      <div class="row">
+        <div class="col-md-4">
+          <p>Editor</p>
+        </div>
+        <div class="col-md-7">
+        </div>
+        <div class="col-md-1">
+          <a class="close" ng-click="closemodal()">&times;
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body ">
+      <div ng-if="save_template" class="alert alert-success">
+        <p>Template has been saved</p>
+      </div>
+      <div ng-init="initBeePlugin()">
+        <div id="bee-plugin-container" ng-model="vm.editor" style="height: 600px;"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<section class="content-header">
+    <h1 class="box-title">
+        <span style="margin-right:6px;">
+            <i class="fa fa-vcard-o"></i>
+        </span>infusionsoft </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li class="active">infusionsoft</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-body">
+                    <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="infusionsoft-login" ng-if="!infstatus.login">
+                                <a href="{{infstatus.url}}" class="btn btn-default">
+                                    Login with Infusionsoft
+                                </a>
+                            </div>
+                            <div class="infusionsoft-login" ng-if="infstatus.login">
+                                <a ng-click="logout_infusion()" class="btn btn-primary">
+                                    Logout to Infusionsoft
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,41 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+package-lock.json
+
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
+.idea/
+/bower_components
+npm-debug.log
+public/storage/
+storage/hd_providers/
+public/views
+public/build
+public/adminer.php
+evergeniusui.sublime-project
+evergeniusui.sublime-workspace
+public/public - Shortcut.lnk
+public/public - Shortcut.lnk
+public/css/app.css.map
+public/css/final.css
+public/css/final.css.map
+public/css/vendor.css
+public/js/app.js
+public/js/partials.js
+public/js/vendor.js
+public/js/vendor.js.map
+public/js/final.js

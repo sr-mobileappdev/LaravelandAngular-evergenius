@@ -1,0 +1,91 @@
+<section class="content-header">
+    <h1 class="box-title pull-left valign">
+        <span style="margin-right:6px;">
+            <i class="fa fa-bar-chart-o"></i>
+        </span> Review Settings </h1>
+    <article class="select-date pull-right">
+        <!-- <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date" max="vm.max_date" /> -->
+    </article>
+</section>
+<section class="content call-records">
+    <article class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel">
+                    <div class="panel">
+                        <form name="review_settings">
+                            <div class="review-settings">
+                                <div class="panel-body">
+                                    <div class="testimonial-type">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <h3>Testimonial Types</h3>
+                                                <ul class="checkbox">
+                                                    <li>
+                                                        <input type="checkbox" id="text" ng-model="review_setting.text_enable" name="text_enable" ng-true-value="'1'" ng-false-value="0">
+                                                        <label for="text">Text</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" id="video" ng-model="review_setting.video_enable" name="video_enable" ng-true-value="'1'" ng-false-value="0">
+                                                        <label for="video">Video</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" id="audio" ng-model="review_setting.audio_enable" name="audio_enable" ng-true-value="'1'" ng-false-value="0">
+                                                        <label for="audio">Audio</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h3>Testimonial</h3>
+                                                <ul class="review-radio">
+                                                    <li>
+                                                        <input type="radio" name="testimonial" id="withpicture" ng-model="review_setting.testimonial_one_pic" name="testimonial_one_pic"
+                                                            value="1">
+                                                        <label for="withpicture">Testimonial with one picture</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" name="testimonial" id="withoutpicture" ng-model="review_setting.testimonial_one_pic" name="testimonial_one_pic"
+                                                            value="0">
+                                                        <label for="withoutpicture">Testimonial without picture</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <h3> Title
+                                                    <span>(Optional)</span>
+                                                </h3>
+                                                <input type="text" class="form-control" placeholder="Enter text here" ng-model="review_setting.title" name="title">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3>Description
+                                                    <span>(Optional)</span>
+                                                    <i class="fa fa-question" uib-tooltip="Description of review form"
+                                                        tooltip-placement="right"></i>
+                                                </h3>
+                                                <div class="trix-editor_col">
+                                                    <trix-editor trix-id="descriptions" angular-trix ng-model="review_setting.description"
+                                                        name="description">
+                                                    </trix-editor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="alert alert-success" ng-if="form_submitted">Settings has been changed successfully.</div>
+                                    <a onclick="history.back()" class="btn btn-default">
+                                        <i class="fa fa-angle-left"></i> Back</a>
+                                    <button type="submit" ng-click="saveReviewSettings(review_settings.$valid)" ng-disabled="review_settings.$invalid" class="btn btn-primary pull-right">Save Settings</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </article>
+</section>

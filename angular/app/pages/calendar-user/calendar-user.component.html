@@ -1,0 +1,466 @@
+<style type="text/css">
+    .cal-day-panel.clearfix {
+        height: 500px !important;
+    }
+
+    .cal-day-hour-part-spacer.ng-scope {
+        border: 1px solid #fff;
+        background: #bee8f4;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        {{vm.doctor_name}}
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li>
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="active">Calendar View</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <!-- /.col -->
+        <div class="col-md-12">
+            <div class="box popup-new calendar-page">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Schedule
+                    </h3>
+                    <div class="box-tools">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li>
+                                <a href="#">«</a>
+                            </li>
+                            <li>
+                                <a href="#">1</a>
+                            </li>
+                            <li>
+                                <a href="#">2</a>
+                            </li>
+                            <li>
+                                <a href="#">3</a>
+                            </li>
+                            <li>
+                                <a href="#">»</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="week-schedule-not ng-hide" ng-show="vm.is_default_calender">
+                        <p>Please setup your default work schedule.</p>
+                        <button class="btn btn-primary" ng-click="vm.setDefaultWeekScheduleModal(vm.start_week_ts,vm.userId)">Set Default Schedule</button>
+                    </div>
+                    <div class="calendar-body" ng-hide="vm.is_default_calender">
+                        <div class="btn-top">
+                            <a ui-sref="app.embedCalendar({ userId: vm.userId, name: vm.doctor_name, phone: vm.doctor_phone })" class="btn btn-success btn-blue">Get Embed Code</a>
+                            <a ng-show="vm.can('custom.schedule.calendar')" ui-sref="app.editdefaultcalendar({userId: {{vm.userId}}})" class="btn btn-primary btn-blue">Edit Default Calendar</a>
+                            <button ng-show="vm.can('edit.default.calendar')" ng-click="vm.unavailablemodal(vm.start_week_ts,vm.userId)" class="btn  btn-primary save-btn">Custom Schedule</button>
+                            <!--  <button ng-click="vm.load_default_calendar(vm.start_week_ts,vm.userId)" class="btn  btn-primary">Load default Calendar</button> -->
+
+                        </div>
+
+                        <div class="calendar-part">
+                            <div class="calendar-wrapper">
+                                <div class="calender-legends top-position">
+                                    <ul>
+                                        <li>
+                                            <i class="available"></i> Available Slots</li>
+                                        <li>
+                                            <i class="unavailable"></i> Unavailable Slots</li>
+                                        <li>
+                                            <i class="no-appointments"></i> No Appointments</li>
+                                        <li>
+                                            <i class="booked"></i> Booked</li>
+                                    </ul>
+                                </div>
+
+                                <div class="calendar">
+                                    <div class="calendar-controls">
+                                        <button class="prev" ng-click=vm.load_prev_week(vm.prev_time_val)>Previous</button>
+                                        <button class="next" ng-click=vm.load_next_week(vm.next_time_val)>Next</button>
+                                    </div>
+                                    <div class="calendar-grid">
+                                        <ul class="calendar-head">
+                                            <li ng-repeat="x in vm.week_days">{{x.day}}
+                                                <br> {{x.date | asDate | date:'MMM d'}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="calendar-grid">
+                                        <div class="calendar-slots">
+                                            <ul ng-repeat="x in vm.week_days">
+
+                                                <!-- <li ng-show="!x.slots.length" ng-repeat="xdd in vm.getNumber(vm.max_slots)" >
+                                                &nbsp;
+                                            </li> -->
+
+                                                <li ng-show="!x.slots.length" ng-repeat="i in vm.getNumber(vm.max_slots) track by $index">
+                                                    &nbsp;
+                                                </li>
+
+                                                <li tooltip-placement="bottom" uib-tooltip="{{vm.getTooltipName(slot.status)}} {{ slot.status == 'booked' ? 'by' : ''}} {{slot.app_detail[0].contacts.first_name}} {{slot.app_detail[0].contacts.last_name}}" ng-show="x.slots.length" ng-repeat="slot in x.slots track by $index"
+                                                    class="{{slot.status}}">
+                                                    <span ng-if="slot.status== 'booked'" ng-click="vm.openbookinfo(slot.app_detail,vm.start_week_ts,vm.userId)">
+                                                        {{slot.slot_time | asDate | date:'hh:mm a' }}
+                                                        <br>{{x.slot_time}} Min
+                                                        <br>
+                                                        <small>
+                                                            <i class="fa fa-check"></i>
+                                                        </small>
+                                                    </span>
+                                                    <span ng-if="slot.status!= 'booked'" ng-click="add_appointment(slot)">
+                                                        {{slot.slot_time | asDate | date:'hh:mm a' }}
+                                                        <br>{{x.slot_time}} Min
+                                                    </span>
+
+                                                </li>
+
+                                                <li uib-tooltip="No Appointment" tooltip-placement="bottom" ng-show="x.slots.length && x.slots.length < vm.max_slots && x.slots.length < $index"
+                                                    ng-repeat="i in vm.getNumber(vm.max_slots+1) track by $index">
+                                                    &nbsp;
+
+                                                </li>
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="calender-legends">
+                                    <ul>
+                                        <li>
+                                            <i class="available"></i> Available Slots</li>
+                                        <li>
+                                            <i class="unavailable"></i> Unavailable Slots</li>
+                                        <li>
+                                            <i class="no-appointments"></i> No Appointments</li>
+                                        <li>
+                                            <i class="booked"></i> Booked</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+</section>
+<script type="text/ng-template" id="dialog.html">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <a class="close" ng-click="closemodal()">&times;</a>
+                <p>Appointment Details</p>
+            </div>
+            <div class="modal-body appointment-details">
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="col"><label>Name:</label></div>
+					</div>
+					<div class="col-sm-7">
+						<div class="col">{{modaldata.contacts.first_name}} {{modaldata.contacts.last_name}}</div>
+					</div>
+				</div>
+
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="col"><label>Email:</label></div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="col">{{modaldata.contacts.email}}</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="col"><label>Phone:</label></div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="col">{{modaldata.contacts.mobile_number}}</div>
+                    </div>
+                </div>
+
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="col"><label>Appointment Time:</label></div>
+					</div>
+					<div class="col-sm-7">
+						<div class="col">{{modaldata.start_datetime}}</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="col"><label>Appointment Status:</label></div>
+					</div>
+					<div class="col-sm-7">
+						<div class="col">{{modaldata.appointment_status.title}}</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="col"><label>Appointment Method:</label></div>
+					</div>
+					<div class="col-sm-7">
+						<div class="col">{{modaldata.scheduling_method}}</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="col"><label>Gender:</label></div>
+					</div>
+					<div class="col-sm-7">
+						<div class="col">{{modaldata.contacts.gender}}</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="col"><label>Appointment Reason:</label></div>
+					</div>
+						
+					<div class="col-sm-7">
+						<div class="col">{{modaldata.appointment_reason.title}}</div>
+					</div>
+				</div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="col"><label>View:</label></div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="col"><a ng-click="goto_apointment(modaldata.id)" class="fa fa-edit fa-2x"></a></div>
+                    </div>
+                </div>
+                <div class="row">
+					<div class="col-sm-5">
+						<div class="col"><label>Action:</label></div>
+					</div>
+					<div class="col-sm-7">
+						<div class="col"><!-- <a ui-sref="app.viewappointment({appointmentId: modaldata.id})" class="fa fa-edit fa-2x"></a> -->
+                        <select class="form-control" ng-model="modaldata.appointment_status_id" ng-change="change_status(modaldata.id,modaldata.appointment_status_id)" id="select_status_{{modaldata.id}}">
+                            <option ng-repeat="x in statuses_in" value="{{x.id}}" ng-value="x.id" ng-selected="{{x.id == modaldata.appointment_status_id}}">{{x.title}}</option>
+                        </select>
+                        </div>
+					</div>
+				</div>
+
+
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="unavailablemodal.html">
+    <div class="modal-dialog modal-1">
+        <div class="modal-content">
+            <div class="modal-header">                
+                <a class="close" ng-click="closemodal()">&times;</a><!--span ng-click="closemodal()">X</span-->
+				<p>Edit Calendar</p>
+            </div>
+            <form name="unavailabe" class="availablity-popup">
+                <p class="text-center custom-calendar-msg">Change applicable to selected week</p>
+                <div class="modal-body">
+                 <div class="alert alert-danger" ng-show="valid_error">Please fill all mandatory fields.</div>
+                    <div ng-if="alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="time-label">Start Time:<span class="required">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="hidden" name="time_from" class="form-control"  ng-model="unavail.time_from" required="">
+                            <div uib-timepicker ng-model="unavail.time_from" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+                            <p ng-show="unavailabe.time_from.$error.required && check_valid" class="help-block">Start Time is required.</p>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label class="time-label">End Time:<span class="required">*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="hidden" name="time_to" class="form-control"  ng-model="unavail.time_to" required="">
+                            <div uib-timepicker ng-model="unavail.time_to" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+                            <p ng-show="unavailabe.time_to.$error.required && check_valid" class="help-block">End Time is required.</p>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label  class="time-label">Days:<span class="required">*</label>
+                        </div>
+                        <div class="col-md-8">
+							<div class="checkbox-areas checkboxes">
+							<ul>
+							
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.monday" id="mon"><label for="mon">Monday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.tuesday" id="tue"><label for="tue">Tuesday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.wednesday" id="wed"><label for="wed">Wednesday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.thursday" id="thu"><label for="thu">Thursday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.friday" id="fri"><label for="fri">Friday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.saturday" id="sat"><label for="sat">Saturday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.sunday" id="sun"><label for="sun">Sunday</label>
+                            </li>
+							</ul>
+							</div>
+                        </div>
+                    </div>
+
+                      <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label  class="time-label">Status:<span class="required">*</label>
+                        </div>
+                        <div class="col-md-8">
+							<div class="radio">
+							<input type="radio" ng-model="unavail.status" value="unavailabe" id="unavailabe">  
+							<label for="unavailabe">Unavailabe</label>
+							<input type="radio" ng-model="unavail.status"  value="available" id="available">
+							<label for="available">Available</label>
+							</div>
+                             <p ng-show="unavailabe.status.$error.required && check_valid"  class="help-block">Status is required.</p>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+					<div class="col-md-3">&nbsp;</div>
+                        <div class="col-sm-8">
+                         
+
+                            <button type="button" ng-click="ok(unavailabe.$valid,unavailableweek)" name="submit" value="submit" ng-disabled="unavail.days.length==0" class="btn btn-primary">Submit </button>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class = "modal-footer">
+                   
+                    <button type="button" ng-click="clearweek()" name="submit" value="submit" ng-disabled="unavail.days.length==0" class="btn btn-default">Remove Custom Schedule</button>
+
+                            <button type="button" ng-click="setCurrentDefault()" name="submit" value="submit" ng-disabled="unavail.days.length==0" class="btn btn-primary">Set Current As Default</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="setDefaultWeekScheduleModal.html">
+    <div class="modal-dialog modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <a class="close" ng-click="closemodal()">&times;</a><!--span ng-click="closemodal()">X</span-->
+				 <p>Set Default Week Schedule</p>
+            </div>
+            <form name="unavailabe" class="availablity-popup">
+                <div class="modal-body">
+                    <div ng-if="alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                        <h4>{{alert.title}}</h4>
+                        <p>{{alert.msg}}</p>
+                    </div>
+                    <div class="alert-danger alert" ng-show="formvalid">
+                  Please fill mandatory fields.
+                    </div>
+                    <div class="alert-danger alert" ng-show="timeerror">
+                  Please Enter Valid Time
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="time-label">Start Time:<span class="required">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="hidden" name="time_from" class="form-control" ng-model="unavail.time_from" required="">
+                            <div uib-timepicker ng-model="unavail.time_from" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+                            <p ng-show="unavailabe.time_from.$error.required && check_valid" class="help-block">Start Time is required.</p>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label class="time-label">End Time:<span class="required">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="hidden" name="time_to" ng-min="unavail.time_from" class="form-control"  ng-model="unavail.time_to" required="">
+                            <div uib-timepicker ng-model="unavail.time_to" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+                            <p ng-show="unavailabe.time_to.$error.required && check_valid" class="help-block">End Time To is required.</p>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label class="time-label">Days:<span class="required">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+						<div class="checkbox-areas checkboxes">
+							<ul>
+							
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.monday" id="mon"><label for="mon">Monday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.tuesday" id="tue"><label for="tue">Tuesday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.wednesday" id="wed"><label for="wed">Wednesday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.thursday" id="thu"><label for="thu">Thursday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.friday" id="fri"><label for="fri">Friday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.saturday" id="sat"><label for="sat">Saturday</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="days" ng-model="unavail.days.sunday" id="sun"><label for="sun">Sunday</label>
+                            </li>
+							</ul>
+							</div>
+                        </div>
+                    </div>
+                    <div class="row mtop-15">
+                        <div class="col-md-3">
+                            <label class="time-label">Appointment Length:<span class="required">*</span></label>
+                        </div>
+                        <div class="col-md-8">
+							<div class="select-wrapper">
+								<select class="form-control input-sm" ng-model="app_length" name="app_legnth" required="">
+									<option ng-repeat="x in default_app_lengths" value="{{x.id}}">{{x.title}}</option>
+								</select>
+							</div>
+                             <p ng-show="unavailabe.app_length.$error.required" class="help-block">Appointment Length is required.</p>
+                        </div>
+                    </div>
+                     <div class="row mtop-15">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-8">
+                            <button type="button" ng-click="ok(unavailabe.$valid,unavailableweek)" name="submit" value="submit" ng-disabled="unavail.days.length==0" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

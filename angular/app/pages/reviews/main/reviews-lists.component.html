@@ -1,0 +1,250 @@
+<section class="content-header">
+    <h1 class="box-title pull-left valign">
+        <span style="margin-right:6px;">
+            <i class="fa fa-bar-chart-o"></i>
+        </span> REPUTATION </h1>
+    <article class="select-date pull-right">
+    </article>
+</section>
+<section class="content call-records">
+    <article class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            average star rating
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="review-boxes">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="review-box total-reviews">
+                                                    <div class="review-icon">
+                                                        <img src="img/icon-review-star.png" alt="">
+                                                    </div>
+                                                    <div class="review-des">Total Reviews
+                                                        <br>
+                                                        <span>{{total_reviews}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="review-box average-rating">
+                                                    <div class="review-icon">
+                                                        <img src="img/icon-average-rating.png" alt="">
+                                                    </div>
+                                                    <div class="review-des">Average Rating
+                                                        <br>
+                                                        <span>{{avg_rating}}/5</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="rating-chart clearfix">
+                                        <div class="rating-chart-box">
+                                            <canvas id="doughnut" height="150" width="150" class="chart chart-doughnut" chart-data="review_values" chart-labels="review_labels"
+                                                chart-colours="review_Colors" chart-options="{percentageInnerCutout: 75,segmentShowStroke: false,animation: false,tooltipFontSize: 10}">
+                                            </canvas>
+                                            <span>{{total_reviews}}</span>
+                                            <br> REVIEWS
+
+                                        </div>
+                                        <div class="social-platform">
+                                            <p>Social Platform</p>
+                                            <ul>
+                                                <li ng-repeat="rev in review_values track by $index" style="color: {{review_Colors[$index]}}" class="{{rev | lowercase}}"
+                                                    ng-if="vm.publisherName(review_labels[$index]).length">{{vm.publisherName(review_labels[$index])}} ({{rev}})</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="reputation-head clearfix mtop20">
+                            <h3 class="box-title" style="float: left;">
+                                <span style="margin-right:6px;"></span>Reviews</h3>
+                            <div class="filters">
+
+                                <div class="search">Search
+                                    <input type="search" ng-model="search_query" class="form-control">
+                                </div>
+                                <div class="filter-drop">Rating
+                                    <select class="form-control ratingFilter" ng-model="select_review_rating_update">
+                                        <option value="" selected="">All</option>
+                                        <option value="1">1 Star</option>
+                                        <option value="2">2 Star</option>
+                                        <option value="3">3 Star</option>
+                                        <option value="4">4 Star</option>
+                                        <option value="5">5 Star</option>
+                                    </select>
+                                </div>
+                                <div class="filter-drop">View
+                                    <select class="form-control" ng-model="select_review_status_udate">
+                                        <option value="" selected="">All</option>
+                                        <option value="3">Pending</option>
+                                        <option value="0">Approved</option>
+                                        <option value="1">Unapproved</option>
+                                        <option value="4">Featured</option>
+                                    </select>
+                                </div>
+                                <div class="btn-group widget-dropdown" uib-dropdown is-open="status.isopen">
+                                    <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                                        Widgets
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                        <li role="menuitem">
+                                            <a ui-sref="app.requestformgenerate">Request Reviews</a>
+                                        </li>
+                                        <li role="menuitem">
+                                            <a ui-sref="app.embedcodegenerate">Display Reviews</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="widget-settings">
+                                    <a ui-sref="app.reviewssettings" uib-tooltip="Settings" tooltip-placement="top" class="fa fa-gear"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-info">
+                            <div class="box-body">
+                                <div class="row margin-bottom-20">
+                                    <div class="col-md-6 ">
+                                        <div class="btn-group pull-left" ng-show="vm.isdelseleted">
+                                            <a class="btn btn-sm btn-danger" ng-click="vm.multi_del()">
+                                                <i class="fa fa-ban"></i> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                                <div class="table-wrapper">
+                                </div>
+
+                                <div class="reviews-table">
+                                    <table class="table" cellpadding="0" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <!--   <th width="7%">ID</th> -->
+                                                <th width="7%">Site</th>
+                                                <th width="23%">Provider</th>
+                                                <th width="15%">Date</th>
+                                                <th width="8%">Star Rating</th>
+                                                <th width="5%" style="text-align: center">Image</th>
+                                                <th width="23%">Review</th>
+                                                <th width="15%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="r in pagedItems[currentPage] | filter : search_title | orderBy:'order_review' track by $index" id="row{{$parent.$index}}{{$index}}"
+                                                ng-show="select_review_status=='' || select_review_status==r.hide || (r.hide==null && select_review_status==3)">
+                                                <!-- <td> {{r.id}} </td> -->
+                                                <td>
+                                                    <div>
+                                                        <span ng-if="r.publisher_id!='WEBSITE' &&  r.publisher_id!='website'" class="yext-listing-icon yext-{{r.publisher_id | lowercase}}"
+                                                            uib-tooltip="{{vm.publisherName(r.publisher_id)}}" tooltip-placement="top">
+                                                        </span>
+                                                        <span ng-if="r.publisher_id=='WEBSITE' || r.publisher_id=='website'" class="yext-listing-icon yext-website" uib-tooltip="Website"
+                                                            tooltip-placement="top"> </span>
+                                                        <div>
+                                                </td>
+                                                <td class="provider-name">
+                                                    <div class="provide_name_h">
+                                                        {{r.provider_name}}
+                                                    </div>
+                                                    <div class="review-buttons">
+                                                        <button class="hide-review" ng-class="{'active':r.hide == 1}" ng-click="updateReviewStatus(r.id,'hide',$index)">Hide</button>
+                                                        <button class="approve-review" ng-class="{'active':r.hide==0}" ng-click="updateReviewStatus(r.id,'approve',$index)">Approve</button>
+                                                        <button class="featured-review" ng-class="{'active':r.featured==1}" ng-click="featureReview(r.id,r.featured, $index)">Featured</button>
+                                                    </div>
+                                                </td>
+                                                <td ng-bind-html="uCanTrust(formatDate(r.published_time))">
+                                                    &nbsp;
+                                                </td>
+                                                <td>
+                                                    <div class="star-counting star-{{r.rating}}"></div>
+                                                </td>
+                                                <td>
+                                                    <div ng-if="r.img_url.length > 0">
+                                                        <img ng-src="{{r.img_url}}" style="width:80px ; height:auto">
+                                                    </div>
+                                                    <div ng-if="!r.img_url.length">
+                                                        <img src="../img/placeholder.png" style="width:80px ; height:auto">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span>{{r.client_name}}</span>
+                                                    <br>{{r.user_review | limitTo: 70 }}
+                                                    <span class="review-view-more" ng-if="r.user_review.length>70"
+                                                        ng-click="viewFullReview(r)">View more</span>
+                                                    <div class="review-status">Status:
+                                                        <span class="unapproved" ng-if="r.hide==1">Unapproved</span>
+                                                        <span ng-if="r.hide==0" class="approved">Approved</span>
+                                                        <span ng-if="r.hide==null" class="unapproved">Pending</span>
+                                                    </div>
+
+                                                </td>
+                                                <td class="review-actions">
+                                                    <div class="move-icons">
+                                                        <!-- {{pagedItems[currentPage].length)}} -->
+                                                        <a ng-click="shift_top($index)" uib-tooltip="Move to top" tooltip-placement="left" ng-if="(get_obj_index(r.order_review)!=0 && $index!=0) || (get_obj_index(r.order_review)==0 && $index!=0) || (get_obj_index(r.order_review)!=0 && $index==0 && currentPage!=0)"
+                                                            class="move-icon icon1"></a>
+
+                                                        <a ng-click="shift_up($index)" uib-tooltip="Move up" tooltip-placement="{{(get_obj_index(r.order_review)==review_data.length-1 || $index==pagedItems[currentPage].length-1) ? 'left': 'top'}}"
+                                                            ng-if="(get_obj_index(r.order_review)!=0 && $index!=0) || (get_obj_index(r.order_review)==0 && $index!=0) "
+                                                            class="move-icon icon2"></a>
+
+
+                                                        <a ng-click="shift_down($index)" ng-if="(get_obj_index(r.order_review)!=review_data.length-1 && $index!=pagedItems[currentPage].length-1) || (get_obj_index(r.order_review)==review_data.length-1 && $index!=pagedItems[currentPage].length-1) || (get_obj_index(r.order_review)!=review_data.length-1 && $index==pagedItems[currentPage].length-1 && (currentPage) != pagedItems.length - 1)"
+                                                            uib-tooltip="Move down" tooltip-placement="top" class="move-icon icon3"></a>
+
+                                                        <a ng-click="shift_bottom($index)" ng-if="(get_obj_index(r.order_review)!=review_data.length-1 && $index!=pagedItems[currentPage].length-1) || (get_obj_index(r.order_review)==review_data.length-1 && $index!=pagedItems[currentPage].length-1) || (get_obj_index(r.order_review)!=review_data.length-1 && $index==pagedItems[currentPage].length-1 && (currentPage) != pagedItems.length - 1)"
+                                                            uib-tooltip="Move to bottom" tooltip-placement="left" class="move-icon icon4"></a>
+                                                    </div>
+                                                    <div class="review-controls">
+                                                        <a ng-click="play_video(r.video_url)" ng-if="r.video_url" class="icon-play"></a>
+                                                        <a ng-click="play_audio(r.audio_url)" ng-if="r.audio_url" class="icon-sound"></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr ng-if="!pagedItems[currentPage].length">
+                                                <td colspan="8">No record found</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+
+                                            <td colspan="8">
+                                                <div class="pull-right">
+                                                    <ul class="pagination">
+                                                        <li ng-class="{disabled: currentPage == 0}">
+                                                            <a href ng-click="prevPage()">« Prev</a>
+                                                        </li>
+                                                        <li ng-repeat="n in range(pagedItems.length, currentPage, currentPage + gap) " ng-class="{active: n == currentPage}" ng-click="setPage()">
+                                                            <a href ng-bind="n + 1">1</a>
+                                                        </li>
+                                                        <li ng-class="{disabled: (currentPage) == pagedItems.length - 1}">
+                                                            <a href ng-click="nextPage()">Next »</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tfoot>
+                                    </table>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    </article>
+</section>

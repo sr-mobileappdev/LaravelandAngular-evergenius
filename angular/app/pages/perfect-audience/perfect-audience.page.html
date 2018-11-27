@@ -1,0 +1,100 @@
+<section class="content-header">
+    <h1 class="pull-left valign">
+        <span style="margin-right:6px;">
+            <i class="fa  fa-line-chart"></i>
+        </span>Re-targeting</h1>
+    <article class="select-date pull-right">
+        <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date"
+            max="vm.max_date" />
+    </article>
+</section>
+
+<section class="content">
+    <section class="site-content">
+        <div class="mobile-overlay"></div>
+        <article class="section">
+            <h2 class="section-title">Perfect Audience </h2>
+
+            <div class="row website-analytics">
+                <div class="col-sm-12">
+                    <div class="panel">
+                        <div class="panel-heading clearfix">
+                            <div class="pull-left">Impression Served</div>
+                            <div class="pull-right">
+                                <div class="col-md-6">
+                                    <select ng-model="pa_campaign_id" ng-change="" class="form-control">
+                                        <option value="" selected="">All Campaigns</option>
+                                        <option value="{{pa_campaign_id._id}}" ng-repeat="pa_campaign_id in pasitecampaignsdata">{{pa_campaign_id.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control" ng-model="pa_graph_type" id="pa_graph_type" ng-change="pa_graph_change()">
+                                        <option value="ctr" selected="">CTR</option>
+                                        <option value="cpc">CPC</option>
+                                        <option value="conversion_rate">Conversion Rate</option>
+                                        <option value="adjusted_post_click_revenue">Adjusted Post Click Revenue</option>
+                                        <option value="adjusted_post_view_revenue">Adjusted Post View Revenue</option>
+                                        <option value="adjusted_conversion_revenue">Adjusted Conversion Revenue</option>
+                                        <option value="revenue">Revenue</option>
+                                        <option value="conversions">Conversions</option>
+                                        <option value="clicks">Clicks</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="chart website-analytics-graph">
+                                <canvas id="line" class="chart chart-line" chart-data="pa_data" chart-labels="pa_labels" chart-series="pa_series" chart-options="pa_options"
+                                    chart-dataset-override="pa_datasetOverride" chart-click="onClick" width="464" height="245"
+                                    style="max-height: 245px">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel mailchimp-campaigns">
+                        <table class="table global-table" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <th>Ad</th>
+                                <th>IMPR.</th>
+                                <th>CLICKS</th>
+                                <th>CTR</th>
+                                <th>CPM</th>
+                                <th>CPC</th>
+                                <th>CTC</th>
+                                <th>CONV.</th>
+                                <th>SPEND</th>
+                                <th>REVENUE</th>
+                            </tr>
+                            <tr ng-if="pacampaignsdata.length" ng-repeat="item in pacampaignsdata">
+                                <td>
+                                    <i class="fa fa-globe"></i>
+                                    <span class="campaign-title">{{item.ad_name}}</span>
+                                </td>
+                                <td>{{item.impressions}}</td>
+                                <td>{{item.clicks}}</td>
+                                <td>{{item.ctr| number :2 }}%</td>
+                                <td>${{item.cpm| number :2 }}</td>
+                                <td>${{item.cpc| number :2 }}</td>
+                                <td>{{item.click_conversions}}</td>
+                                <td>{{item.conversions}}</td>
+                                <td>${{item.costs| number :2}}</td>
+                                <td>${{item.revenue | number : 2}}</td>
+                            </tr>
+                            <tr ng-if="!pacampaignsdata.length && busy">
+                                <td colspan="5" class="text-center">Loading.. </td>
+                            </tr>
+                            <tr ng-if="!pacampaignsdata.length && !busy">
+                                <td colspan="5" class="text-center">Data not found </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!--/ end total calls -->
+    </section>
+</section>

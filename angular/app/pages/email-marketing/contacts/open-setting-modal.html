@@ -1,0 +1,104 @@
+<div class="modal-dialog modal-1">
+    <div class="modal-content">
+        <form name="settingForm" ng-submit="submit_action_form()" novalidate>
+            <div class="modal-header">
+                <a class="close" ng-click="closemodal()">&times;</a>
+                <!--span ng-click="closemodal()">X</span-->
+                <p>Setting</p>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 form-options">
+                        <h4>Form options</h4>
+                        <ul>
+                            <li>
+                                <label>
+                                    <input type="checkbox" ng-model="selectedItem" /> Include Form Title</label>
+                                <input type="text" class="form-control" ng-model="setting.subtitle" name="subtitle" id="subtitle" maxlength="50" ng-if="title">
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" ng-model="setting.selectedfirstName" /> Include First
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" ng-model="setting.selectedlastName" /> Include Last
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" ng-model="setting.selectedphone" /> Include Phone
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" ng-model="setting.selectedMessage" /> Include Message
+                                </label>
+
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="col-sm-8 setting-form">
+                        <h4 ng-if="title">{{setting.subtitle}}</h4>
+
+
+                        <div class="form-group clearfix" ng-class="{ 'has-error': settingForm.firstName.$invalid && ( vm.formSubmitted || settingForm.firstName.$touched) }"
+                            ng-if="showFirstname">
+                            <label for="inputEmail3" class="col-sm-3 control-label">First Name*:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" maxlength="40" ng-model="firstName" name="firstName" placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" ng-class="{ 'has-error': settingForm.lastName.$invalid && ( vm.formSubmitted || settingForm.lastName.$touched) }"
+                            ng-if="showLastname">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Last Name*:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" maxlength="40" ng-model="lastName" name="lastName" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" ng-class="{ 'has-error': settingForm.email.$invalid && ( vm.formSubmitted || settingForm.email.$touched) }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Email*:</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" maxlength="50" ng-model="email" name="email" placeholder="Email" required>
+                                <p ng-show="settingForm.email.$error.required && ( vm.formSubmitted || settingForm.email.$touched)" class="help-block">Email is required.</p>
+                                <p ng-show="settingForm.email.$error.email && ( vm.formSubmitted || settingForm.email.$touched)" class="help-block">Enter Valid email .</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group clearfix" ng-class="{ 'has-error': settingForm.phone.$invalid && ( vm.formSubmitted || settingForm.phone.$touched) }"
+                            ng-if="showPhone">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Phone*:</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" phone-input ng-maxlength="16" maxlength="16" ng-minlength="10" minlength="10" class="form-control" ng-model="setting.phone"
+                                    name="phone" placeholder="Phone">
+                            </div>
+                        </div>
+                        <div class="form-group clearfix" ng-class="{ 'has-error': settingForm.phone.$invalid && ( vm.formSubmitted || settingForm.phone.$touched) }"
+                            ng-if="showMessage">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Message*:</label>
+
+                            <div class="col-sm-8">
+                                <textarea type="text" class="form-control" ng-model="message" name="message" id="message" maxlength="50"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row embed-code">
+                    <div class="col-sm-12">
+                        <label>Embed-code</label>
+                        <textarea class="form-control" ng-model="obj.embedText" name="obj.embedText" id="obj.embedText"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+<section class="content-header">
+    <h1 class="box-title">
+        <span style="margin-right:6px;">
+            <i class="fa fa-envelope"></i>
+        </span> Edit Email Broadcast </h1>
+    <div class="btn-right-header">
+        <a class="btn btn-success" ng-click="vm.save(newCampaignsForm.$valid,'sendmail',1)" ng-disabled="newCampaignsForm.$invalid "
+            ng-if="status_check == false">Save & Send Test</a>
+        <a class="btn btn-primary" ng-click="vm.save(newCampaignsForm.$valid,'draft',1)" ng-disabled="newCampaignsForm.$invalid "
+            ng-if="status_check == false">Save Draft</a>
+    </div>
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="app.landing" href="#/">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li class="active">Contacts</li>
+    </ol>
+</section>
+<section class="content">
+    <article class="section">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="email-margketing">
+                            <div class="row">
+                                <form name="newCampaignsForm" ng-submit="vm.save(newCampaignsForm.$valid,'inprogress',4,html_preview)" novalidate>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label>Subject Line</label>
+                                            <input type="text" class="form-control" ng-model="vm.subject_line" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>From</label>
+                                            <input type="text" class="form-control" ng-model="vm.from" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 add-new-funnel">
+                                        <div class="form-group">
+                                            <label>Email List</label>
+
+                                            <tags-input ng-model="vm.tags" display-property="title" add-on-paste="true" placeholder="Select Email Lists" key-property="id"
+                                                tabindex="20" track-by-expr="$index" required>
+                                                <auto-complete source="loadTags($query)" min-length="0" load-on-focus="true" load-on-empty="true" max-results-to-show="32"></auto-complete>
+                                            </tags-input>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Sending Test Email to</label>
+                                            <input type="email" class="form-control" ng-model="vm.test_email" name="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"
+                                                required>
+                                            <p ng-show="newCampaignsForm.email.$error.required " class="help-block">Email is required.</p>
+                                            <p ng-show="newCampaignsForm.email.$error.pattern " class="help-block">Enter valid email.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8" ng-if="!show_time_input">
+                                        <div class="form-group">
+                                            <div class="tabs">
+
+                                                <button class="btn btn-primary blue-border" type="submit" ng-disabled="newCampaignsForm.$invalid " class="active">Send Now</button>&nbsp
+                                                <button ng-click="showtimepicker()" class="btn gray-border" ng-if="status_check == false" ng-disabled="newCampaignsForm.$invalid ">Send Later</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12" ng-if="show_time_input">
+                                        <div class="form-group">
+                                            <label>When to Send</label>
+                                            <div class="send-later-input clearfix">
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control time-input" min-date="mindate" datetime-picker="dd MMM yyyy HH:mm" ng-model="$parent.schedule_time"
+                                                            is-open="opened.isOpen" ng-click="openCalendar($event, prop)" />
+                                                        <span class="input-group-btn">
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="tabs">
+                                                            <button ng-click="showtimepicker();vm.save(newCampaignsForm.$valid,'scheduled',2)" class="btn btn-primary blue-border">Send Later</button>&nbsp
+                                                            <button class="btn btn-success" ng-click="close()">Cancel</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="primary_cols">
+                                            <a ng-click="open_email_editor(editor_value)" ng-if="template_show" class="btn-pri-edit">
+                                                <i class="fa fa-edit"></i> Open Editor</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+
+                                            <div class="template-container">
+                                                <div ng-if="save_template" class="alert alert-success">
+                                                    <p>Template has been saved</p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3" ng-repeat="list in template_list" ng-if="!template_show">
+                                                        <div class="template-box">
+                                                            <div class="template-box-content">
+                                                                <h2>{{list.title}}</h2>
+                                                                <img ng-src="{{list.preview_image}}" height="200" width="200" on-error-src="img/no-preview.png">
+                                                            </div>
+                                                            <div class="template-overlay">
+                                                                <div class="template-buttons">
+                                                                    <a href="" class="btn btn-success" ng-click="show_template(list)">Use this Template</a>
+                                                                    <a href="" class="btn btn-primary" ng-click="preview_template_modal(list.preview_image)" data-toggle="modal" data-target="#add-note">Preview this Template</a>
+                                                                    <a href="" class="btn btn-danger" ng-click="deleteTemplate(list)" data-toggle="modal" data-target="#add-note" ng-if="list.company_id !=null">Delete this Template</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-bind-html="uCanTrust(emailBodytaken)" ng-if="template_show == true"> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a ui-sref="app.email-campaigns" class="btn btn-primary">
+            <i class="fa fa-angle-left"></i> Back</a>
+    </article>
+</section>

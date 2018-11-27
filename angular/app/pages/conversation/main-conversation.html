@@ -1,0 +1,92 @@
+<section class="content-header">
+    <h1 style="padding-bottom:25px">
+        <span style="margin-right:6px;">
+            <i class="fa fa-comments"></i>
+        </span>CONVERSATIONS</h1>
+
+</section>
+<section class="site-content">
+    <div class="mobile-overlay"></div>
+    <article class="section">
+        <div class="chat-section">
+            <div class="row">
+                <div class="col-md-3 chat-contact-sm">
+                    <div contactlist></div>
+                </div>
+                <div class="col-md-6 chat-window-sm">
+                    <div threadcomp ng-if="tax"></div>
+                    <form ng-if="!loading_chat" name="send_sms_form" novalidate="" ng-submit="sendMessage(sms_body_s)">
+                        <div class="send-chat-line" ng-class="{'error':send_sms_form.message.$error.required && ( send_sms_form.message.$touched || submit_smsform) }">
+                            <div class="send-data">
+                                <input type="text" class="form-control" ng-model="sms_body_s" id="message" name="message" placeholder="Type a message here..."
+                                    maxlength="500" required="">
+                            </div>
+                            <div class="attache-btn">
+                                <button class="btn btn-default pull-right" ng-disabled="!sms_body_s.length" ng-click="send_sms(sms_body_s)">SEND</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3 chat-windowct-sm hidden-sm hidden-xs">
+                    <div contactdetail ng-if="tax"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+<script type="text/ng-template" id="new_modal_window.html">
+    <div class="modal-dialog modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p>Add Contact <a class="close" ng-click="closemodal()">&times;</a></p>
+                 <!--span ng-click="closemodal()">X</span-->
+                 
+            </div>
+            <form name="modal_action_form"  ng-submit="submit_action_form()" novalidate>
+            <div class="modal-body add-contact-form">
+                    <div class="row" ng-class="{ 'has-error': modal_action_form.mobile_number.$invalid && ( vm.formSubmitted || modal_action_form.mobile_number.$touched) }">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Phone*:</label>
+                            <div class="col-sm-2">
+                                        <select class="form-control" ng-model="phone_country_code" style="min-width: 100px;">
+                                            <option ng-repeat="code in country_codes" ng-selected="country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code" >{{code.code}}({{code.dial_code}})
+                                            </option>
+                                        </select>
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" phone-input class="form-control" ng-model="mobile_number" name="mobile_number" placeholder="Phone" required tabindex="1">
+                                <p ng-show="modal_action_form.mobile_number.$error.required && ( vm.formSubmitted || modal_action_form.mobile_number.$touched)" class="help-block">Phone is required.</p>
+                            </div>
+                        </div>
+                <div class="row" ng-class="{ 'has-error': modal_action_form.first_name.$invalid && ( vm.formSubmitted || modal_action_form.first_name.$touched) }">
+                    <label for="inputEmail3" class="col-sm-3 control-label">First Name*:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" ng-model="first_name" name="first_name" placeholder="First Name" required tabindex="2" disallow-spaces>
+                        <p ng-show="modal_action_form.first_name.$error.required && ( vm.formSubmitted || modal_action_form.first_name.$touched)" class="help-block">First name is required.</p>
+                    </div>
+                </div>
+                <div class="row" ng-class="{ 'has-error': modal_action_form.last_name.$invalid && ( vm.formSubmitted || modal_action_form.last_name.$touched) }">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Last Name*:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" ng-model="last_name" name="last_name" placeholder="Last Name" required tabindex="3" disallow-spaces>
+                        <p ng-show="modal_action_form.last_name.$error.required && ( vm.formSubmitted || modal_action_form.last_name.$touched)" class="help-block">Last name is required.</p>
+                    </div>
+                </div>
+                <div class="row" ng-class="{ 'has-error': modal_action_form.email.$invalid && ( vm.formSubmitted || modal_action_form.email.$touched) }">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Email*:</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" ng-model="email" name="email" placeholder="Email" required tabindex="4">
+                            <p ng-show="modal_action_form.email.$error.required && ( vm.formSubmitted || modal_action_form.email.$touched)" class="help-block">Email is required.</p>
+                        </div>
+                    </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-disabled="modal_action_form.$invalid" type="submit" >Start</button>
+                <button class="btn btn-success" type="button" ng-click="closemodal()">Cancel</button>
+            </div>
+            </form>
+        </div>
+   <div class="load-chat-box" ng-if="loading_chat">
+    <img src="../../img/loading_evergenius.gif" alt="loading..">
+    <h3>Loading....</h3>
+</div>
+    </div>
+</script>

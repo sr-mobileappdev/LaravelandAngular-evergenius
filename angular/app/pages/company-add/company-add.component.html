@@ -1,0 +1,251 @@
+<section class="content-header">
+
+	<h1>
+		<span style="margin-right:6px;">
+			<i class="fa fa-users"></i>
+		</span>Add Company</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a>
+				<i class="fa fa-dashboard"></i> Home</a>
+		</li>
+		<li>
+			<a>Add Company</a>
+		</li>
+	</ol>
+
+
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<div class="box box-primary">
+				<div id="smartwizard" class="sw-main sw-theme-arrows">
+					<ul class="nav nav-tabs step-anchor">
+						<li class="nav-item active">
+							<a href="" class="nav-link">Step 1
+								<br>
+								<small>Create Company</small>
+							</a>
+						</li>
+						<li class="nav-item ">
+							<a ng-click="gosecondStep()" class="nav-link">Step 2
+								<br>
+								<small>Complete Profile (HD)</small>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a ng-click="gothirdStep()" class="nav-link">Step 3
+								<br>
+								<small>Build Website</small>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<form class="form-horizontal" name="companyForm" ng-submit="vm.save(companyForm.$valid)" novalidate>
+					<div class="box-body">
+						<div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+							<h4>{{alert.title}}</h4>
+							<p>{{alert.msg}}</p>
+						</div>
+
+						<div class="setting-box">
+							<h4>General Settings</h4>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.name.$invalid && ( vm.formSubmitted || companyForm.name.$touched) }">
+									<label for="inputEmail3" class="control-label">Clinic Name*</label>
+									<div>
+										<input type="text" class="form-control" ng-model="vm.companyeditdata.data.name" name="name" placeholder="Name" required tabindex="1">
+										<p ng-show="companyForm.name.$error.required && ( vm.formSubmitted || companyForm.name.$touched)" class="help-block">Name is required.</p>
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.email.$invalid && ( vm.formSubmitted || companyForm.email.$touched) }">
+									<label for="inputEmail3" class="control-label">Email*</label>
+									<div>
+										<input type="email" class="form-control" ng-model="vm.companyeditdata.data.email" name="email" placeholder="Email" required
+										 tabindex="2">
+										<p ng-show="companyForm.email.$error.required && ( vm.formSubmitted || companyForm.email.$touched)" class="help-block">Email is required.</p>
+										<p ng-show="companyForm.email.$error.email  && ( vm.formSubmitted || companyForm.email.$touched)" class="help-block">This is not a valid email.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-2" ng-class="{ 'has-error': companyForm.phone.$invalid && ( vm.formSubmitted || companyForm.phone.$touched) }">
+									<label for="inputEmail3" class="control-label">Phone*</label>
+									<div>
+										<select class="form-control" ng-model="country_code">
+											<option ng-repeat="code in country_codes" ng-selected="country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code">{{code.code}}({{code.dial_code}})
+											</option>
+										</select>
+										<p ng-show="companyForm.phone.$error.required && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">Phone is required.</p>
+									</div>
+								</div>
+
+								<div class="col-sm-4" ng-class="{ 'has-error': companyForm.phone.$invalid && ( vm.formSubmitted || companyForm.phone.$touched) }">
+									<label for="inputEmail3" class="control-label">Phone*</label>
+									<div>
+										<input type="text" phone-input class="form-control" ng-model="vm.companyeditdata.data.phone" name="phone" placeholder="Phone"
+										 required tabindex="3">
+										<p ng-show="companyForm.phone.$error.required && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">Phone is required.</p>
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.website_url.$invalid && ( vm.formSubmitted || companyForm.website_url.$touched) }">
+									<label for="inputEmail3" class="control-label">Website URL*</label>
+									<div>
+										<input type="url" class="form-control" ng-model="vm.companyeditdata.data.site_url" name="website_url" placeholder="Website URL e.g. companydomain.com"
+										 required="" ng-required="true" tabindex="4" ng-pattern="domain_regex">
+										<p ng-show="companyForm.website_url.$error.required  && ( vm.formSubmitted || companyForm.website_url.$touched)" class="help-block">This is Required.</p>
+										<small>e.g. http://companydomain.com</small>
+										<p ng-show="companyForm.website_url.$invalid  && ( vm.formSubmitted || companyForm.website_url.$touched)" class="help-block">Please enter valid URL.</p>
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.city.$invalid && ( vm.formSubmitted || companyForm.area.$touched) }">
+									<label for="inputEmail3" class="control-label">City*</label>
+									<div>
+										<input tabindex="5" type="text" class="form-control" name="area" placeholder="City" id="city_name" ng-keydown="vm.change_city()"
+										 ng-model="vm.companyeditdata.data.area" vs-google-autocomplete="city_input_options" vs-state="vm.companyeditdata.data.state"
+										 vs-country="vm.companyeditdata.data.country" vs-city="vm.companyeditdata.data.city">
+
+										<input type="hidden" ng-model="vm.companyeditdata.data.city" name="city" required="">
+										<p ng-show="companyForm.city.$error.required  && ( vm.formSubmitted || companyForm.area.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.state.$invalid && ( vm.formSubmitted || companyForm.state.$touched) }">
+									<label for="inputEmail3" class="control-label">State*</label>
+									<div>
+										<input tabindex="6" type="text" class="form-control" ng-model="vm.companyeditdata.data.state" name="state" placeholder="State"
+										 required="" ng-required="true">
+
+										<p ng-show="companyForm.state.$error.required  && ( vm.formSubmitted || companyForm.state.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.country.$invalid && ( vm.formSubmitted || companyForm.country.$touched) }">
+									<label for="inputEmail3" class="control-label">Country*</label>
+									<div>
+										<input tabindex="7" type="text" class="form-control" ng-model="vm.companyeditdata.data.country" name="country" placeholder="Country"
+										 required="" ng-required="true">
+
+										<p ng-show="companyForm.country.$error.required  && ( vm.formSubmitted || companyForm.country.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.zip_code.$invalid && ( vm.formSubmitted || companyForm.zip_code.$touched) }">
+									<label for="inputEmail3" class="control-label">ZIP Code</label>
+									<div>
+										<input tabindex="8" type="text" class="form-control" ng-model="vm.companyeditdata.data.zip_code" name="zip_code" maxlength="8"
+										 placeholder="Zip code" required>
+										<p ng-show="companyForm.zip_code.$invalid  && ( vm.formSubmitted || companyForm.zip_code.$touched)" class="help-block">Please enter valid ZIP code</p>
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<label for="filebox" class="control-label">Logo Upload</label>
+									<div class="file-upload">
+										<input tabindex="9" type="file" placeholder="Select Logo" id="filebox" value="Select Logo" title="Select Logo" name="filebox"
+										 ng-model="vm.companyeditdata.logo" base-sixty-four-input>
+
+										<a href="#" class="btn btn-primary">Browse</a>
+										<p class="file_name_choose">
+											<sman ng-show="!vm.companyeditdata.logo.filename">No file Chosen</sman> {{vm.companyeditdata.logo.filename}}</p>
+
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.address.$invalid && ( vm.formSubmitted || companyForm.address.$touched) }">
+									<label for="inputEmail3" class="control-label">LTV Value($)</label>
+									<div>
+										<input class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" type="number" ng-model="vm.companyeditdata.data.ltv_value" tabindex="10">
+
+									</div>
+								</div>
+
+
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.address.$invalid && ( vm.formSubmitted || companyForm.address.$touched) }">
+									<label for="inputEmail3" class="control-label">Address*</label>
+									<div>
+										<textarea tabindex="11" type="text" class="form-control" ng-model="vm.companyeditdata.data.address" name="address" placeholder="Address"
+										 required="" ng-required="true"></textarea>
+										<p ng-show="companyForm.address.$error.required  && ( vm.formSubmitted || companyForm.address.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+								<h4>User Information</h4>
+								<div class="row">
+									<div class="col-sm-6" ng-class="{ 'has-error': companyForm.firstname.$invalid && ( vm.formSubmitted || companyForm.firstname.$touched) }">
+										<label for="inputEmail3" class="control-label">Primary User</label>
+										<div>
+											<input type="text" tabindex="12" class="form-control" ng-model="vm.companyeditdata.data.user_name" name="firstname" placeholder="Name"
+											 required>
+
+										</div>
+									</div>
+
+									<div class="col-sm-2" ng-class="{ 'has-error': companyForm.userphone.$invalid && ( vm.formSubmitted || companyForm.userphone.$touched) }">
+										<label for="inputEmail3" class="control-label">Country Code</label>
+										<div>
+											<select class="form-control" ng-model="user_country_code">
+												<option ng-repeat="code in country_codes" ng-selected="user_country_code == code.dial_code" value="code.dial_code" ng-value="code.dial_code">{{code.code}}({{code.dial_code}})
+												</option>
+											</select>
+
+										</div>
+									</div>
+
+									<div class="col-sm-4" ng-class="{ 'has-error': companyForm.userphone.$invalid && ( vm.formSubmitted || companyForm.userphone.$touched) }">
+										<label for="inputEmail3" class="control-label">Phone</label>
+										<div>
+											<input tabindex="13" type="text" phone-input class="form-control" ng-model="vm.companyeditdata.data.user_phone" name="userphone" placeholder="Phone"
+											 required>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.useremail.$invalid && ( vm.formSubmitted || companyForm.useremail.$touched) }">
+									<label for="inputEmail3" class="control-label">User Email*</label>
+									<div>
+										<input tabindex="14" type="email" class="form-control" ng-model="vm.companyeditdata.data.user_email" name="useremail" placeholder="Enter user email"
+										 required="" ng-required='true'>
+										<p ng-show="companyForm.useremail.$error.required && ( vm.formSubmitted || companyForm.useremail.$touched)" class="help-block">Email is required.</p>
+										<p ng-show="companyForm.user_email.$error.email  && ( vm.formSubmitted || companyForm.useremail.$touched)" class="help-block">This is not a valid email.</p>
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.userpassword.$invalid && ( vm.formSubmitted || companyForm.userpassword.$touched) }">
+									<label for="inputEmail3" class="control-label">User Password*</label>
+									<div>
+										<input tabindex="15" type="password" class="form-control" ng-model="vm.companyeditdata.data.user_password" name="userpassword"
+										 placeholder="Enter user password" required="" ng-required="true">
+										<p ng-show="companyForm.userpassword.$error.required  && ( vm.formSubmitted || companyForm.userpassword.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+							</div>
+							<div class="box-footer">
+								<button type="submit" class="btn btn-default pull-right" ng-disabled="file_error" ng-if="!showupdates">Next</button>
+								<button type="button" ng-click="updateCompany(companyForm.$valid)" class="btn btn-default pull-right" ng-disabled="file_error"
+								 ng-if="showupdates">Update</button>
+							</div>
+						</div>
+
+				</form>
+				</div>
+			</div>
+		</div>
+		<div class="load-chat-box load-chat-box05" ng-if="loading_chat">
+			<img src="../../img/loading_evergenius.gif" alt="loading..">
+			<h3>Loading....</h3>
+		</div>
+</section>

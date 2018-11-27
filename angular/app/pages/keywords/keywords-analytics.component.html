@@ -1,0 +1,33 @@
+<section class="content-header">
+
+  <h1 class="box-title pull-left valign">
+    <span style="margin-right:6px;">
+      <i class="fa fa-vcard-o"></i>
+    </span>Keywords Analytics </h1>
+  <article class="select-date pull-right">
+    <div class="select-date">
+      <input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions"
+        min="vm.min_date" max="vm.max_date" />
+    </div>
+  </article>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-info">
+
+        <div class="box-body">
+          <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+            <h4>{{alert.title}}</h4>
+            <p>{{alert.msg}}</p>
+          </div>
+
+          <div class="table-wrapper responsive">
+            <table id="{{tableId}}" datatable="" width="100%" class="table table-striped table-bordered" ng-if="displayTable" dt-options="dtOptions"
+              dt-columns="dtColumns" dt-instance="dtInstance"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

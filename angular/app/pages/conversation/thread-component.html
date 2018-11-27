@@ -1,0 +1,53 @@
+<div class="chat-header visible-xs visible-sm">
+    <span class="back-button" ng-click="chat_contact()"></span>
+    <h3>{{contact_full_name}}
+        <small>{{contact_details.mobile_number | tel}}</small>
+    </h3>
+</div>
+
+<div class="search visible-xs visible-sm hide">
+    <input type="search" class="form-control" placeholder="Search here....">
+</div>
+
+<div class="chat-head hidden-xs hidden-sm">
+    <h2>{{ contact_full_name | limitTo: 28 }}{{contact_full_name.length > 28 ? '...' : ''}} -
+        <span>{{contact_details.phone_country_code}} {{contact_details.mobile_number | tel}}</span>
+    </h2>
+    <span class="white-patch"></span>
+</div>
+<div class="chat-box chat-scrollbar" id="chat_sms" ng-if="!loading_chat">
+
+    <div ng-repeat="chat in thread_data | orderBy:'id' track by $index" class="singlesms_element">
+        <div class="messege-send clearfix" ng-if="chat.status=='received'">
+            <div class="media-msg pull-left">
+                <div class="icon-name">
+
+                    <h2>{{getShortName(chat.receiver_name)}}</h2>
+                </div>
+            </div>
+            <div class="media-body">
+                <div class="message-window">
+                    <p> {{chat.sms_body}}</p>
+                </div>
+                <time datetime="2009-11-13T20:00">{{chat.sent_time | asDate | date:"hh:mm a , dd MMMM yyyy" }}</time>
+            </div>
+        </div>
+        <div class="messege-send 01 clearfix messege-receive" ng-if="chat.status=='Sent'">
+            <div class="media-msg pull-right">
+                <div class="icon-name">
+                    <h2>{{getShortName(user_name)}}</h2>
+                </div>
+            </div>
+            <div class="media-body pull-right">
+                <div class="message-window">
+                    <p> {{chat.sms_body}}</p>
+                </div>
+                <time datetime="2009-11-13T20:00">{{chat.sent_time | asDate | date:"hh:mm a , dd MMM yyyy" }}</time>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="load-chat-box" ng-if="loading_chat">
+    <img src="../../img/loading_evergenius.gif" alt="loading..">
+    <h3>Loading....</h3>
+</div>

@@ -1,0 +1,52 @@
+<div class="add-funnel-popups">
+
+    <form name="modal_action_form" ng-submit="updateDoAction(obj.actionTodo)" novalidate>
+        <div class="modal-dialog modal-1 funnel_step">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" ng-click="closemodal()">&times;</a>
+                    <!--span ng-click="closemodal()">X</span-->
+                    <p>EDITING FUNNEL ACTION</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Action To Do</label>
+
+                            <select class="form-control" name='actionTodo' ng-model="obj.actionTodo" style="margin-top: 5px">
+                                <option ng-value="'addtolist'" ng-selected="obj.actionTodo == 'addtolist'">Add To List</option>
+                                <option ng-value="'removefromlist'" ng-selected="obj.actionTodo == 'removefromlist'">Remove From List</option>
+                                <option ng-value="'addtag'" ng-selected="obj.actionTodo == 'addtag'">Add Tag</option>
+                                <option ng-value="'removetag'" ng-selected="obj.actionTodo == 'removetag'">Remove Tag</option>
+
+                            </select>
+
+                        </div>
+                        <div class="col-sm-6 add-new-funnel" ng-if="showActionList">
+                            <label>With.....</label>
+                            <tags-input ng-model="obj.tags" track-by-expr="$index" display-property="title" add-on-paste="true" key-property="id" placeholder="Select Email Lists"
+                                on-tag-added="onTagAdded(1)">
+                                <auto-complete source="loadList($query)" min-length="0" load-on-focus="true" load-on-empty="true" max-results-to-show="32"></auto-complete>
+                            </tags-input>
+
+                        </div>
+                        <div class="col-sm-6 add-new-funnel" ng-if="!showActionList">
+                            <label>Tags (Optional):</label>
+                            <tags-input ng-model="obj.selectedTags" add-on-paste="true" tabindex="20" on-tag-added="onNewTagAdded(1)">
+                                <auto-complete source="loadTags($query)" match-class="{even: $index % 2 == 0, odd: $index % 2 != 0}"></auto-complete>
+                            </tags-input>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="closemodal()">Cancel</button>
+                    <button class="btn btn-success" ng-disabled="modal_action_form.$invalid" type="submit" id="updateAction">Update Funnel Action</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

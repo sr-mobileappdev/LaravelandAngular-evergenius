@@ -1,0 +1,201 @@
+<section class="content-header oppertunities-view">
+
+	<h1>
+		<span style="margin-right:6px;">
+			<i class="fa fa-bullseye"></i>
+		</span>Opportunities</h1>
+	<div class="select-date">
+		<input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker" options="datePickerOptions" min="vm.min_date"
+		 max="vm.max_date" />
+
+		<a class="btn btn-primary" ng-click="add_main_appointment()" ng-show="vm.can('create.lead')">
+			<i class="fa fa-plus"></i> Add New</a>
+	</div>
+</section>
+<section class="content lead_added opportunities">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<div class="box box-primary">
+				<div class="reputation-head clearfix">
+					<div class="filters clearfix">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="filter-drop">
+									<label>Owner</label>
+									<select class="form-control custom" ng-model="select_assignee" ng-change="myfun2()">
+										<option value="">Select Owner</option>
+										<option ng-repeat="user in userdetail track by $index" ng-value="user.id" value="user.id">{{user.name}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="filter-drop">
+									<label>Services</label>
+									<select class="form-control custom" ng-model="service_selected">
+										<option value="">Select Service</option>
+										<option ng-repeat="service in lead_services track by $index" ng-value="service.id" value="service.id">{{service.name}}</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="filter-drop">
+									<label>Status</label>
+									<select class="form-control custom" ng-model="selected_status">
+										<option ng-repeat="status in lead_statuses track by $index" ng-value="status.id" value="status.id">{{status.name}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="search">
+									<label>Search</label>
+									<input type="search" class="form-control" ng-model="search">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="cols_box " ng-show="show_lists">
+					<div class="col-sm-3 col1" ng-repeat="(StageId, list) in models.lists">
+						<ul class="list_col list_arrow" ng-click="show_card_list(StageId)" ng-class="{'arrow_open':list_show[StageId]==true}">
+							<li class="heding">
+								<div class="list_col1">
+									<h5>{{ getStageNameById(StageId) }}</h5>
+									<p>{{count_leads_list[StageId]}} Leads
+										<span>${{total_leads_ltv[StageId] | number:0}} USD</span>
+
+									</p>
+								</div>
+							</li>
+							<li ng-include="'./views/app/pages/opportunities/leads-card.html'">
+							</li>
+						</ul>
+
+					</div>
+
+				</div>
+				<div class="mtop15" ng-hide="show_lists">
+					<div class="text-center">
+						<img class="list-loader" src="../img/loading_evergenius.gif">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Appointment Details-->
+		</article>
+
+</section>
+<a href="#" class="scrollup">
+	<i class="fa fa-angle-up fa-2x"></i>
+</a>
+<script type="text/ng-template" id="add-appointment.html">
+			<div class="modal-dialog">
+		
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" ng-click="closemodal()">&times;</button>
+						<h4 class="modal-title">Add New Lead</h4>
+					</div>
+					<form name="modalForm" novalidate>
+					<div class="modal-body">
+                        <div class="alerts alert-success" ng-show="lead_succcess_msg">Lead has been added successfully.</div>
+
+						<h3><span>Lead Info</span></h3>
+				<div class="row">
+					<div class="col-sm-6">
+						<label>Stage</label>
+						<select class="form-control custom" ng-model="stage_id">
+							<option ng-repeat="stage in stages track by $index"  ng-selected="stage.id == stage_id" ng-value="stage.id">{{stage.title}}</option>
+						</select>
+					</div>
+					<div class="col-sm-6">
+						<div class="row">
+							<div class="col-sm-7">
+							<label>LTV Value</label>
+							<input placeholder="Enter Value" type="text" class="form-control" ng-model="user.ltv">
+						</div> 
+						<div class="col-sm-4 pt30">USD</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6">
+						<label>Services</label>
+						<select class="form-control custom" ng-model="services_id">
+							<option ng-repeat="services in lead_services track by $index"  ng-selected="services_id == services.id" ng-value="services.id">{{services.name}}</option>
+						</select>
+					</div>
+					 
+				</div>
+				
+			 <h3><span>Contact Info</span></h3>
+				<div class="row">
+					<div class="col-sm-6" ng-class="{ 'has-error': modalForm.contact_name.$invalid }">
+						<label>Contact Name</label>
+						<input type="text" class="form-control" placeholder="Add Contact Name" ng-model="user.contactname" name="contact_name">
+						<p ng-show="(modalForm.contact_name.$touched)" class="help-block">Name is required.</p>
+					</div>
+					<div class="col-sm-6">
+						<label>Assignee</label>
+						<select class="form-control custom" ng-model="assignees_id">
+							<option ng-repeat="assignees in lead_assignees track by $index" ng-selected="assignees.id == assignees_id" ng-value="assignees.id" >{{assignees.name}}</option>
+							
+						</select>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6" ng-class="{ 'has-error': modalForm.email.$invalid && ( formSubmitted || modalForm.email.$touched) }">
+						<label>Email</label>
+						<input type="email" class="form-control" placeholder="Email" ng-model="user.email" name="email" required >
+						<p ng-show="modalForm.email.$error.required && (modalForm.email.$touched)" class="help-block">Email is required.</p>
+						<p ng-show="modalForm.email.$error.email && (modalForm.email.$touched)" class="help-block">Enter Valid email .</p>
+					</div>
+					<div class="col-sm-6" ng-class="{ 'has-error': modalForm.phone.$invalid && ( modalForm.phone.$touched) }">
+						<label>Phone</label>
+						<input type="text"  phone-input ng-maxlength="16" maxlength="16" ng-minlength="10" minlength="10" class="form-control" placeholder="Phone" name="phone" ng-model="user.phone" required>
+						<p ng-show="modalForm.phone.$error.required && (modalForm.phone.$touched)" class="help-block">Phone is required.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<label>Source</label>
+						<select class="form-control custom" ng-model="source_id">
+							<option ng-repeat="source in sources track by $index" ng-selected="source.id == source_id" ng-value="source.id">{{source.name}}</option>
+							
+						</select>
+						
+					</div>
+				</div>
+				
+					</div>
+					<div class="modal-footer">
+				
+						<a href="" class="btn btn-primary "  ng-click="closemodal()">Cancel</a>
+						<input type="submit" class="btn btn-default" ng-disabled="modalForm.$invalid" value="Create" ng-click="create_form(user)" >
+					</div>
+				</form>
+				</div>
+		
+			</div>
+		<!-- </div> -->
+</script>
+<script type="text/ng-template" id="/source-template.html">
+    <div class="angucomplete-holder" ng-class="{'angucomplete-dropdown-visible': showDropdown}">
+        <input ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)" id="selectSource" maxlength="25" />
+        <div class="angucomplete-dropdown" ng-show="showDropdown">
+            <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>
+            <div class="angucomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+            
+                <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+                <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
+            
+            </div>
+            <div class="angucomplete-row" ng-show="!searching && (!results || results.length == 0)" ng-click="selectResult({term_value: searchStr, originalObject: { term_value: searchStr, custom: true }})" ng-mouseenter="hoverRow(results.length)" ng-class="{'angucomplete-selected-row': results.length == currentIndex}">
+                <div class="angucomplete-title"><strong>{{ searchStr }}</strong> will be added as new source.</div>
+            </div>
+        </div>
+    </div>
+</script>

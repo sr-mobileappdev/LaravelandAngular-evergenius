@@ -1,0 +1,69 @@
+<style>.form-horizontal .form-group {
+    margin-bottom: 0;
+}</style>
+
+<section class="content-header">
+    <h1 class="box-title"><span style="margin-right:6px;"><i class="fa fa-vcard-o"></i></span>Providers<small>Imports all Contatcs Here</small></h1>
+    <ol class="breadcrumb">
+        <li><a ui-sref="app.landing"><span style="margin-right:6px;"><i class="fa fa-dashboard"></i></span> Home</a></li>
+        <li class="active">Providers Lists</li>
+    </ol>
+</section>
+<section class="content import-Providers-page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info" ng-show="vm.upload_section">
+                <div class="box-header with-border">
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                    <h3 class="box-title">Import Providers</h3>
+                </div>
+                <div class="box-body">
+                  
+                    <form class="form-horizontal" name="permissionForm" ng-submit="vm.save(permissionForm.$valid, permissionForm)" novalidate>
+                        <div class="box-body">
+                            <div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+                                <h4>{{alert.title}}</h4>
+                                <p>{{alert.msg}}</p>
+                            </div>
+                            <div ng-if="vm.success_upload_file" class="alert alert-success">
+                                <h4>Upload Success</h4>
+                                <p>Providers uploaded successfully</p>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error': permissionForm.name.$invalid && ( vm.formSubmitted || permissionForm.name.$touched) }">
+                                <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">CSV File</label>
+                                <div class="col-sm-12">
+                                    <input type="file" name="providers_file" file-model="vm.providers_file" ng-model="vm.providers_file" class="file-upload">
+                                    <p ng-show="permissionForm.providers_file.$error.required && ( vm.formSubmitted || permissionForm.providers_file.$touched)" class="help-block">CSV file is required.</p>
+                                    <button type="submit" class="btn btn-primary">Import</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div><strong>Note:</strong> Download sample csv <a href="../mock-data-hd.csv">file</a></div>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-info" style="padding:10px" ng-if="vm.uploaded || vm.loading_upload">
+                <div class="eg_loading" ng-show="vm.loading_upload">
+                    <img src="/img/loading_evergenius.gif">
+                    <div class="loading_text">Please wait...</div>
+                </div>
+                <div class="eg_loaded" ng-show="vm.uploaded">
+                    <h3><i class="fa fa-download"></i>
+                        Success</h3>
+                    <h4>Uploaded : {{vm.success_count}}</h4>
+                    <h5>Failed : {{vm.failed_count}}</h4>
+                </div>
+                <div class="eg_failed">
+                    
+                </div>
+            </div>
+		<a ui-sref="app.provider" class="btn btn-primary btn-blue"><i class="fa fa-angle-left"></i> Back</a>
+		</div>
+    </div>
+</section>

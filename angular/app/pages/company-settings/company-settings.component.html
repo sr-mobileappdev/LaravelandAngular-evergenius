@@ -1,0 +1,268 @@
+<section class="content-header">
+
+	<h1>
+		<span style="margin-right:6px;">
+			<i class="fa fa-users"></i>
+		</span>Company Settings</h1>
+	<div class="btn-right-header double-buttons">
+		<a ui-sref="app.notificationssettings" class="btn btn-primary">
+			<i class="fa fa-bell"></i> Notification Settings</a>
+	</div>
+	<ol class="breadcrumb">
+		<li>
+			<a ui-sref="app.landing">
+				<i class="fa fa-dashboard"></i> Home</a>
+		</li>
+		<li>
+			<a ui-sref="app.userlist">Company Settings</a>
+		</li>
+		<li class="active">Edit User</li>
+	</ol>
+
+
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-sm-12 col-md-12">
+			<div class="box box-primary">
+				<form class="form-horizontal" name="companyForm" ng-submit="vm.save(companyForm.$valid)" novalidate>
+					<div class="box-body">
+						<div ng-if="vm.alerts" class="alert alert-{{alert.type}}" ng-repeat="alert in vm.alerts">
+							<h4>{{alert.title}}</h4>
+							<p>{{alert.msg}}</p>
+						</div>
+						<div class="setting-box">
+							<h4>General Settings</h4>
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.name.$invalid && ( vm.formSubmitted || companyForm.name.$touched) }">
+									<label for="inputEmail3" class="control-label">Clinic Name</label>
+									<div>
+										<input type="text" class="form-control" ng-model="vm.companyeditdata.data.name" name="name" placeholder="Name" required tabindex="1">
+										<p ng-show="companyForm.name.$error.required && ( vm.formSubmitted || companyForm.name.$touched)" class="help-block">Name is required.</p>
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.email.$invalid && ( vm.formSubmitted || companyForm.email.$touched) }">
+									<label for="inputEmail3" class="control-label">Email</label>
+									<div>
+										<input type="email" class="form-control" ng-model="vm.companyeditdata.data.email" name="email" placeholder="Email" required
+										 tabindex="2">
+										<p ng-show="companyForm.email.$error.required && ( vm.formSubmitted || companyForm.email.$touched)" class="help-block">Email is required.</p>
+										<p ng-show="companyForm.email.$error.email  && ( vm.formSubmitted || companyForm.email.$touched)" class="help-block">This is not a valid email.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.phone.$invalid && ( vm.formSubmitted || companyForm.phone.$touched) }">
+									<label for="inputEmail3" class="control-label">Phone</label>
+									<div>
+										<input type="text" phone-input class="form-control" ng-model="vm.companyeditdata.data.phone" name="phone" placeholder="Phone"
+										 required tabindex="3">
+										<p ng-show="companyForm.phone.$error.required && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">Phone is required.</p>
+										<p ng-show="companyForm.phone.$error.phone  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is not a valid Phone.</p>
+									</div>
+								</div>
+
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.city.$invalid && ( vm.formSubmitted || companyForm.city.$touched) }">
+									<label for="inputEmail3" class="control-label">City*</label>
+									<div>
+										<input tabindex="4" type="text" class="form-control" name="city" placeholder="City" required="" ng-required="true" id="city_name"
+										 ng-keydown="vm.change_city()" ng-model="vm.companyeditdata.data.area" vs-google-autocomplete="city_input_options"
+										 vs-state="vm.companyeditdata.data.state" vs-country="vm.companyeditdata.data.country" vs-city="vm.companyeditdata.data.city">
+
+										<input type="hidden" ng-model="vm.companyeditdata.data.city" name="">
+										<p ng-show="companyForm.city.$error.required  && ( vm.formSubmitted || companyForm.city.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.state.$invalid && ( vm.formSubmitted || companyForm.state.$touched) }">
+									<label for="inputEmail3" class="control-label">State*</label>
+									<div>
+										<input tabindex="5" type="text" class="form-control" ng-model="vm.companyeditdata.data.state" name="state" placeholder="State"
+										 required="" ng-required="true">
+										<p ng-show="companyForm.state.$error.required  && ( vm.formSubmitted || companyForm.state.$touched)" class="help-block">This is Required.</p>
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.country.$invalid && ( vm.formSubmitted || companyForm.country.$touched) }">
+									<label for="inputEmail3" class="control-label">Country*</label>
+									<div class="uiselect-country">
+										<input tabindex="6" type="text" class="form-control" ng-model="vm.companyeditdata.data.country" name="country" placeholder="Country"
+										 required="">
+
+									</div>
+									<p ng-show="companyForm.country.$error.required  && ( vm.formSubmitted || companyForm.country.$touched)" class="help-block">This is Required.</p>
+								</div>
+							</div>
+							<div class="row">
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.address.$invalid && ( vm.formSubmitted || companyForm. address.$touched) }">
+									<label for="inputEmail3" class="control-label">Address</label>
+									<div>
+										<textarea tabindex="7" type="text" class="form-control" ng-model="vm.companyeditdata.data.address" name="address" placeholder="Address"></textarea>
+									</div>
+								</div>
+
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.zip_code.$invalid && ( vm.formSubmitted || companyForm.zip_code.$touched) }">
+									<label for="inputEmail3" class="control-label">ZIP code</label>
+									<div>
+										<input tabindex="8" type="text" class="form-control" ng-model="vm.companyeditdata.data.zip_code" name="zip_code" placeholder="ZIP code"
+										 maxlength="8">
+
+										<p ng-show="companyForm.zip_code.$invalid  && ( vm.formSubmitted || companyForm.zip_code.$touched)" class="help-block">Please enter valid ZIP code</p>
+									</div>
+								</div>
+							</div>
+							<div class="row ">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.address.$invalid && ( vm.formSubmitted || companyForm. address.$touched) }">
+									<label for="inputEmail3" class="control-label">Specialities</label>
+									<div>
+										<tags-input ng-model="vm.companyeditdata.data.specialities" add-on-paste="true" tabindex="9" placeholder="Select Specialization">
+											<auto-complete source="loadTags($query)"></auto-complete>
+										</tags-input>
+									</div>
+								</div>
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.certifications.$invalid && ( vm.formSubmitted || companyForm.certifications.$touched) }">
+									<label for="inputEmail3" class="control-label">Certifications</label>
+									<div>
+										<input type="text" ng-model="vm.companyeditdata.data.certifications" class="form-control" placeholder="Add Certifications"
+										 name="certifications">
+									</div>
+								</div>
+							</div>
+							<div class="row custom-editor">
+								<div class="col-sm-12">
+									<label for="inputEmail3" class="control-label">Description</label>
+									<div>
+										<trix-editor trix-id="msfg_bio" angular-trix ng-model="vm.companyeditdata.data.description" name="zip_code" tabindex="10"></trix-editor>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-6" ng-class="{ 'has-error': companyForm.website_url.$invalid && ( vm.formSubmitted || companyForm. website_url.$touched) }">
+									<label for="inputEmail3" class="control-label">Company Logo</label>
+									<div class="company-logo">
+										<img width="200" src="/{{vm.companyeditdata.data.logo}}" id="logo-block" ng-show="!vm.upload_img_block">
+										<i class="fa fa-trash btn-sm btn-primary" ng-click="vm.hide_logo_img()" ng-hide="vm.upload_img_block || !vm.companyeditdata.data.logo"></i>
+										<div class="inpul-box" ng-show="vm.upload_img_block || !vm.companyeditdata.data.logo ">
+											<input tabindex="11" type="file" valid-file name="company_logo" file-model="vm.company_logo" ng-model="vm.company_logo">
+
+											<p ng-show="companyForm.phone.$error.phone  && ( vm.formSubmitted || companyForm.phone.$touched)" class="help-block">This is Required.</p>
+											<div class="help-block" ng-show="file_error">File size must be less than 1 MB. </div>
+										</div>
+									</div>
+
+								</div>
+								<div class="col-sm-6">
+									<label for="inputEmail3" class="control-label">Publish Profile to Honest Doctor</label>
+									<div>
+										<label class="switch">
+											<input ng-model="vm.companyeditdata.data.hd_publish_status" ng-true-value="'1'" ng-false-value="0" name="x.status" value="1"
+											 type="checkbox" class="flat-red ng-pristine ng-untouched ng-valid ng-not-empty">
+											<div class="slider round"></div>
+										</label>
+									</div>
+								</div>
+							</div>
+							<hr>
+							<h3>Social Profiles</h3>
+							<div class="row">
+								<div class="col-sm-6 col-sm-12">
+									<div class="form-group" ng-class="{ 'has-error': newClinicForm.facebook_link.$invalid && ( vm.formSubmitted || newClinicForm.facebook_link.$touched) }">
+										<label for="inputEmail3" class="col-sm-4 control-label">Facebook Link</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="vm.social_profiles['facebook_link']" name="facebook_link" placeholder=" e.g. facebook.com/profile-url"
+											 tabindex="12" ng-pattern="domain_regex">
+											<p ng-show="newClinicForm.facebook_link.$invalid  && ( vm.formSubmitted || newClinicForm.facebook_link.$touched)" class="help-block">Please enter valid URL.</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-sm-12">
+									<div class="form-group" ng-class="{ 'has-error': newClinicForm.twitter_link.$invalid && ( vm.formSubmitted || newClinicForm.twitter_link.$touched) }">
+										<label for="inputEmail3" class="col-sm-4 control-label">Twitter Link</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="vm.social_profiles['twitter_link']" name="twitter_link" placeholder=" e.g. twitter.com/profile-url"
+											 tabindex="13" ng-pattern="domain_regex">
+											<p ng-show="newClinicForm.twitter_link.$invalid  && ( vm.formSubmitted || newClinicForm.twitter_link.$touched)" class="help-block">Please enter valid URL.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6 col-sm-12">
+									<div class="form-group" ng-class="{ 'has-error': newClinicForm.google_link.$invalid && ( vm.formSubmitted || newClinicForm.google_link.$touched) }">
+										<label for="inputEmail3" class="col-sm-4 control-label">Google URL</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="vm.social_profiles['google_link']" name="google_link" placeholder=" e.g. plus.google.com/profile-url"
+											 tabindex="14" ng-pattern="domain_regex">
+											<p ng-show="newClinicForm.google_link.$invalid  && ( vm.formSubmitted || newClinicForm.google_link.$touched)" class="help-block">Please enter valid URL.</p>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6 col-sm-12">
+									<div class="form-group" ng-class="{ 'has-error': newClinicForm.youtube_link.$invalid && ( vm.formSubmitted || newClinicForm.youtube_link.$touched) }">
+										<label for="inputEmail3" class="col-sm-4 control-label">Youtube URL</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="vm.social_profiles['youtube_link']" name="youtube_link" placeholder=" e.g. youtube.com/channel-name"
+											 tabindex="15" ng-pattern="domain_regex">
+											<p ng-show="newClinicForm.youtube_link.$invalid  && ( vm.formSubmitted || newClinicForm.youtube_link.$touched)" class="help-block">Please enter valid URL.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6 col-sm-12">
+									<div class="form-group" ng-class="{ 'has-error': newClinicForm.instagram_link.$invalid && ( vm.formSubmitted || newClinicForm.instagram_link.$touched) }">
+										<label for="inputEmail3" class="col-sm-4 control-label">Instagram URL</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="vm.social_profiles['instagram_link']" name="instagram_link" placeholder=" e.g. instagram.com/username"
+											 tabindex="16" ng-pattern="domain_regex">
+											<p ng-show="newClinicForm.instagram_link.$invalid  && ( vm.formSubmitted || newClinicForm.instagram_link.$touched)" class="help-block">Please enter valid URL.</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-sm-12">
+									<div class="form-group" ng-class="{ 'has-error': newClinicForm.linkedin.$invalid && ( vm.formSubmitted || newClinicForm.linkedin.$touched) }">
+										<label for="inputEmail3" class="col-sm-4 control-label">Linkedin</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="vm.social_profiles['linkedin_link']" name="linkedin_links" placeholder=" e.g. linkedin.com/page"
+											 tabindex="17" ng-pattern="domain_regex">
+											<p ng-show="newClinicForm.linkedin.$invalid  && ( vm.formSubmitted || newClinicForm.linkedin.$touched)" class="help-block">Please enter valid URL.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6 col-sm-12">
+									<div class="form-group" ng-class="{ 'has-error': newClinicForm.social_links.$invalid && ( vm.formSubmitted || newClinicForm.social_links.$touched) }">
+										<label for="inputEmail3" class="col-sm-4 control-label">Social Links</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="vm.social_profiles['social_links']" name="social_links" placeholder=" e.g. website.com/page"
+											 tabindex="18" ng-pattern="domain_regex">
+											<p ng-show="newClinicForm.social_links.$invalid  && ( vm.formSubmitted || newClinicForm.social_links.$touched)" class="help-block">Please enter valid URL.</p>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="box-footer">
+						<a ui-sref="app.userlist" class="btn btn-primary">
+							<i class="fa fa-angle-left"></i> Back</a>
+						<button type="submit" class="btn btn-default pull-right" ng-disabled="file_error">Update</button>
+					</div>
+				</form>
+			</div>
+		</div>
+</section>
